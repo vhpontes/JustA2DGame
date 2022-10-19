@@ -108,6 +108,7 @@ public class Player extends Entity{
         
         // IF COLLISION IS FALSE, PLAYER CAN MOVE
         if(moving == true) {
+            System.out.println("Colisão PLA:"+collisionOn);
             if(collisionOn == false) {
                 switch(direction) {
                     case "up" -> worldY -= speed;

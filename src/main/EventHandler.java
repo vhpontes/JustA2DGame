@@ -6,7 +6,9 @@ public class EventHandler {
     
     GamePanel gp;
     EventRect eventRect[][];
-    Font maruMonica;
+    
+    int previousEventX, previousEventY;
+    boolean canTouchEvent = true;
     
     public EventHandler(GamePanel gp) {
         
@@ -36,10 +38,20 @@ public class EventHandler {
 
     public void checkEvent() {
         
-        if(hit(25,19,"right") == true) {damagePit(25,19,gp.dialogueState);}
-        if(hit(25,19,"up") == true) {damagePit(25,19,gp.dialogueState);}
-        if(hit(27,16,"right") == true) {teleport(27,16,gp.dialogueState);}
-        if(hit(23,12,"up") == true) {healingPool(23,12,gp.dialogueState);}
+        // Check if the player character is more than 1 tile away from the last event
+        int xDistance = Math.abs(gp.player.worldX - previousEventX);
+        int yDistance = Math.abs(gp.player.worldY - previousEventY);
+        int distance = Math.max(xDistance, yDistance);
+        if(distance > gp.tileSize) {
+            canTouchEvent = true;
+        }
+        
+        if(canTouchEvent == true) {
+
+            if(hit(25,19,"any") == true) {damagePit(25,19,gp.dialogueState);}
+            if(hit(27,16,"right") == true) {teleport(27,16,gp.dialogueState);}
+            if(hit(23,12,"up") == true) {healingPool(23,12,gp.dialogueState);}
+        }
         
     }
     
@@ -55,6 +67,9 @@ public class EventHandler {
         if(gp.player.solidArea.intersects(eventRect[col][row]) && eventRect[col][row].eventDone == false) {
             if(gp.player.direction.contentEquals(reqDirection) || reqDirection.contentEquals("any")) {
                 hit = true;
+                
+                previousEventX = gp.player.worldX;
+                previousEventY = gp.player.worldY;
             }
         }
         
@@ -72,6 +87,7 @@ public class EventHandler {
         gp.ui.currentDialogue = "Você caiu dentro de um buraco!";
         gp.player.life -= 1;
 //        eventRect[col][row].eventDone = true;
+        canTouchEvent = false;
     }
     
     public void healingPool(int col, int row, int gameState) {

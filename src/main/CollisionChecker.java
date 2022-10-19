@@ -67,6 +67,7 @@ public class CollisionChecker {
         
         for(int i = 0; i < gp.obj.length; i++) {
             
+            //System.out.println("from PLAYER:"+i);
             if(gp.obj[i] != null) {
                 
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
@@ -75,7 +76,6 @@ public class CollisionChecker {
                 gp.obj[i].solidArea.x = gp.obj[i].worldX + gp.obj[i].solidArea.x;
                 gp.obj[i].solidArea.y = gp.obj[i].worldY + gp.obj[i].solidArea.y;
                 
-                System.out.println("from PLAYER");
                 
                 switch(entity.direction) {
                 case "up":
@@ -147,8 +147,6 @@ public class CollisionChecker {
                 target[i].solidArea.x = target[i].worldX + target[i].solidArea.x;
                 target[i].solidArea.y = target[i].worldY + target[i].solidArea.y;
 
-                System.out.println("from NPC");
-                
                 switch(entity.direction) {
                 case "up":
                     entity.solidArea.y -= entity.speed;
@@ -183,6 +181,8 @@ public class CollisionChecker {
                 entity.solidArea.y = entity.solidAreaDefaultY;
                 target[i].solidArea.x = target[i].solidAreaDefaultX;
                 target[i].solidArea.y = target[i].solidAreaDefaultY;
+        
+                System.out.println("SolidArea NPC:"+target[i].solidArea);
             }
         }
         return index;
