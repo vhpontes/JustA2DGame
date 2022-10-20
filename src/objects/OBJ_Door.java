@@ -9,14 +9,14 @@ public class OBJ_Door extends Entity{
         super(gp);
         
         name = "Door";
-        down1 = setup("/res/objects/door.png");
+        down1 = setup("objects/door");
         collision = true;
-        
-//        try {
-//            image = ImageIO.read(getClass().getResourceAsStream("/res/objects/door.png"));
-//            uTool.scaleImage(image, gp.tileSize, gp.tileSize);
-//        }catch(IOException e) {
-//            e.printStackTrace();
-//        }
+
+        solidArea.x = 0;
+        solidArea.y = 16;
+        solidArea.width = 48;
+        solidArea.height = 32;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
     }
 }

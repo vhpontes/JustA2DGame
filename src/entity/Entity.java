@@ -21,14 +21,17 @@ public class Entity {
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn = false;
     public int actionLockCounter = 0;
+    public boolean invincible = false;
+    public int invincibleCounter = 0;
     String dialogues[] = new String[20];
     int dialogueIndex = 0;
+    public int damage = 0;
 
     public BufferedImage image, image2, image3;
     public String name;
     public boolean collision = false;
+    public int type; //0 = player, 1 = npc, 2 = monster
 
-    
     public int maxLife;
     public int life;
     
@@ -56,22 +59,34 @@ public class Entity {
     
     
     public void update(){
+        
         setAction();
         
         // CHECK TILE NPC COLLISION
         collisionOn = false;
         gp.cChecker.checkTile(this);
         gp.cChecker.checkObject(this, false);
-        gp.cChecker.checkPlayer(this);
+        gp.cChecker.checkEntity(this, gp.npc);
+        gp.cChecker.checkEntity(this, gp.monster);
+        boolean contactPlayer = gp.cChecker.checkPlayer(this);
+        
+        if(this.type == 2 && contactPlayer == true) {
+            
+            if(gp.player.invincible == false) {
+                // We can give damage
+                gp.player.life -= this.damage;
+//                gp.player.life -= 1;
+                gp.player.invincible = true;
+            }
+        }
         
         // IF COLLISION IS FALSE, NPC CAN MOVE
-        System.out.println("Colisão NPC:"+collisionOn);
         if(collisionOn == false) {
             switch(direction) {
-                case "up" -> worldY -= speed;
-                case "down" -> worldY += speed;
-                case "left" -> worldX -= speed;
-                case "right" -> worldX += speed;
+                case "up": worldY -= speed; break;
+                case "down": worldY += speed; break;
+                case "left": worldX -= speed; break;
+                case "right": worldX += speed; break;
             }
         }
 
@@ -85,7 +100,6 @@ public class Entity {
             }
             spriteCounter = 0;
         }        
-        
     }
     
     public void draw(Graphics2D g2){
@@ -100,21 +114,21 @@ public class Entity {
             worldY - gp.tileSize < gp.player.worldY + gp.player.screenY){
             
             switch(direction) {
-                case "up" -> {
-                    if(spriteNum == 1){ image = up1;}
-                    if(spriteNum == 2){ image = up2;}
+                case "up": {
+                    if(spriteNum == 1){ image = up1; break;}
+                    if(spriteNum == 2){ image = up2; break;}
                 }
-                case "down" -> {
-                    if(spriteNum == 1){ image = down1;}
-                    if(spriteNum == 2){ image = down2;}
+                case "down": {
+                    if(spriteNum == 1){ image = down1; break;}
+                    if(spriteNum == 2){ image = down2; break;}
                 }
-                case "left" -> {
-                    if(spriteNum == 1){ image = left1;}
-                    if(spriteNum == 2){ image = left2;}
+                case "left": {
+                    if(spriteNum == 1){ image = left1; break;}
+                    if(spriteNum == 2){ image = left2; break;}
                 }
-                case "right" -> {
-                    if(spriteNum == 1){ image = right1;}
-                    if(spriteNum == 2){ image = right2;}
+                case "right": {
+                    if(spriteNum == 1){ image = right1; break;}
+                    if(spriteNum == 2){ image = right2; break;}
                 }
             }
 
@@ -136,5 +150,4 @@ public class Entity {
         }
         return image;
     }
-   
 }

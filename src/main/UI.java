@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import objects.OBJ_Heart;
-import objects.SuperObject;
+import entity.Entity;
 
 public class UI {
     GamePanel gp;
@@ -42,7 +42,7 @@ public class UI {
         }
 
         // HUD OBJECT
-        SuperObject heart = new OBJ_Heart(gp);
+        Entity heart = new OBJ_Heart(gp);
         heart_full = heart.image;
         heart_half = heart.image2;
         heart_blank = heart.image3;
@@ -83,6 +83,9 @@ public class UI {
     }
 
     public void drawPlayerLife() {
+
+        g2.setColor(new Color(0,0,0,200));
+        g2.fillRoundRect(gp.tileSize/2, gp.tileSize/2, (gp.tileSize/2)*gp.player.maxLife, gp.tileSize, 10, 10);
         
         //gp.player.life = 3;
         int x = gp.tileSize/2;

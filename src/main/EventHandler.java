@@ -1,7 +1,5 @@
 package main;
 
-import java.awt.Font;
-
 public class EventHandler {
     
     GamePanel gp;

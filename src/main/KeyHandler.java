@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -68,17 +67,14 @@ public class KeyHandler implements KeyListener{
                 }
                 if(code == KeyEvent.VK_ENTER) {
                     if(gp.ui.commandNum == 0) {
-                        System.out.println("Class Fighter");
                         gp.gameState = gp.playState;
                         gp.playMusic(0);
                     }
                     if(gp.ui.commandNum == 1) {
-                        System.out.println("Class Thief");
                         gp.gameState = gp.playState;
                         gp.playMusic(0);
                     }
                     if(gp.ui.commandNum == 2) {
-                        System.out.println("Class Sorcerer");
                         gp.gameState = gp.playState;
                         gp.playMusic(0);
                     }
@@ -105,6 +101,7 @@ public class KeyHandler implements KeyListener{
             }
             if(code == KeyEvent.VK_P) {
                 gp.gameState = gp.pauseState;
+                System.out.println("PAUSED");
             }
             if(code == KeyEvent.VK_ENTER) {
                 enterPressed = true;  
@@ -125,6 +122,7 @@ public class KeyHandler implements KeyListener{
         if(gp.gameState == gp.pauseState) {
             if(code == KeyEvent.VK_P) {
                 gp.gameState = gp.playState;
+                System.out.println("UNPAUSED");
             }
 
         }
@@ -154,6 +152,4 @@ public class KeyHandler implements KeyListener{
            rightPressed = false;            
         }       
     }
-    
-    
 }
