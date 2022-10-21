@@ -97,8 +97,7 @@ public class CollisionChecker {
                 gp.obj[i].solidArea.y = gp.obj[i].solidAreaDefaultY;
             }
         }
-//        System.out.println("checkObject:"+index);
-        
+
         return index;
     }
 
@@ -137,7 +136,6 @@ public class CollisionChecker {
                 target[i].solidArea.y = target[i].solidAreaDefaultY;
             }
         }
-//        System.out.println("checkEntity:"+index);
         
         return index;
     }
@@ -165,14 +163,12 @@ public class CollisionChecker {
         if(entity.solidArea.intersects(gp.player.solidArea)) {
             entity.collisionOn = true;
             contactPlayer = true;
-            System.out.println("checkPlayer:"+contactPlayer);
         }
         
         entity.solidArea.x = entity.solidAreaDefaultX;
         entity.solidArea.y = entity.solidAreaDefaultY;
         gp.player.solidArea.x = gp.player.solidAreaDefaultX;
         gp.player.solidArea.y = gp.player.solidAreaDefaultY;        
-        
         
         return contactPlayer;
     }
