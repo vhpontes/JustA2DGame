@@ -8,7 +8,7 @@ import javax.sound.sampled.Clip;
 public class Sound {
     
     Clip clip;
-    URL soundURL[] = new URL[30];
+    URL soundURL[] = new URL[31];
     
     public Sound() {
         soundURL[0] = getClass().getResource("/res/sound/BlueBoyAdventure.wav");
@@ -18,7 +18,8 @@ public class Sound {
         soundURL[4] = getClass().getResource("/res/sound/fanfare.wav");
         soundURL[5] = getClass().getResource("/res/sound/hitmonster.wav");
         soundURL[6] = getClass().getResource("/res/sound/receivedamage.wav");
-        soundURL[7] = getClass().getResource("/res/sound/swingweapon.wav");
+        soundURL[7] = getClass().getResource("/res/sound/swingweapon2.wav");
+//        soundURL[7] = getClass().getResource("/res/sound/coin.wav");
     }
     
     public void setFile(int i) {

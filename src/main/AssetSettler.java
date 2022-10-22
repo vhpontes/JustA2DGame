@@ -3,6 +3,7 @@ package main;
 import entity.NPC_OldMan;
 import monster.MON_GreenSlime;
 import objects.OBJ_Door;
+import objects.OBJ_Sword_Normal;
 
 public class AssetSettler {
     
@@ -13,7 +14,10 @@ public class AssetSettler {
     }
     
     public void setObject() {
-        
+
+//        gp.obj[0] = new OBJ_Sword_Normal(gp);
+//        gp.obj[0].worldX = gp.tileSize*22;
+//        gp.obj[0].worldY = gp.tileSize*22;
     }
     
     public void setNPC(){
