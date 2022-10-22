@@ -7,6 +7,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import main.GamePanel;
 import main.KeyHandler;
+import objects.OBJ_Shield_Wood;
+import objects.OBJ_Sword_Normal;
 
 public class Player extends Entity{
     
@@ -14,6 +16,7 @@ public class Player extends Entity{
     public final int screenX;
     public final int screenY;
     int standCounter = 0;
+    public boolean attackCanceled = false;
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -49,8 +52,26 @@ public class Player extends Entity{
         direction = "down";
         
         // PLAYER STATUS
+        level = 1;
         maxLife = 6;
         life = maxLife;
+        strength = 1; // the more strength he has, the more damage he gives.
+        dexterty = 1; // the more dexterty he has, the less damage he receives.
+        exp = 0;
+        nextLevelExp = 5;
+        coin = 0;
+        currentWeapon = new OBJ_Sword_Normal(gp);
+        currentShield = new OBJ_Shield_Wood(gp);
+        attack = getAttack();  // total attack value is decided by strength and weapon.
+        defense = getDefense();// total defense value is decided by dexterty and shield.
+    }
+    
+    public int getAttack() {
+        return attack = strength * currentWeapon.attackValue;
+    }
+    
+    public int getDefense() {
+        return defense = dexterty * currentShield.defenseValue;
     }
     
     public void getPlayerImage() {
@@ -111,7 +132,7 @@ public class Player extends Entity{
             
             // CHECK EVENT
             gp.eHandler.checkEvent();
-            gp.keyH.enterPressed = false;
+            //gp.keyH.enterPressed = false;
                 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if(collisionOn == false && gp.keyH.enterPressed == false) {
@@ -124,6 +145,14 @@ public class Player extends Entity{
                 }
             }
             
+            if(keyH.enterPressed == true && attackCanceled == false){
+                gp.playSE(7);
+                attacking = true;
+                spriteCounter = 0;
+                System.out.println("attack");
+            }
+            
+            attackCanceled = false;
             gp.keyH.enterPressed = false;
             
             spriteCounter++;
@@ -212,13 +241,14 @@ public class Player extends Entity{
         
         if(gp.keyH.enterPressed == true) {
             if(i != 999) {
+                attackCanceled = true;
                 gp.gameState = gp.dialogueState;
                 gp.npc[i].speak();
             }        
-            else {
-                gp.playSE(7);
-                attacking = true;
-            }            
+//            else {
+//                gp.playSE(7);
+//                attacking = true;
+//            }            
         }
     }
     
