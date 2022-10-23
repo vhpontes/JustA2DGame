@@ -106,7 +106,12 @@ public class Entity {
             if(gp.player.invincible == false) {
                 // We can give damage
                 gp.playSE(6);
-                gp.player.life -= this.damage;
+                
+                int damage = attack - gp.player.defense;
+                if(damage < 0){
+                    damage = 0;
+                }
+                gp.player.life -= damage;                
                 gp.player.invincible = true;
             }
         }
@@ -172,10 +177,12 @@ public class Entity {
             }
             
             // Monster HP Bar
-            if(type ==2 && hpBarOn == true) {
+            if(type == 2 && hpBarOn == true) {
                 // referencia do tile 48
                 double oneScale = (double)gp.tileSize/maxLife;
-                double hpBarValue = oneScale*life;
+                double hpBarValue = oneScale * life;
+
+                if(hpBarValue < 0 ){ hpBarValue = 0; } // evita que a barra ultrapasse o limite negativo;
                 
                 g2.setColor(new Color(35, 35, 35));
                 g2.fillRect(screenX-1, screenY - 16, gp.tileSize + 2, 12);
@@ -183,7 +190,7 @@ public class Entity {
                 g2.fillRect(screenX, screenY - 15, (int)hpBarValue, 10);
                 
                 hpBarCounter++;
-                
+                System.out.println("hpBarValue:" + hpBarValue);
                 if(hpBarCounter > 600) {
                     hpBarCounter = 0;
                     hpBarOn = false;
