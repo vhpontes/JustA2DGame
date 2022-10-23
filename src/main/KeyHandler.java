@@ -26,17 +26,14 @@ public class KeyHandler implements KeyListener{
         
         // TITLE STATE
         if(gp.gameState == gp.titleState) {
-            
             titleState(code);
         }        
         // PLAY STATE
         else if(gp.gameState == gp.playState){
-            
             playState(code);
         }
         // PAUSE STATE
         else if(gp.gameState == gp.pauseState) {
-            
             pauseState(code);
         }
         // DIALOGUE STATE
@@ -46,7 +43,10 @@ public class KeyHandler implements KeyListener{
         // CHARACTER STATE
         else if(gp.gameState == gp.characterState) {
             characterState(code);
-        }        
+        }
+        else if(gp.debugState == gp.debugState) {
+            debugState(code);
+        }
     }
     
     public void titleState(int code) {
@@ -127,6 +127,9 @@ public class KeyHandler implements KeyListener{
         if(code == KeyEvent.VK_C) {
             gp.gameState = gp.characterState;
         }
+        if(code == KeyEvent.VK_B) {
+            gp.gameState = gp.debugState;
+        }
         if(code == KeyEvent.VK_ENTER) {
             enterPressed = true;  
         }
@@ -155,13 +158,43 @@ public class KeyHandler implements KeyListener{
     }
     public void characterState(int code) {
 
-        System.out.println("CHARACTER STATE");
         if(code == KeyEvent.VK_C) {
             gp.gameState = gp.playState;
-            System.out.println("PLAY STATE");
-        }        
+        }
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+            if(gp.ui.slotRow > 0) {
+                gp.ui.slotRow--;
+                gp.playSE(9);
+            }
+        }
+        if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+            if(gp.ui.slotRow < 3) {
+                gp.ui.slotRow++;
+                gp.playSE(9);
+            }
+        }
+        if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
+            if(gp.ui.slotCol > 0) {
+                gp.ui.slotCol--;
+                gp.playSE(9);
+            }
+        }
+        if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
+            if(gp.ui.slotCol < 4) {
+                gp.ui.slotCol++;
+                gp.playSE(9);
+            }
+        }
+        if(code == KeyEvent.VK_ENTER) {
+            gp.player.selectItem();
+        }
     }
+    public void debugState(int code) {
 
+        if(code == KeyEvent.VK_B) {
+            gp.gameState = gp.playState;
+        }
+    }
     @Override
     public void keyReleased(KeyEvent e) {
         

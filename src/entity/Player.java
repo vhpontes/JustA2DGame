@@ -5,8 +5,11 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import main.GamePanel;
 import main.KeyHandler;
+import objects.OBJ_Boots;
+import objects.OBJ_Key;
 import objects.OBJ_Shield_Wood;
 import objects.OBJ_Sword_Normal;
 
@@ -17,6 +20,8 @@ public class Player extends Entity{
     public final int screenY;
     int standCounter = 0;
     public boolean attackCanceled = false;
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public final int maxInventorySize = 20;
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -34,18 +39,17 @@ public class Player extends Entity{
         solidArea.width = 32;
         solidArea.height = 32;
         
-        attackArea.width = 36;
-        attackArea.height = 36;
+//        attackArea.width = 36;
+//        attackArea.height = 36;
         
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImage();
+        setItems();
     }
     
     public void setDefaultValues() {
         
-//        worldX = gp.tileSize * 10;
-//        worldY = gp.tileSize * 13;
         worldX = gp.tileSize * 23;
         worldY = gp.tileSize * 21;
         speed = 4;
@@ -65,8 +69,14 @@ public class Player extends Entity{
         attack = getAttack();  // total attack value is decided by strength and weapon.
         defense = getDefense();// total defense value is decided by dexterty and shield.
     }
+
+    public void setItems() {
+        inventory.add(currentWeapon);
+        inventory.add(currentShield);
+    }
     
     public int getAttack() {
+        attackArea = currentWeapon.attackArea;
         return attack = strength * currentWeapon.attackValue;
     }
     
@@ -90,14 +100,26 @@ public class Player extends Entity{
         
         int imgDouble = gp.tileSize*2;
         
-        attackUp1    = setup("player/boy_attack_up_1",   gp.tileSize, imgDouble);
-        attackUp2    = setup("player/boy_attack_up_2",   gp.tileSize, imgDouble);
-        attackDown1  = setup("player/boy_attack_down_1", gp.tileSize, imgDouble);
-        attackDown2  = setup("player/boy_attack_down_2", gp.tileSize, imgDouble);
-        attackLeft1  = setup("player/boy_attack_left_1", imgDouble, gp.tileSize);
-        attackLeft2  = setup("player/boy_attack_left_2", imgDouble, gp.tileSize);
-        attackRight1 = setup("player/boy_attack_right_1",imgDouble, gp.tileSize);
-        attackRight2 = setup("player/boy_attack_right_2",imgDouble, gp.tileSize);
+        if(currentWeapon.type == type_sword) {
+            attackUp1    = setup("player/boy_attack_up_1",   gp.tileSize, imgDouble);
+            attackUp2    = setup("player/boy_attack_up_2",   gp.tileSize, imgDouble);
+            attackDown1  = setup("player/boy_attack_down_1", gp.tileSize, imgDouble);
+            attackDown2  = setup("player/boy_attack_down_2", gp.tileSize, imgDouble);
+            attackLeft1  = setup("player/boy_attack_left_1", imgDouble, gp.tileSize);
+            attackLeft2  = setup("player/boy_attack_left_2", imgDouble, gp.tileSize);
+            attackRight1 = setup("player/boy_attack_right_1",imgDouble, gp.tileSize);
+            attackRight2 = setup("player/boy_attack_right_2",imgDouble, gp.tileSize);
+        }
+        if(currentWeapon.type == type_axe) {
+            attackUp1    = setup("player/boy_axe_up_1",   gp.tileSize, imgDouble);
+            attackUp2    = setup("player/boy_axe_up_2",   gp.tileSize, imgDouble);
+            attackDown1  = setup("player/boy_axe_down_1", gp.tileSize, imgDouble);
+            attackDown2  = setup("player/boy_axe_down_2", gp.tileSize, imgDouble);
+            attackLeft1  = setup("player/boy_axe_left_1", imgDouble, gp.tileSize);
+            attackLeft2  = setup("player/boy_axe_left_2", imgDouble, gp.tileSize);
+            attackRight1 = setup("player/boy_axe_right_1",imgDouble, gp.tileSize);
+            attackRight2 = setup("player/boy_axe_right_2",imgDouble, gp.tileSize);
+        }
     }
        
     public void update() {
@@ -188,6 +210,20 @@ public class Player extends Entity{
     public void pickUpObject(int i) {
         
         if(i != 999) {
+            
+            String text;
+            
+            if(inventory.size() != maxInventorySize) {
+                
+                inventory.add(gp.obj[i]);
+                gp.playSE(1);
+                text = "Pickup a " + gp.obj[i].name + "!";
+            }
+            else {
+                text = "You cannot carry any more!";
+            }
+            gp.ui.addMessage(text);
+            gp.obj[i] = null;
         }
     }
     
@@ -313,6 +349,33 @@ public class Player extends Entity{
         }
     }
   
+    public void selectItem() {
+        
+        int itemIndex = gp.ui.getItemIndexOnSlot();
+        
+        if(itemIndex < inventory.size()) {
+            
+            Entity selectedItem = inventory.get(itemIndex);
+            
+            if(selectedItem.type == type_sword || selectedItem.type == type_axe) {
+                
+                currentWeapon = selectedItem;
+                attack = getAttack();
+                getPlayerAttackImage();
+            }
+            if(selectedItem.type == type_shield) {
+                
+                currentShield = selectedItem;
+                defense = getDefense();
+            }
+            if(selectedItem.type == type_consumable) {
+                
+                selectedItem.use(this);
+                inventory.remove(itemIndex);
+            }
+        }
+    }
+    
     public void draw(Graphics2D g2) {
 
         BufferedImage image = null;

@@ -56,6 +56,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int pauseState = 2;
     public final int dialogueState = 3;
     public final int characterState = 4;
+    public final int debugState = 5;
     
     public GamePanel() {
         
@@ -143,7 +144,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-        
+       
         //DEBUG START
         long drawStart = 0;
         if(keyH.checkDrawTime == true){
