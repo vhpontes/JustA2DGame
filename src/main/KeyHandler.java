@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener{
 
     GamePanel gp;
-    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed, shotKeyPressed;
     
     // DEBUG
     boolean checkDrawTime = false;
@@ -107,6 +107,7 @@ public class KeyHandler implements KeyListener{
             }
         }
     }
+    
     public void playState(int code) {
         
         if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
@@ -133,6 +134,9 @@ public class KeyHandler implements KeyListener{
         if(code == KeyEvent.VK_ENTER) {
             enterPressed = true;  
         }
+        if(code == KeyEvent.VK_SPACE) {
+            shotKeyPressed = true;  
+        }
 
         //DEBUG
         if(code == KeyEvent.VK_T) {
@@ -144,18 +148,21 @@ public class KeyHandler implements KeyListener{
             }
         }         
     }
+    
     public void pauseState(int code) {
 
         if(code == KeyEvent.VK_P) {
             gp.gameState = gp.playState;
         }
     }
+    
     public void dialogueState(int code) {
         
         if(code == KeyEvent.VK_ENTER) {
             gp.gameState = gp.playState;
         }        
     }
+    
     public void characterState(int code) {
 
         if(code == KeyEvent.VK_C) {
@@ -189,12 +196,14 @@ public class KeyHandler implements KeyListener{
             gp.player.selectItem();
         }
     }
+    
     public void debugState(int code) {
 
         if(code == KeyEvent.VK_B) {
             gp.gameState = gp.playState;
         }
     }
+    
     @Override
     public void keyReleased(KeyEvent e) {
         
@@ -211,6 +220,9 @@ public class KeyHandler implements KeyListener{
         }
         if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
            rightPressed = false;            
+        }       
+        if(code == KeyEvent.VK_SPACE) {
+           shotKeyPressed = false;            
         }       
     }
 }

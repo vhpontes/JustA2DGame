@@ -21,6 +21,8 @@ public class Sound {
         soundURL[7] = getClass().getResource("/res/sound/swingweapon2.wav");
         soundURL[8] = getClass().getResource("/res/sound/levelup.wav");
         soundURL[9] = getClass().getResource("/res/sound/cursor.wav");
+        soundURL[10] = getClass().getResource("/res/sound/burning.wav");
+        soundURL[11] = getClass().getResource("/res/sound/cuttree.wav");
     }
     
     public void setFile(int i) {
@@ -32,12 +34,15 @@ public class Sound {
             
         }
     }
+    
     public void play() {
         clip.start();
     }
+    
     public void loop() {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
+    
     public void stop() {
         clip.stop();
     }

@@ -14,13 +14,14 @@ import java.util.logging.Logger;
 import objects.OBJ_Heart;
 import entity.Entity;
 import java.util.ArrayList;
+import objects.OBJ_ManaCrystal;
 
 public class UI {
     GamePanel gp;
     Graphics2D g2;
     Font maruMonica, purisaB;
     
-    BufferedImage heart_full, heart_half, heart_blank;
+    BufferedImage heart_full, heart_half, heart_blank, crystal_full, crystal_blank;
 
     public boolean messageOn = false;
     ArrayList<String> message = new ArrayList<>();
@@ -49,7 +50,12 @@ public class UI {
         heart_full = heart.image;
         heart_half = heart.image2;
         heart_blank = heart.image3;
+
+        Entity crystal = new OBJ_ManaCrystal(gp);
+        crystal_full = crystal.image;
+        crystal_blank = crystal.image2;
     }
+    
     public void addMessage(String text) {
 
         message.add(text);
@@ -72,17 +78,20 @@ public class UI {
         // PLAY STATE
         if(gp.gameState == gp.playState) {
             drawPlayerLife();
-            drawDebug();
+            drawPlayerMana();
+            //drawDebug();
             drawMessage();
         }
         // PAUSE STATE
         if(gp.gameState == gp.pauseState) {
             drawPlayerLife();
+            drawPlayerMana();
             drawPauseScreen();
         }
         // DIALOGUE STATE
         if(gp.gameState == gp.dialogueState) {
             drawPlayerLife();
+            drawPlayerMana();
             drawDialogueScreen();
         }
         if(gp.gameState == gp.characterState) {
@@ -96,16 +105,15 @@ public class UI {
 
     public void drawPlayerLife() {
 
-        g2.setColor(new Color(0,0,0,200));
-        g2.fillRoundRect(gp.tileSize/2, gp.tileSize/2, (gp.tileSize/2)*gp.player.maxLife, gp.tileSize, 10, 10);
-        
-        //gp.player.life = 3;
         int x = gp.tileSize/2;
         int y = gp.tileSize/2;
         int i = 0;
-        
+
+//        g2.setColor(new Color(0,0,0,150));
+//        g2.fillRoundRect(x, gp.tileSize/2, y*gp.player.maxLife, gp.tileSize, 10, 10);
+                
         // DRAW BLANK HEART
-        while(i<gp.player.maxLife/2) {
+        while(i < gp.player.maxLife/2) {
             g2.drawImage(heart_blank, x, y, null);
             i++;
             x += gp.tileSize;
@@ -127,6 +135,36 @@ public class UI {
             x += gp.tileSize;
         }
     }
+    
+    public void drawPlayerMana() {
+
+        int x = (gp.tileSize/2);
+        int y = (int)(gp.tileSize*1.5) + 5;
+        int i = 0;
+
+//        g2.setColor(new Color(0,0,0,150));
+//        g2.fillRoundRect(x, y, (gp.tileSize/2)*gp.player.maxLife, gp.tileSize, 10, 10);
+        
+        // DRAW BLANK CRYSTAL
+        while(i<gp.player.maxMana) {
+            g2.drawImage(crystal_blank, x, y, null);
+            i++;
+            x += 35;
+        }
+        
+        // RESET
+        x = (gp.tileSize/2);
+        y = (int)(gp.tileSize*1.5) + 5;
+        i = 0;
+        
+        // DRAW CURRENT MANA
+        while(i < gp.player.mana) {
+            g2.drawImage(crystal_full, x, y, null);
+            i++;
+            x += 35;
+        }
+    }
+
     public void drawMessage() {
         
         g2.setFont(maruMonica);
@@ -154,6 +192,7 @@ public class UI {
             }
         }
     }
+    
     public void drawTitleScreen() {
         
         if(titleScreenState == 0) {
@@ -251,6 +290,7 @@ public class UI {
             }
         }
     }
+    
     public void drawPauseScreen() {
 
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80F));
@@ -260,6 +300,7 @@ public class UI {
         
         g2.drawString(text, x, y);
     }
+    
     public void drawDialogueScreen() {
 
         g2.setFont(maruMonica);
@@ -281,6 +322,7 @@ public class UI {
             y += 40;
         }
     }
+    
     public void drawCharacterScreen() {
         
         // CREATE A FRAME
@@ -298,30 +340,21 @@ public class UI {
         
         int textX = frameX + 20;
         int textY = frameY + gp.tileSize;
-        final int lineHeight = 40;
+        final int lineHeight = 35;
         
         // NAMES
-        g2.drawString("Level", textX, textY);
-        textY += lineHeight;
-        g2.drawString("Life", textX, textY);
-        textY += lineHeight;
-        g2.drawString("Strength", textX, textY);
-        textY += lineHeight;
-        g2.drawString("Dexerty", textX, textY);
-        textY += lineHeight;
-        g2.drawString("Attack", textX, textY);
-        textY += lineHeight;
-        g2.drawString("Defense", textX, textY);
-        textY += lineHeight;
-        g2.drawString("Exp", textX, textY);
-        textY += lineHeight;
-        g2.drawString("Next Level", textX, textY);
-        textY += lineHeight;
-        g2.drawString("Coin", textX, textY);
-        textY += lineHeight;
-        g2.drawString("Weapon", textX, textY);
-        textY += lineHeight;
-        g2.drawString("Shield", textX, textY);
+        g2.drawString("Level", textX, textY); textY += lineHeight;
+        g2.drawString("Life", textX, textY); textY += lineHeight;
+        g2.drawString("Mana", textX, textY); textY += lineHeight;
+        g2.drawString("Strength", textX, textY);textY += lineHeight;
+        g2.drawString("Dexerty", textX, textY); textY += lineHeight;
+        g2.drawString("Attack", textX, textY);textY += lineHeight;
+        g2.drawString("Defense", textX, textY); textY += lineHeight;
+        g2.drawString("Exp", textX, textY); textY += lineHeight;
+        g2.drawString("Next Level", textX, textY); textY += lineHeight;
+        g2.drawString("Coin", textX, textY); textY += lineHeight + 10;
+        g2.drawString("Weapon", textX, textY); textY += lineHeight + 15;
+        g2.drawString("Shield", textX, textY); textY += lineHeight;
         
         // VALUES
         int tailX = (frameX + frameWidth) - 30;
@@ -334,6 +367,11 @@ public class UI {
         textY += lineHeight;
 
         value = String.valueOf(gp.player.life + "/" + gp.player.maxLife);
+        textX = getXforAlignToRightText(value, tailX);
+        g2.drawString(value, textX, textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gp.player.mana + "/" + gp.player.maxMana);
         textX = getXforAlignToRightText(value, tailX);
         g2.drawString(value, textX, textY);
         textY += lineHeight;
@@ -371,16 +409,18 @@ public class UI {
         value = String.valueOf(gp.player.coin);
         textX = getXforAlignToRightText(value, tailX);
         g2.drawString(value, textX, textY);
-
-        g2.drawImage(gp.player.currentWeapon.down1, tailX - gp.tileSize, textY, null);
         textY += lineHeight;
-        g2.drawImage(gp.player.currentShield.down1, tailX - gp.tileSize, textY, null);
+
+        g2.drawImage(gp.player.currentWeapon.down1, tailX - gp.tileSize, textY-24, null);
+        textY += gp.tileSize;
+        g2.drawImage(gp.player.currentShield.down1, tailX - gp.tileSize, textY-24, null);
     }
+    
     public void drawDebug() {
 
         g2.setFont(maruMonica);
         int debugX = gp.tileSize;
-        int debugY= gp.tileSize*3;
+        int debugY= gp.tileSize*5;
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24F));
 
         drawSubWindows(debugX-20, debugY-40, gp.tileSize*3, gp.tileSize*2);
@@ -391,6 +431,7 @@ public class UI {
         g2.drawString("Player X:" + gp.player.worldX/gp.tileSize, debugX, debugY);
         g2.drawString("Player Y:" + gp.player.worldY/gp.tileSize, debugX, debugY+34);
     }
+    
     public void drawInventory() {
         
         // CREATE A FRAME
@@ -481,12 +522,14 @@ public class UI {
         g2.setStroke(new BasicStroke(5));
         g2.drawRoundRect(x+5, y+5, width-10, height-10, 25, 25);
     }
+    
     public int getXforCenteredText(String text){
         
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         int x = gp.screenWidth/2 - length/2;
         return x;
     }
+    
     public int getXforAlignToRightText(String text, int tailX){
         
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();

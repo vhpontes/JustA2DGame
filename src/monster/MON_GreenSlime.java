@@ -3,6 +3,10 @@ package monster;
 import entity.Entity;
 import java.util.Random;
 import main.GamePanel;
+import objects.OBJ_Coin_Bronze;
+import objects.OBJ_Heart;
+import objects.OBJ_ManaCrystal;
+import objects.OBJ_Rock;
 
 public class MON_GreenSlime extends Entity {
     
@@ -22,6 +26,7 @@ public class MON_GreenSlime extends Entity {
         attack = 5;
         defense = 0;
         exp = 2;
+        projectile = new OBJ_Rock(gp);
         
         solidArea.x = 3;
         solidArea.y = 18;
@@ -34,7 +39,6 @@ public class MON_GreenSlime extends Entity {
     }
     
     public void getImage() {
-
         up1 = setup("monster/greenslime_down_1", gp.tileSize, gp.tileSize);
         up2 = setup("monster/greenslime_down_2", gp.tileSize, gp.tileSize);
         down1 = setup("monster/greenslime_down_1", gp.tileSize, gp.tileSize);
@@ -52,7 +56,7 @@ public class MON_GreenSlime extends Entity {
         if(actionLockCounter == 120) {
                   
             Random random = new Random();
-            int i = random.nextInt(100)+1;
+            int i = random.nextInt(100) + 1;
             
             if(i <= 25){direction = "up";}
             if(i > 25 && i <=50){direction = "down";}
@@ -60,11 +64,37 @@ public class MON_GreenSlime extends Entity {
             if(i > 75 && i <=100){direction = "right";}
             
             actionLockCounter = 0;
-        }        
+            
+        }     
+        
+        int i = new Random().nextInt(100)+1;
+        if(i > 99 && projectile.alive == false && shotAvailableCounter == 30) {
+            
+            projectile.set(worldX, worldY, direction, true, this);
+            gp.projectileList.add(projectile);
+            shotAvailableCounter = 0;
+        }
     }
     
     public void damageReaction() {
         actionLockCounter = 0;
         direction = gp.player.direction;
+    }
+    
+    public void checkDrop() {
+        
+        // CAST A DIE
+        int i = new Random().nextInt(100)+1;
+        
+        // SET THE MONSTER DROP
+        if(i < 50) {
+            dropItem(new OBJ_Coin_Bronze(gp));
+        }
+        if(i >= 50 && i < 75) {
+            dropItem(new OBJ_Heart(gp));
+        }
+        if(i >= 75 && i < 100) {
+            dropItem(new OBJ_ManaCrystal(gp));
+        }
     }
 }
