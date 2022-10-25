@@ -32,6 +32,7 @@ public class UI {
     public int titleScreenState = 0; // 0 for first, 1 for secound screen
     public int slotCol = 0;
     public int slotRow = 0;
+    int subState = 0;
     
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -74,7 +75,6 @@ public class UI {
         if(gp.gameState == gp.titleState) {
             drawTitleScreen();
         }
-        
         // PLAY STATE
         if(gp.gameState == gp.playState) {
             drawPlayerLife();
@@ -94,9 +94,14 @@ public class UI {
             drawPlayerMana();
             drawDialogueScreen();
         }
+        // CHARACTER STATS STATE
         if(gp.gameState == gp.characterState) {
             drawCharacterScreen();
             drawInventory();
+        }
+        // CHARACTER STATS STATE
+        if(gp.gameState == gp.optionState) {
+            drawOptionsScreen();
         }
         if(gp.gameState == gp.debugState) {
             drawDebug();
@@ -198,7 +203,7 @@ public class UI {
         if(titleScreenState == 0) {
         
             g2.setFont(maruMonica);
-            g2.setColor(new Color(120, 0, 0));
+            g2.setColor(new Color(120, 120, 0));
             g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
             //TITLE NAME
@@ -208,7 +213,7 @@ public class UI {
             int y = gp.tileSize*3;
 
             // SHADOW
-            g2.setColor(Color.gray);
+            g2.setColor(Color.BLACK);
             g2.drawString(text, x+5, y+5);
 
             // MAIN COLOR
@@ -216,11 +221,12 @@ public class UI {
             g2.drawString(text, x, y);
 
             // IMAGE
-    //        x = gp.screenWidth/2 - (gp.tileSize*2)/2;
-    //        y += gp.screenHeight*2;
-    //        g2.drawImage(gp.player.down1, x, y, gp.tileSize^2, gp.tileSize*2, null);
+//            x = gp.screenWidth/2 - (gp.tileSize*2)/2;
+//            y += gp.screenHeight*2;
+//            g2.drawImage(gp.player.down1, x, y, gp.tileSize^2, gp.tileSize*2, null);
 
             // MENU
+            g2.setColor(Color.yellow);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F));
 
             text = "NEW Game";
@@ -247,9 +253,9 @@ public class UI {
                 g2.drawString(">", x-gp.tileSize, y);
             }
         }
-        else if(titleScreenState == 1){
-                
-            g2.setColor(Color.white);
+/*        else if(titleScreenState == 1){
+            
+            g2.setColor(Color.yellow);
             g2.setFont(g2.getFont().deriveFont(42F));
 
             String text = "Select your class!";
@@ -257,6 +263,7 @@ public class UI {
             int y = gp.tileSize*3;
             g2.drawString(text, x, y);
 
+            g2.setColor(Color.white);
             text = "Fighter";
             x = getXforCenteredText(text);
             y += gp.tileSize*3;
@@ -288,7 +295,7 @@ public class UI {
             if(commandNum == 3) {
                 g2.drawString(">", x-gp.tileSize, y);
             }
-        }
+        }*/
     }
     
     public void drawPauseScreen() {
@@ -311,7 +318,7 @@ public class UI {
         int width = gp.screenWidth - (gp.tileSize*4);
         int height = gp.screenHeight/3;
         
-        drawSubWindows(x, y, width, height);
+        drawSubWindow(x, y, width, height);
         
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 28F));
         x += gp.tileSize;
@@ -326,12 +333,12 @@ public class UI {
     public void drawCharacterScreen() {
         
         // CREATE A FRAME
-        final int frameX = gp.tileSize;
+        final int frameX = gp.tileSize*2;
         final int frameY = gp.tileSize;
         final int frameWidth = gp.tileSize*5;
         final int frameHeight = gp.tileSize*10;
         
-        drawSubWindows(frameX, frameY, frameWidth, frameHeight);
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
         
         // TEXT
         g2.setColor(Color.white);
@@ -416,6 +423,62 @@ public class UI {
         g2.drawImage(gp.player.currentShield.down1, tailX - gp.tileSize, textY-24, null);
     }
     
+    public void drawOptionsScreen() {
+        
+        g2.setColor(Color.white);
+        g2.setFont(maruMonica);
+        g2.setFont(g2.getFont().deriveFont(32F));
+        
+        // SUB WINDOW
+        int frameX = gp.tileSize * 6;
+        int frameY = gp.tileSize;
+        int frameWidth = gp.tileSize * 8;
+        int frameHeight = gp.tileSize * 10;
+        
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+        
+        switch(subState) {
+            case 0: options_top(frameX, frameY); break;
+        }
+    }
+    
+    public void options_top(int frameX, int frameY) {
+        
+        int textX;
+        int textY;
+        
+        // TITLE
+        String text = "Options";
+        textX = getXforCenteredText(text);
+        textY = frameY + gp.tileSize;
+        g2.drawString(text, textX, textY);
+        
+        // FULL SCREEN ON/OFF
+        textX = frameX + gp.tileSize;
+        textY += gp.tileSize;
+        g2.drawString("Full Screen", textX, textY);
+        
+        // MUSIC
+        textY += gp.tileSize;
+        g2.drawString("Music", textX, textY);
+        
+        // SE
+        textY += gp.tileSize;
+        g2.drawString("Sound Effects", textX, textY);
+        
+        // CONTROL
+        textY += gp.tileSize;
+        g2.drawString("Control", textX, textY);
+        
+        // END GAME
+        textY += gp.tileSize;
+        g2.drawString("End Game", textX, textY);
+
+        // BACK
+        textY += gp.tileSize*2;
+        g2.drawString("End Game", textX, textY);
+    }
+    
     public void drawDebug() {
 
         g2.setFont(maruMonica);
@@ -423,7 +486,7 @@ public class UI {
         int debugY= gp.tileSize*5;
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24F));
 
-        drawSubWindows(debugX-20, debugY-40, gp.tileSize*3, gp.tileSize*2);
+        drawSubWindow(debugX-20, debugY-40, gp.tileSize*3, gp.tileSize*2);
         g2.setColor(Color.black);
         g2.drawString("Player X:" + gp.player.worldX/gp.tileSize, debugX+2, debugY+2);
         g2.drawString("Player Y:" + gp.player.worldY/gp.tileSize, debugX+2, debugY+36);
@@ -435,12 +498,12 @@ public class UI {
     public void drawInventory() {
         
         // CREATE A FRAME
-        final int frameX = gp.tileSize*9;
+        final int frameX = gp.tileSize*12;
         final int frameY = gp.tileSize;
         final int frameWidth = gp.tileSize*6;
         final int frameHeight = gp.tileSize*5;
         
-        drawSubWindows(frameX, frameY, frameWidth, frameHeight);
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
         
         // INVENTORY SLOTS
         final int slotXstart = frameX + 20;
@@ -495,7 +558,7 @@ public class UI {
         
         if(itemIndex < gp.player.inventory.size()) {
             
-            drawSubWindows(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
+            drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
             
             for(String line: gp.player.inventory.get(itemIndex).description.split("\n")) {
                 g2.drawString(line, textX, textY);
@@ -511,7 +574,7 @@ public class UI {
         return intemIndex;
     }
     
-    public void drawSubWindows(int x, int y, int width, int height){
+    public void drawSubWindow(int x, int y, int width, int height){
         
         Color c = new Color(0,0,0,200);
         g2.setColor(c);
