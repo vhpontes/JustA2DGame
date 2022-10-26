@@ -4,7 +4,7 @@ import entity.Entity;
 import java.awt.Color;
 import main.GamePanel;
 
-public class IT_DryTree extends InteractiveTile{
+public class IT_DryTree extends InteractiveTile {
     
     GamePanel gp;
     

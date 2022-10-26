@@ -1,17 +1,14 @@
 package entity;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import main.GamePanel;
 import main.KeyHandler;
-import objects.OBJ_Boots;
 import objects.OBJ_Fireball;
-import objects.OBJ_Key;
-import objects.OBJ_Rock;
+import objects.OBJ_Potion_Red;
 import objects.OBJ_Shield_Wood;
 import objects.OBJ_Sword_Normal;
 
@@ -76,10 +73,27 @@ public class Player extends Entity{
         attack = getAttack();  // total attack value is decided by strength and weapon.
         defense = getDefense();// total defense value is decided by dexterty and shield.
     }
+    
+    public void setDefaultPosition() {
+        
+        worldX = gp.tileSize * 23;
+        worldY = gp.tileSize * 21;
+        direction = "down";
+    }
+    
+    public void restoreLifeAndMana() {
+        
+        life = maxLife;
+        mana = maxMana;
+        invincible = false;
+    }
 
     public void setItems() {
+        
+        inventory.clear();
         inventory.add(currentWeapon);
         inventory.add(currentShield);
+        inventory.add(new OBJ_Potion_Red(gp));
     }
     
     public int getAttack() {
@@ -244,7 +258,13 @@ public class Player extends Entity{
         }
         if(mana > maxMana) {
             mana = maxMana; 
-        }       
+        }
+        
+        // PLAYER GAME OVER
+        if(life <= 0){
+            gp.gameState = gp.gameOverState;
+            gp.playSE(12);
+        }
     }
     
     public void pickUpObject(int i) {

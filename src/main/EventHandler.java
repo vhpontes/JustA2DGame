@@ -85,7 +85,6 @@ public class EventHandler {
         gp.playSE(6);
         gp.ui.currentDialogue = "Você caiu dentro de um buraco!";
         gp.player.life -= 1;
-//        eventRect[col][row].eventDone = true;
         canTouchEvent = false;
     }
     

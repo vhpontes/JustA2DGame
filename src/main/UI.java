@@ -63,7 +63,7 @@ public class UI {
         messageCounter.add(0);
     }
 
-    public void draw(Graphics2D g2) {
+    public void draw(Graphics2D g2) throws IOException {
         
         this.g2 = g2;
         
@@ -79,7 +79,6 @@ public class UI {
         if(gp.gameState == gp.playState) {
             drawPlayerLife();
             drawPlayerMana();
-            //drawDebug();
             drawMessage();
         }
         // PAUSE STATE
@@ -99,9 +98,13 @@ public class UI {
             drawCharacterScreen();
             drawInventory();
         }
-        // CHARACTER STATS STATE
+        // OPTIONS STATE
         if(gp.gameState == gp.optionState) {
             drawOptionScreen();
+        }
+        // GAME OVER STATE
+        if(gp.gameState == gp.gameOverState) {
+            drawGameOverScreen();
         }
         if(gp.gameState == gp.debugState) {
             drawDebug();
@@ -114,9 +117,6 @@ public class UI {
         int y = gp.tileSize/2;
         int i = 0;
 
-//        g2.setColor(new Color(0,0,0,150));
-//        g2.fillRoundRect(x, gp.tileSize/2, y*gp.player.maxLife, gp.tileSize, 10, 10);
-                
         // DRAW BLANK HEART
         while(i < gp.player.maxLife/2) {
             g2.drawImage(heart_blank, x, y, null);
@@ -147,9 +147,6 @@ public class UI {
         int y = (int)(gp.tileSize*1.5) + 5;
         int i = 0;
 
-//        g2.setColor(new Color(0,0,0,150));
-//        g2.fillRoundRect(x, y, (gp.tileSize/2)*gp.player.maxLife, gp.tileSize, 10, 10);
-        
         // DRAW BLANK CRYSTAL
         while(i<gp.player.maxMana) {
             g2.drawImage(crystal_blank, x, y, null);
@@ -221,9 +218,9 @@ public class UI {
             g2.drawString(text, x, y);
 
             // IMAGE
-//            x = gp.screenWidth/2 - (gp.tileSize*2)/2;
-//            y += gp.screenHeight*2;
-//            g2.drawImage(gp.player.down1, x, y, gp.tileSize^2, gp.tileSize*2, null);
+            x = gp.screenWidth/2 - (gp.tileSize*2)/2;
+            y += gp.screenHeight/18;
+            g2.drawImage(gp.player.down1, x, y, gp.tileSize*2, gp.tileSize*2, null);
 
             // MENU
             g2.setColor(Color.yellow);
@@ -423,7 +420,47 @@ public class UI {
         g2.drawImage(gp.player.currentShield.down1, tailX - gp.tileSize, textY-24, null);
     }
     
-    public void drawOptionScreen() {
+    public void drawGameOverScreen() {
+        
+        g2.setColor(new Color(0,0,0,150));
+        g2.fillRect(0,0,gp.screenWidth, gp.screenHeight);
+        
+        int x;
+        int y;
+        String text;
+        g2.setFont(maruMonica);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 110f));
+        
+        text = "Game Over";
+        // SHADOW TEXT
+        g2.setColor(Color.black);
+        x = getXforCenteredText(text);
+        y = gp.tileSize * 4;
+        g2.drawString(text, x + 4, y + 4);
+        // MAIN TEXT
+        g2.setColor(Color.white);
+        g2.drawString(text, x, y);
+        
+        // OPTIONS ON GAME OVER
+        g2.setFont(g2.getFont().deriveFont(50f));
+        text = "Retry";
+        x = getXforCenteredText(text);
+        y += gp.tileSize * 4;
+        g2.drawString(text, x, y);
+        if(commandNum == 0) {
+            g2.drawString(">", x-40, y);
+        }
+        
+        text = "Quit";
+        x = getXforCenteredText(text);
+        y += 55;
+        g2.drawString(text, x, y);
+        if(commandNum == 1) {
+            g2.drawString(">", x-40, y);
+        }
+    }
+    
+    public void drawOptionScreen() throws IOException {
         
         g2.setColor(Color.white);
         g2.setFont(maruMonica);
@@ -446,7 +483,7 @@ public class UI {
         gp.keyH.enterPressed = false;
     }
     
-    public void options_top(int frameX, int frameY) {
+    public void options_top(int frameX, int frameY) throws IOException {
         
         int textX;
         int textY;
@@ -541,8 +578,7 @@ public class UI {
         g2.fillRect(textX+1, textY+1, volumeWidth, 22);
         g2.setColor(Color.white);
         
-        // CONTROL
-        // END GAME
+        gp.config.saveConfig();
     }
     
     public void options_fullScreenNotification(int frameX, int frameY) {

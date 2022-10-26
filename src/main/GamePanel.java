@@ -9,12 +9,16 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import tile.TileManager;
 import tile_interactive.InteractiveTile;
+
 
 public class GamePanel extends JPanel implements Runnable{
     
@@ -58,6 +62,7 @@ public class GamePanel extends JPanel implements Runnable{
     public AssetSettler aSetter = new AssetSettler(this);
     public UI ui = new UI(this);
     public EventHandler eHandler = new EventHandler(this);
+    Config config = new Config(this);
     Thread gameThread;
 
     // ENTITY AND OBJECT
@@ -79,6 +84,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int characterState = 4;
     public final int debugState = 5;
     public final int optionState = 6;
+    public final int gameOverState = 7;
     
     public GamePanel() {
         
@@ -96,11 +102,32 @@ public class GamePanel extends JPanel implements Runnable{
         aSetter.setMonster();
         aSetter.setInteractiveTile();
         gameState = titleState;
-        
+
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D)tempScreen.getGraphics();
         
-        //setFullScreen();
+        if(fullScreenOn == true) {
+            setFullScreen();
+        }
+    }
+    
+    public void retry() {
+        
+        player.setDefaultPosition();
+        player.restoreLifeAndMana();
+        aSetter.setNPC();
+        aSetter.setMonster();
+    }
+    
+    public void restart() {
+        
+        player.setDefaultValues();
+        player.setDefaultPosition();
+        player.restoreLifeAndMana();
+        player.setItems();
+        aSetter.setNPC();
+        aSetter.setMonster();
+        aSetter.setInteractiveTile();
     }
     
     public void setFullScreen() {
@@ -140,8 +167,11 @@ public class GamePanel extends JPanel implements Runnable{
             
             if (delta >= 1) {
                 update();
-//                repaint();
-                drawToTempScreen(); // buffered
+                try {
+                    drawToTempScreen(); // buffered
+                } catch (IOException ex) {
+                    Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 drawToScreen();     // buffered to screen
                 delta--;
                 drawCount++;
@@ -212,7 +242,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
     
-    public void drawToTempScreen() {
+    public void drawToTempScreen() throws IOException {
         
         // DEBUG START
         long drawStart = 0;
@@ -291,14 +321,6 @@ public class GamePanel extends JPanel implements Runnable{
             // UI
             ui.draw(g2);
         }
-        
-        //DEBUG STOP
-        if(keyH.checkDrawTime == false){
-            long drawEnd = System.nanoTime();
-            long passed = drawEnd - drawStart;
-            g2.setColor(Color.red);
-            //g2.drawString("Draw Time: "+ passed, 10, 400);
-        }        
     }
     
     public void drawToScreen() {

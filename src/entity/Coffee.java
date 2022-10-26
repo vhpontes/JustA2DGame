@@ -167,3 +167,98 @@ public class Coffee {
 
 
 */
+
+
+/*
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D)g;
+       
+        // DEBUG START
+        long drawStart = 0;
+        if(keyH.checkDrawTime == true){
+            drawStart = System.nanoTime();
+        }
+        
+        // TITLE SCREEN
+        if (gameState == titleState) {
+            ui.draw(g2);
+        }
+        // OTHERS
+        else {
+            // TILE
+            tileM.draw(g2);
+            
+            // INTERACTIVE TILE
+            for(int i = 0; i < iTile.length; i++) {
+                if(iTile[i] != null) {
+                    iTile[i].draw(g2);
+                }
+            }
+
+            // ADD ENTITIES TO THE LIST
+            entityList.add(player);
+            
+            // NPC LIST
+            for(int i = 0; i < npc.length; i++) {
+                if(npc[i] != null) {
+                    entityList.add(npc[i]);
+                }
+            }
+            // OBJ LIST
+            for(int i = 0; i < obj.length; i++) {
+                if(obj[i] != null) {
+                    entityList.add(obj[i]);
+                }
+            }
+            // MONSTER LIST
+            for(int i = 0; i < monster.length; i++) {
+                if(monster[i] != null) {
+                    entityList.add(monster[i]);
+                }
+            }
+            // PARTICLE LIST
+            for(int i = 0; i < particleList.size(); i++) {
+                if(particleList.get(i) != null) {
+                    entityList.add(particleList.get(i));
+                }
+            }            
+            // PROJECTILE LIST
+            for(int i = 0; i < projectileList.size(); i++) {
+                if(projectileList.get(i) != null) {
+                    entityList.add(projectileList.get(i));
+                }
+            }            
+            // SORT
+            Collections.sort(entityList, new Comparator<Entity>() {
+                
+                @Override
+                public int compare(Entity e1, Entity e2) {
+                    
+                    int result = Integer.compare(e1.worldY, e2.worldY);
+                    return result;
+                }
+            });
+            
+            // DRAW ENTITIES
+            for(int i = 0; i < entityList.size(); i++) {
+                entityList.get(i).draw(g2);
+            }
+
+            // EMPTY ENTITIES LIST
+            entityList.clear();
+            
+            // UI
+            ui.draw(g2);
+        }
+        
+        //DEBUG STOP
+        if(keyH.checkDrawTime == false){
+            long drawEnd = System.nanoTime();
+            long passed = drawEnd - drawStart;
+            g2.setColor(Color.red);
+            //g2.drawString("Draw Time: "+ passed, 10, 400);
+        }
+        g2.dispose();
+    }
+*/

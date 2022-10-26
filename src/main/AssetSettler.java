@@ -5,7 +5,6 @@ import monster.MON_GreenSlime;
 import objects.OBJ_Axe;
 import objects.OBJ_Coin_Bronze;
 import objects.OBJ_Heart;
-import objects.OBJ_Key;
 import objects.OBJ_ManaCrystal;
 import objects.OBJ_Potion_Red;
 import objects.OBJ_Shield_Blue;

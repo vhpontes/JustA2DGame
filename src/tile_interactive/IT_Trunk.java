@@ -2,7 +2,8 @@ package tile_interactive;
 
 import main.GamePanel;
 
-public class IT_Trunk extends InteractiveTile{
+
+public class IT_Trunk extends InteractiveTile {
     
     GamePanel gp;
     
