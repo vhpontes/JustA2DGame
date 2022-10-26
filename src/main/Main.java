@@ -4,13 +4,16 @@ import javax.swing.JFrame;
 
 public class Main {
     
+    public static JFrame window;
+
     public static void main(String[] args) {
-        
-        JFrame window = new JFrame();
+
+        window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Just a 2D Game");
-        window.setAlwaysOnTop(true);
+//        window.setUndecorated(false);
+//        window.setAlwaysOnTop(true);
         
         GamePanel gamePanel = new GamePanel();
 
