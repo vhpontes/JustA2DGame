@@ -1,5 +1,6 @@
 package tile;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,17 +14,18 @@ public class TileManager {
 
     GamePanel gp;
     public Tile[] tile;
-    public int mapTileNum[][];
+    public int mapTileNum[][][];
     
     public TileManager(GamePanel gp) {
         
         this.gp = gp;
         
         tile = new Tile[50];
-        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
+        mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
-        loadMap("/res/maps/worldV2.txt");
+        loadMap("/res/maps/worldV2.txt", 0);
+        loadMap("/res/maps/interior01.txt", 1);
     }
 
     public void getTileImage() {
@@ -39,7 +41,7 @@ public class TileManager {
         setup(8,  "tiles/grass00", false);
         setup(9,  "tiles/grass00", false);
         setup(10, "tiles/grass00", false);
-        setup(11, "tiles/grass00", false);
+        setup(11, "tiles/grass01", false);
         setup(12, "tiles/water00", true);
         setup(13, "tiles/water01", true);
         setup(14, "tiles/water02", true);
@@ -72,6 +74,10 @@ public class TileManager {
         setup(41, "tiles/tree", true);
         setup(42, "tile_interactive/trunk", true);
         setup(43, "tiles/pit", false);
+        setup(44, "tiles/hut", false);
+        setup(45, "tiles/floor01", false);
+        setup(46, "tiles/table01", true);
+        
     }
 
     public void setup(int index, String imagePath, boolean collision){
@@ -89,7 +95,7 @@ public class TileManager {
         }
     }
     
-    public void loadMap(String filePath) {
+    public void loadMap(String filePath, int map) {
         
         try {
             InputStream is = getClass().getResourceAsStream(filePath);
@@ -107,7 +113,7 @@ public class TileManager {
                     
                     int num = Integer.parseInt(numbers[col]);
                     
-                    mapTileNum[col][row] = num;
+                    mapTileNum[map][col][row] = num;
                     col++;
                 }
                 if(col == gp.maxWorldCol) {
@@ -128,7 +134,7 @@ public class TileManager {
         
         while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
     
-            int tileNum = mapTileNum[worldCol][worldRow];
+            int tileNum = mapTileNum[gp.currentMap][worldCol][worldRow];
             
             int worldX = worldCol * gp.tileSize;
             int worldY = worldRow * gp.tileSize;
@@ -141,6 +147,10 @@ public class TileManager {
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY){
                 
                 g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+//                    g2.setColor(Color.yellow);
+//                    g2.setFont(g2.getFont().deriveFont(16F));
+//                    g2.drawString(worldCol+"/"+worldRow, screenX, screenY);
             }
             worldCol++;
             
