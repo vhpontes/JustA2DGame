@@ -20,12 +20,13 @@ public class TileManager {
         
         this.gp = gp;
         
-        tile = new Tile[50];
+        tile = new Tile[70];
         mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
         loadMap("/res/maps/worldV2.txt", 0);
         loadMap("/res/maps/interior01.txt", 1);
+        loadMap("/res/maps/dg_twitch01.txt", 2);
     }
 
     public void getTileImage() {
@@ -77,7 +78,24 @@ public class TileManager {
         setup(44, "tiles/hut", false);
         setup(45, "tiles/floor01", false);
         setup(46, "tiles/table01", true);
+
+        setup(47, "tiles/walldg", false);
+        setup(48, "tiles/wallcorner01", true);
+        setup(49, "tiles/wallcorner02", true);
+        setup(50, "tiles/wallcorner03", true);
+        setup(51, "tiles/wallcorner04", true);
+        setup(52, "tiles/wallside01", true);
+        setup(53, "tiles/wallside02", true);
+        setup(54, "tiles/wallside03", true);
+        setup(55, "tiles/wallside04", true);
+        setup(56, "tiles/wallp1", true);
+        setup(57, "tiles/wallp2", true);
+        setup(58, "tiles/wallp3", true);
+        setup(59, "tiles/wallp4", true);
+        setup(60, "tiles/wall", false);
         
+        setup(61, "tiles/dg", true);
+        setup(62, "tiles/walldg_lavapit", false);
     }
 
     public void setup(int index, String imagePath, boolean collision){

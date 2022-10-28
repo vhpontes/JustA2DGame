@@ -54,10 +54,13 @@ public class EventHandler {
         
         if(canTouchEvent == true) {
 
-            if(hit(0,25,19,"any") == true) {damagePit(25,19,gp.dialogueState);}
+            if(hit(0,25,19,"any") == true) {damagePit(0,25,19,"buraco", 1 ,gp.dialogueState);}
             else if(hit(0,23,12,"up") == true) {healingPool(23,12,gp.dialogueState);}
-            else if(hit(0,10,37,"any") == true) {teleport(1, 12, 12);} // teleport inside hut to map 1
-            else if(hit(1, 12, 13,"any") == true) {teleport(0,10,38);} // teleport out hut to world
+            else if(hit(0,10,37,"any") == true) {teleport(1, 12, 12);} // teleport inside HUT in map 0
+            else if(hit(1, 12, 13,"any") == true) {teleport(0,10,38);} // teleport out HUT to world
+            else if(hit(0, 30, 37,"up") == true) {teleport(2,8,47);} // teleport DG
+            else if(hit(2, 8, 48,"down") == true) {teleport(0,30,37);} // teleport out DG to world
+            else if(hit(2,20,26,"any") == true) {damagePit(2,20,26, "poço de lava", 1 ,gp.dialogueState);}
             else if(hit(1, 12, 9, "up") == true) {speak(gp.npc[1][0]);}
         }
     }
@@ -89,12 +92,12 @@ public class EventHandler {
         return hit;
     }
 
-    public void damagePit(int col, int row,int gameState) {
+    public void damagePit(int map, int col, int row, String type, int damage, int gameState) {
         
         gp.gameState = gameState;
         gp.playSE(6);
-        gp.ui.currentDialogue = "Você caiu dentro de um buraco!";
-        gp.player.life -= 1;
+        gp.ui.currentDialogue = "Você caiu dentro do " + type + "!";
+        gp.player.life -= damage;
         canTouchEvent = false;
     }
     

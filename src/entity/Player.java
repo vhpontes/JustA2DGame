@@ -44,7 +44,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 1;
+        gp.currentMap = 2;
         switch(gp.currentMap){
             case 0:
                 worldX = gp.tileSize * 23;
@@ -53,6 +53,10 @@ public class Player extends Entity{
             case 1: // HUT INTERIOR
                 worldX = gp.tileSize * 12; 
                 worldY = gp.tileSize * 12;
+            break;
+            case 2:
+                worldX = gp.tileSize * 8;
+                worldY = gp.tileSize * 48;
             break;
         }        
     }

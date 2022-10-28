@@ -164,10 +164,11 @@ public class KeyHandler implements KeyListener{
             }
         }
         if(code == KeyEvent.VK_R) {
-            gp.currentMap = 1;
+            //gp.currentMap = 1;
             switch(gp.currentMap) {
                 case 0: gp.tileM.loadMap("/maps/worldV2.txt", 0); break;
                 case 1: gp.tileM.loadMap("/maps/interior01.txt", 1); break;
+                case 2: gp.tileM.loadMap("/maps/dg_twitch01.txt", 2); break;
             }
         }
     }

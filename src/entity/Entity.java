@@ -22,6 +22,7 @@ public class Entity {
     public Rectangle attackArea = new Rectangle(0,0,0,0);
     public int solidAreaDefaultX, solidAreaDefaultY;
     String dialogues[] = new String[20];
+    public String npcTwitchNick = null;
 
     // VARs STATE
     public int worldX, worldY;
@@ -282,6 +283,14 @@ public class Entity {
                 }
             }
             
+            // NPC Twitch Nick
+            if(type == 1 ) {
+                g2.setColor(new Color(35, 35, 35));
+                if(npcTwitchNick!=null){
+                    g2.drawString(this.npcTwitchNick, screenX, screenY);
+                }
+            }
+
             // Visual Effect to invencible mode
             if(invincible == true){
                 hpBarOn = true;
