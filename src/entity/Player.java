@@ -4,7 +4,6 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import main.GamePanel;
 import main.KeyHandler;
 import objects.OBJ_Fireball;
@@ -44,7 +43,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 2;
+        //gp.currentMap = 1;
         switch(gp.currentMap){
             case 0:
                 worldX = gp.tileSize * 23;
@@ -78,7 +77,7 @@ public class Player extends Entity{
         dexterty = 1; // the more dexterty he has, the less damage he receives.
         exp = 0;
         nextLevelExp = 5;
-        coin = 0;
+        coin = 500;
         currentWeapon = new OBJ_Sword_Normal(gp);
         currentShield = new OBJ_Shield_Wood(gp);
         projectile = new OBJ_Fireball(gp);

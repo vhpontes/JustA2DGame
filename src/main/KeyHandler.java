@@ -312,6 +312,12 @@ public class KeyHandler implements KeyListener{
                 gp.ui.subState = 0;
             }
         }
+        if(gp.ui.subState == 2) {
+            playerInventory(code);
+            if(code == KeyEvent.VK_ESCAPE) {
+                gp.ui.subState = 0;
+            }
+        }
     }
     
     public void playerInventory(int code) {

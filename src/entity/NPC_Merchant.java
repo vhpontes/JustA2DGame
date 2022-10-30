@@ -15,6 +15,7 @@ public class NPC_Merchant extends Entity{
         
         direction = "down";
         speed = 1;
+        coin = 1000;
         
         getImage();
         setItems();

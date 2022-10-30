@@ -35,6 +35,7 @@ public class Entity {
     public boolean alive = true;
     public boolean dying = false;
     boolean hpBarOn = false;
+    public boolean onPath = false;
 
     // VARs COUNTER
     public int spriteCounter = 0;
@@ -74,6 +75,7 @@ public class Entity {
     public int defenseValue;
     public String description;
     public int useCost;
+    public int price;
 
     // TYPE
     public int type; //0 = player, 1 = npc, 2 = monster
@@ -111,7 +113,7 @@ public class Entity {
     }
     
     public void use(Entity entity) {
-        System.out.println("entrou use entity");
+        //System.out.println("entrou use entity");
     }
     
     public void checkDrop() {
@@ -167,10 +169,7 @@ public class Entity {
         gp.particleList.add(p4);
     }
     
-    public void update(){
-        
-        setAction();
-        
+    public void checkCollision() {
         // CHECK TILE NPC COLLISION
         collisionOn = false;
         gp.cChecker.checkTile(this);
@@ -182,7 +181,13 @@ public class Entity {
         
         if(this.type == type_monster && contactPlayer == true) {
             damagePlayer(attack);
-        }
+        }        
+    }
+    
+    public void update(){
+        
+        setAction();
+        checkCollision();
         
         // IF COLLISION IS FALSE, NPC CAN MOVE
         if(collisionOn == false) {
@@ -239,7 +244,7 @@ public class Entity {
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-        if(worldX + gp.tileSize> gp.player.worldX - gp.player.screenX &&
+        if(worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
             worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
             worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
             worldY - gp.tileSize < gp.player.worldY + gp.player.screenY){
@@ -284,11 +289,12 @@ public class Entity {
             }
             
             // NPC Twitch Nick
-            if(type == 1 ) {
-                g2.setColor(new Color(35, 35, 35));
-                if(npcTwitchNick!=null){
-                    g2.drawString(this.npcTwitchNick, screenX, screenY);
-                }
+            if(type_npc==1 && this.npcTwitchNick!=null) {
+                g2.setFont(g2.getFont().deriveFont(20f));
+                g2.setColor(Color.black);
+                g2.drawString(this.npcTwitchNick, screenX-25, screenY);
+                g2.setColor(Color.white);
+                g2.drawString(this.npcTwitchNick, screenX-27, screenY-2);
             }
 
             // Visual Effect to invencible mode
@@ -342,5 +348,83 @@ public class Entity {
             e.printStackTrace();
         }
         return image;
+    }
+    
+    public void searchPath(int goalCol, int goalRow){
+        
+        int startCol = (worldX + solidArea.x)/gp.tileSize;
+        int startRow = (worldY + solidArea.y)/gp.tileSize;
+        
+        gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow, this);
+        
+        if(gp.pFinder.search() == true) {
+            
+            int nextX = gp.pFinder.pathList.get(0).col * gp.tileSize;
+            int nextY = gp.pFinder.pathList.get(0).row * gp.tileSize;
+            
+            int enLeftX = worldX + solidArea.x;
+            int enRightX = worldX + solidArea.x + solidArea.width;
+            int enTopY = worldY + solidArea.y;
+            int enBottonY = worldY + solidArea.y + solidArea.height;
+            if(enTopY > nextY && enLeftX >= nextX && enRightX < (nextX + gp.tileSize)){
+                direction = "up";
+            }
+            else if(enTopY < nextY && enLeftX >= nextX && enRightX < (nextX + gp.tileSize)){
+                System.out.println("Down");
+                direction = "down";
+            }
+            else if(enTopY >= nextY && enBottonY < (nextY + gp.tileSize)){
+                if(enLeftX > nextX) {
+                    System.out.println("Left");
+                    direction = "left";
+                }
+                if(enLeftX < nextX) {
+                    System.out.println("Right");
+                    direction = "right";
+                }
+            }
+            else if(enTopY > nextY && enLeftX > nextX){
+                System.out.println("Up or Left");
+                direction = "up";
+                checkCollision();
+                if(collisionOn == true){
+                    direction = "left";
+                }
+                System.out.println(direction);
+            }
+            else if(enTopY > nextY && enLeftX < nextX){
+                System.out.println("Up or Right");
+                direction = "up";
+                checkCollision();
+                if(collisionOn == true){
+                    direction = "right";
+                }
+                System.out.println(direction);
+            }
+            else if(enTopY < nextY && enLeftX > nextX){
+                System.out.println("Down or Left");
+                direction = "down";
+                checkCollision();
+                if(collisionOn==true){
+                    direction = "left";
+                }
+                System.out.println(direction);
+            }
+            else if(enTopY < nextY && enLeftX < nextX){
+                System.out.println("Down or Right");
+                direction = "down";
+                checkCollision();
+                if(collisionOn==true){
+                    direction = "right";
+                }
+                System.out.println(direction);
+            }
+            
+            int nextCol = gp.pFinder.pathList.get(0).col;
+            int nextRow = gp.pFinder.pathList.get(0).row;
+            if(nextCol == goalCol && nextRow == goalRow){
+                onPath = false;
+            }
+        }
     }
 }
