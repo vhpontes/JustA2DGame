@@ -10,8 +10,7 @@ public class PathFinder {
     Node[][] node;
     ArrayList<Node> openList = new ArrayList<>();
     public ArrayList<Node> pathList = new ArrayList<>();
-    ArrayList<Node> checkedList = new ArrayList<>();
-    Node startNode, goalNode, currentNode, solidNode;
+    Node startNode, goalNode, currentNode;
     boolean goalReached = false;
     int step = 0;
     
@@ -40,6 +39,7 @@ public class PathFinder {
     }
     
     public void resetNodes() {
+        
         int col = 0;
         int row = 0;
         
@@ -47,20 +47,21 @@ public class PathFinder {
             node[col][row].open = false;
             node[col][row].checked = false;
             node[col][row].solid = false;
+            
             col++;
             if(col == gp.maxWorldCol){
                 col = 0;
                 row++;
             }        
         }
+        
         openList.clear();
         pathList.clear();
-        checkedList.clear();
         goalReached = false;
         step = 0;
     }
     
-    public void setNodes(int startCol, int startRow, int goalCol, int goalRow, Entity entity) {
+    public void setNodes(int startCol, int startRow, int goalCol, int goalRow) {
         
         resetNodes();
                 
@@ -113,24 +114,30 @@ public class PathFinder {
     }
     
     public boolean search() {
-        //System.out.println("COL:"+goalNode.col+ " ROW:"+goalNode.row);
 
         while(goalReached == false && step < 500) {
+//            System.out.println("STEP:"+step+" COL:"+currentNode.col+ " ROW:"+currentNode.row);
+
             int col = currentNode.col;
             int row = currentNode.row;
             
+            // Check the current node
             currentNode.checked = true;
             openList.remove(currentNode);
             
+            // Open the UP node row - 1
             if(row - 1 >= 0) {
                 openNode(node[col][row-1]);
             }
+            // Open the LEFT node col - 1
             if(col - 1 >= 0) {
                 openNode(node[col-1][row]);
             }
+            // Open the DOWN node row + 1
             if(row + 1 < gp.maxWorldRow) {
                 openNode(node[col][row+1]);
             }
+            // Open the RIGHT node col + 1
             if(col + 1 < gp.maxWorldCol) {
                 openNode(node[col+1][row]);
             }
@@ -153,28 +160,34 @@ public class PathFinder {
                     }
                 }
             }        
-            // After the loop, we get the best node witch is our next step
-            if(openList.size() == 0) { 
+            // if there is no node in the openList, end the loop
+            if(openList.isEmpty()) { 
                 break;
             }
+            
+            // After the loop, openList[bestNodeIndex] is the next step (= currentNode)
             currentNode = openList.get(bestNodeIndex);
+            
+            
             if(currentNode == goalNode) {
                 goalReached = true;
-                //System.out.println("COL:"+currentNode.col+ " ROW:"+currentNode.row);
-                
                 trackThePath();
             }
             step++;
         }
         return goalReached;
     }
+    
     public void openNode(Node node) {
+        
         if(node.open == false && node.checked == false && node.solid == false) {
+            
             node.open = true;
             node.parent = currentNode;
             openList.add(node);
         }
     }
+    
     public void trackThePath() {
         
         Node current = goalNode;

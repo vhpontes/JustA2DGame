@@ -13,6 +13,8 @@ import main.UtilityTool;
 
 public class Entity {
     
+    public static final int TWITCH_MESSAGE_MAXSCREEN_TIME = 5;
+    
     GamePanel gp;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, 
@@ -23,6 +25,7 @@ public class Entity {
     public int solidAreaDefaultX, solidAreaDefaultY;
     String dialogues[] = new String[20];
     public String npcTwitchNick = null;
+    public String npcTwitchMessage = null;
 
     // VARs STATE
     public int worldX, worldY;
@@ -36,6 +39,7 @@ public class Entity {
     public boolean dying = false;
     boolean hpBarOn = false;
     public boolean onPath = false;
+    public long messageTwitchTimeStamp = 0;
 
     // VARs COUNTER
     public int spriteCounter = 0;
@@ -98,7 +102,10 @@ public class Entity {
     
     public void speak() {
         
-        if(dialogues[dialogueIndex] == null) {
+        if(npcTwitchMessage != null) {
+            dialogues[0] = npcTwitchMessage;
+        }
+        else if(dialogues[dialogueIndex] == null) {
             dialogueIndex = 0;
         }
         gp.ui.currentDialogue = dialogues[dialogueIndex];
@@ -111,6 +118,26 @@ public class Entity {
             case "right": direction = "left"; break;
         }
     }
+
+    public void twitchSpeak(Graphics2D g2, int screenX, int screenY) {
+        
+        
+        // NPC Twitch Message
+        if(type_npc == 1 && this.npcTwitchMessage != null && !this.npcTwitchMessage.equals("!new")) {
+            g2.setFont(g2.getFont().deriveFont(24f));
+            g2.setColor(Color.black);
+            g2.drawString(this.npcTwitchMessage, screenX+gp.tileSize, screenY-gp.tileSize);
+            g2.setColor(Color.green);
+            g2.drawString(this.npcTwitchMessage, screenX+gp.tileSize-2, screenY-gp.tileSize-2);
+        }
+        
+        switch(gp.player.direction) {
+            case "up": direction = "down"; break;
+            case "down": direction = "up"; break;
+            case "left": direction = "right"; break;
+            case "right": direction = "left"; break;
+        }
+    }    
     
     public void use(Entity entity) {
         //System.out.println("entrou use entity");
@@ -296,6 +323,15 @@ public class Entity {
                 g2.setColor(Color.white);
                 g2.drawString(this.npcTwitchNick, screenX-27, screenY-2);
             }
+            
+            //this.npcTwitchMessage = "TESTE";
+            if(type_npc==1 && this.npcTwitchMessage != null) {
+                
+                if(System.currentTimeMillis() > (this.messageTwitchTimeStamp + TWITCH_MESSAGE_MAXSCREEN_TIME * 1000)) {
+                    this.npcTwitchMessage = "";
+                }
+                twitchSpeak(g2, screenX, screenY);
+            }
 
             // Visual Effect to invencible mode
             if(invincible == true){
@@ -309,6 +345,10 @@ public class Entity {
             
             g2.drawImage(image, screenX, screenY, null);
             changeAlpha(g2, 1F);
+
+            g2.setColor(new Color(255, 0, 0, 70));
+            g2.fillRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+            
         }           
     }
     
@@ -350,79 +390,86 @@ public class Entity {
         return image;
     }
     
-    public void searchPath(int goalCol, int goalRow){
+    public void searchPath(int goalCol, int goalRow) {
+
+        int startCol = (worldX + solidArea.x) / gp.tileSize;
+        int startRow = (worldY + solidArea.y) / gp.tileSize;
         
-        int startCol = (worldX + solidArea.x)/gp.tileSize;
-        int startRow = (worldY + solidArea.y)/gp.tileSize;
-        
-        gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow, this);
+        gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow);
         
         if(gp.pFinder.search() == true) {
-            
+            //System.out.println("Entrou searchPath");
+
+            // Next worldX and worldY
             int nextX = gp.pFinder.pathList.get(0).col * gp.tileSize;
             int nextY = gp.pFinder.pathList.get(0).row * gp.tileSize;
             
+            // Entity's solidArea position
             int enLeftX = worldX + solidArea.x;
             int enRightX = worldX + solidArea.x + solidArea.width;
             int enTopY = worldY + solidArea.y;
             int enBottonY = worldY + solidArea.y + solidArea.height;
-            if(enTopY > nextY && enLeftX >= nextX && enRightX < (nextX + gp.tileSize)){
+            
+            // GO UP
+            if(enTopY > nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize) {
                 direction = "up";
+                System.out.println("Collision:"+collisionOn + " " + direction);
             }
-            else if(enTopY < nextY && enLeftX >= nextX && enRightX < (nextX + gp.tileSize)){
-                System.out.println("Down");
+            // GO DOWN
+            else if(enTopY < nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize) {
                 direction = "down";
+                System.out.println("Collision:"+collisionOn + " " + direction);
             }
-            else if(enTopY >= nextY && enBottonY < (nextY + gp.tileSize)){
+            // GO left or right
+            else if(enTopY >= nextY && enBottonY < nextY + gp.tileSize) {
                 if(enLeftX > nextX) {
-                    System.out.println("Left");
                     direction = "left";
                 }
                 if(enLeftX < nextX) {
-                    System.out.println("Right");
                     direction = "right";
                 }
+                System.out.println("Collision:"+collisionOn + " " + direction);
             }
-            else if(enTopY > nextY && enLeftX > nextX){
-                System.out.println("Up or Left");
+            // GO up or left
+            else if(enTopY < nextY && enLeftX > nextX) {
                 direction = "up";
                 checkCollision();
-                if(collisionOn == true){
+                if(collisionOn == true) {
                     direction = "left";
                 }
-                System.out.println(direction);
+                System.out.println("Collision:"+collisionOn + " " + direction);
             }
-            else if(enTopY > nextY && enLeftX < nextX){
-                System.out.println("Up or Right");
+            // GO up or right
+            else if(enTopY > nextY && enLeftX < nextX) {
                 direction = "up";
                 checkCollision();
-                if(collisionOn == true){
+                if(collisionOn == true) {
                     direction = "right";
                 }
-                System.out.println(direction);
+                System.out.println("Collision:"+collisionOn + " " + direction);
             }
-            else if(enTopY < nextY && enLeftX > nextX){
-                System.out.println("Down or Left");
+            // GO down or left
+            else if(enTopY < nextY && enLeftX > nextX) {
                 direction = "down";
                 checkCollision();
-                if(collisionOn==true){
+                if(collisionOn == true) {
                     direction = "left";
                 }
-                System.out.println(direction);
+                System.out.println("Collision:"+collisionOn + " " + direction);
             }
-            else if(enTopY < nextY && enLeftX < nextX){
-                System.out.println("Down or Right");
+            // GO down or right
+            else if(enTopY < nextY && enLeftX < nextX) {
                 direction = "down";
                 checkCollision();
-                if(collisionOn==true){
+                if(collisionOn == true) {
                     direction = "right";
                 }
-                System.out.println(direction);
+                System.out.println("Collision:"+collisionOn + " " + direction);
             }
             
             int nextCol = gp.pFinder.pathList.get(0).col;
             int nextRow = gp.pFinder.pathList.get(0).row;
-            if(nextCol == goalCol && nextRow == goalRow){
+            if(nextCol == goalCol && nextRow == goalRow) {
                 onPath = false;
             }
         }

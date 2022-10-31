@@ -212,6 +212,10 @@ public class UI {
         }
     }
     
+    public void drawTwitchSpeak() {
+        
+    }
+    
     public void drawTitleScreen() {
         
         if(titleScreenState == 0) {

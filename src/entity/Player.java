@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -43,7 +44,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        //gp.currentMap = 1;
+        gp.currentMap = 2;
         switch(gp.currentMap){
             case 0:
                 worldX = gp.tileSize * 23;
@@ -539,9 +540,8 @@ public class Player extends Entity{
         
         // RED RECTANGLE FOR VIEW COLLISION AREA
         // * comment line bellow for disable red rectangle
-//        g2.setColor(Color.red);
-//        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
-        
+        g2.setColor(new Color(255, 0, 0, 70));
+        g2.fillRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         // DEBUG
 //        Color c = new Color(0,0,0,150);
 //        g2.setColor(c);
