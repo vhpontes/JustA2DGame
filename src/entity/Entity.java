@@ -26,6 +26,7 @@ public class Entity {
     String dialogues[] = new String[20];
     public String npcTwitchNick = null;
     public String npcTwitchMessage = null;
+    public int npcHashCode = 0;
 
     // VARs STATE
     public int worldX, worldY;
@@ -91,6 +92,7 @@ public class Entity {
     public final int type_shield = 5;
     public final int type_consumable = 6;
     public final int type_pickupOnly = 7;
+    public final int type_npcTwitch = 8;
     
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -121,9 +123,8 @@ public class Entity {
 
     public void twitchSpeak(Graphics2D g2, int screenX, int screenY) {
         
-        
         // NPC Twitch Message
-        if(type_npc == 1 && this.npcTwitchMessage != null && !this.npcTwitchMessage.equals("!new")) {
+        if(type_npc == 8 && this.npcTwitchMessage != null && !this.npcTwitchMessage.equals("!new")) {
             g2.setFont(g2.getFont().deriveFont(24f));
             g2.setColor(Color.black);
             g2.drawString(this.npcTwitchMessage, screenX+gp.tileSize, screenY-gp.tileSize);
@@ -316,7 +317,9 @@ public class Entity {
             }
             
             // NPC Twitch Nick
-            if(type_npc==1 && this.npcTwitchNick!=null) {
+            //System.out.println("FORA:"+this.npcTwitchNick+" "+type_npc);
+            if(type_npc==8 && this.npcTwitchNick!=null) {
+            //System.out.println("dentro:"+this.npcTwitchNick);
                 g2.setFont(g2.getFont().deriveFont(20f));
                 g2.setColor(Color.black);
                 g2.drawString(this.npcTwitchNick, screenX-25, screenY);
@@ -325,7 +328,7 @@ public class Entity {
             }
             
             //this.npcTwitchMessage = "TESTE";
-            if(type_npc==1 && this.npcTwitchMessage != null) {
+            if(type_npc==8 && this.npcTwitchMessage != null) {
                 
                 if(System.currentTimeMillis() > (this.messageTwitchTimeStamp + TWITCH_MESSAGE_MAXSCREEN_TIME * 1000)) {
                     this.npcTwitchMessage = "";

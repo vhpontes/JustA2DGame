@@ -1,7 +1,7 @@
 package twitch;
 
 import entity.Entity;
-import entity.NPC_OldMan;
+import entity.NPC_Twitch;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Random;
@@ -16,7 +16,6 @@ public class TwitchChatListener extends ListenerAdapter {
     
     GamePanel gp;
     int i = 0;
-    //private static Logger LOGGER = LoggerFactory.getLogger(TwitchChatListener.class);
     
     public TwitchChatListener() {
     }
@@ -32,32 +31,51 @@ public class TwitchChatListener extends ListenerAdapter {
         //      - Exclusive dialogue window with chat user
         
         int mapNum = 2;
+        int userHashCode = 0;
         
         DateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         System.out.println(f.format(event.getTimestamp())+"> "+event.getUser().getNick()+": "+event.getMessage());
+        gp.ui.addMessage(event.getUser().getNick()+": "+event.getMessage());
+        userHashCode = event.getUser().hashCode();
+        
+        System.out.println("userHashCode:"+userHashCode);
         
         if (event.getMessage().equals("!new")) {
             
-            Random random = new Random();
-            int X = random.nextInt(50)+1;
-            int Y = random.nextInt(50)+1;
+            gp.addNPCTwitch(mapNum, event);
+            
+            //gp.npcTwitchList.add(gp.npcTwitch[mapNum][i]);
+            //gp.npcTwitchList.s
+//            Random random = new Random();
+//            int X = random.nextInt(50)+1;
+//            int Y = random.nextInt(50)+1;
 
-            gp.npc[mapNum][i] = new NPC_OldMan(gp);
-            gp.npc[mapNum][i].worldX = gp.tileSize*30;
-            gp.npc[mapNum][i].worldY = gp.tileSize*17;
-            gp.npc[mapNum][i].npcTwitchNick = event.getUser().getNick();
-            gp.ui.addMessage(gp.npc[mapNum][i].npcTwitchNick+" created an NPC!");
-//            System.out.println(gp.npc[mapNum][i].npcTwitchNick+" created an NPC!");
-            i++;   
+//            projectile.set(worldX, worldY, direction, true, this);
+//            gp.npcTwitch[mapNum][userHashCode][i] = new NPC_Twitch(gp);
+//            gp.npcTwitch[mapNum][userHashCode][i].worldX = gp.tileSize*30;
+//            gp.npcTwitch[mapNum][userHashCode][i].worldY = gp.tileSize*17;
+//            gp.npcTwitch[mapNum][userHashCode][i].npcTwitchNick = event.getUser().getNick();
+//            gp.ui.addMessage(gp.npcTwitch[mapNum][userHashCode][i].npcTwitchNick+" created an NPC!");
+            gp.ui.addMessage(event.getUser().getNick()+" now have an NPC!");
+//            System.out.println(gp.npc[mapNum][userHashCode][i].npcTwitchNick+" created an NPC!");
+//            i++;   
         }
         else {
-            for (Entity item : gp.npc[mapNum]) {
-                if (item != null) {
-                    item.npcTwitchMessage = event.getMessage();
-                    item.messageTwitchTimeStamp = System.currentTimeMillis();
-                    //System.out.println("pegou msg:"+item.npcTwitchMessage);
-                }
+            NPC_Twitch npcT = gp.getNPCTwitch(userHashCode);
+            if(npcT!=null){
+                npcT.npcTwitchMessage = event.getMessage();
             }
+//            for (Entity item : gp.npcTwitch[mapNum][userHashCode]) {
+//            for(int j = 0; j < gp.npcTwitch[2].length; j++) {
+//                for(int k = 0; k < gp.npcTwitch[1].length; k++) {
+//                //gp.npcTwitch[mapNum][userHashCode][].
+//                    if (gp.npcTwitch[mapNum][userHashCode] != null) {
+//                        gp.npcTwitch[mapNum][userHashCode][i].npcTwitchMessage = event.getMessage();
+//                        gp.npcTwitch[mapNum][userHashCode][i].messageTwitchTimeStamp = System.currentTimeMillis();
+                        //System.out.println("pegou msg:"+item.npcTwitchMessage);
+//                    }
+//                }
+//            }
         }
     }
 }

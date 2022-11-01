@@ -2,6 +2,7 @@ package main;
 
 import ai.PathFinder;
 import entity.Entity;
+import entity.NPC_Twitch;
 import entity.Player;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,6 +18,7 @@ import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
+import org.pircbotx.hooks.events.MessageEvent;
 import tile.TileManager;
 import tile_interactive.InteractiveTile;
 
@@ -45,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int maxWorldRow = 50;
     public final int maxMap = 10;
     public int currentMap = 0;
+    public final int maxUserTwitch = 10;
     
     // FULL SCREEN
     int screenWidth2 = screenWidth;
@@ -73,11 +76,14 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player = new Player(this, keyH);
     public Entity obj[][] = new Entity[maxMap][20]; 
     public Entity npc[][] = new Entity[maxMap][10];
+    //public Entity npcTwitch[][][] = new Entity[maxMap][maxUserTwitch][10];
+    public Entity npcTwitch[][] = new Entity[maxMap][10];
     public Entity monster[][] = new Entity[maxMap][20];
     public InteractiveTile iTile[][] = new InteractiveTile[maxMap][50];
     public ArrayList<Entity> projectileList = new ArrayList();
     public ArrayList<Entity> particleList = new ArrayList();
     ArrayList<Entity> entityList = new ArrayList();
+    public ArrayList<Entity> npcTwitchList = new ArrayList();
     
     // GAME STATE
     public int gameState;
@@ -91,6 +97,9 @@ public class GamePanel extends JPanel implements Runnable{
     public final int gameOverState = 7;
     public final int transitionState = 8;
     public final int tradeState = 9;
+    
+    // INDEX
+    private int npcTwitchIndex = 0;
     
     public GamePanel() {
         
@@ -202,6 +211,17 @@ public class GamePanel extends JPanel implements Runnable{
                     npc[currentMap][i].update();
                 }
             }
+            // NPC TWITCH
+            for(int i = 0; i < npcTwitchList.size(); i++) {
+                if(npcTwitchList.get(i) != null) {
+                    if(npcTwitchList.get(i).alive == true) {
+                        npcTwitchList.get(i).update();
+                    }
+                    if(npcTwitchList.get(i).alive == false) {
+                        npcTwitchList.remove(i);
+                    }
+                }
+            }
             // MONSTER
             for(int i = 0; i < monster[1].length; i++) {
                 if(monster[currentMap][i] != null) {
@@ -293,6 +313,12 @@ public class GamePanel extends JPanel implements Runnable{
                     entityList.add(monster[currentMap][i]);
                 }
             }
+            // NPC TWITCH LIST
+            for(int i = 0; i < npcTwitchList.size(); i++) {
+                if(npcTwitchList.get(i) != null) {
+                    entityList.add(npcTwitchList.get(i));
+                }
+            }            
             // PARTICLE LIST
             for(int i = 0; i < particleList.size(); i++) {
                 if(particleList.get(i) != null) {
@@ -350,4 +376,30 @@ public class GamePanel extends JPanel implements Runnable{
         se.setFile(i);
         se.play();
     }
+    
+    public void addNPCTwitch(int mapNum, MessageEvent event) {
+        
+        npcTwitch[mapNum][npcTwitchIndex] = new NPC_Twitch(this);
+        
+        npcTwitch[mapNum][npcTwitchIndex].worldX = tileSize*30;
+        npcTwitch[mapNum][npcTwitchIndex].worldY = tileSize*17;
+        npcTwitch[mapNum][npcTwitchIndex].npcHashCode = event.getUser().hashCode();
+        npcTwitch[mapNum][npcTwitchIndex].npcTwitchNick = event.getUser().getNick();
+        
+        npcTwitchList.add(npcTwitch[mapNum][npcTwitchIndex]);
+        
+        npcTwitchIndex++;
+    }
+    
+    public NPC_Twitch getNPCTwitch(int npcHashCode) {
+        
+        for(Entity nt: npcTwitchList) {
+            if(nt.npcHashCode == npcHashCode) {
+                return (NPC_Twitch) nt;
+            }
+        }
+        return null;
+    }
+    
+    
 }
