@@ -55,8 +55,10 @@ public class Player extends Entity{
                 worldY = gp.tileSize * 12;
             break;
             case 2:
-                worldX = gp.tileSize * 8;
-                worldY = gp.tileSize * 48;
+                //worldX = gp.tileSize * 8;
+                //worldY = gp.tileSize * 48;
+                worldX = gp.tileSize * 30;
+                worldY = gp.tileSize * 17;
             break;
         }        
     }
@@ -540,8 +542,8 @@ public class Player extends Entity{
         
         // RED RECTANGLE FOR VIEW COLLISION AREA
         // * comment line bellow for disable red rectangle
-        g2.setColor(new Color(255, 0, 0, 70));
-        g2.fillRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+//        g2.setColor(new Color(255, 0, 0, 70));
+//        g2.fillRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         // DEBUG
 //        Color c = new Color(0,0,0,150);
 //        g2.setColor(c);

@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -13,8 +14,6 @@ import main.UtilityTool;
 
 public class Entity {
     
-    public static final int TWITCH_MESSAGE_MAXSCREEN_TIME = 5;
-    
     GamePanel gp;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, 
@@ -24,9 +23,13 @@ public class Entity {
     public Rectangle attackArea = new Rectangle(0,0,0,0);
     public int solidAreaDefaultX, solidAreaDefaultY;
     String dialogues[] = new String[20];
+    
+    // VAR NPC TWITCH
+    public static final int TWITCH_MESSAGE_MAXSCREEN_TIME = 5;
     public String npcTwitchNick = null;
     public String npcTwitchMessage = null;
     public int npcHashCode = 0;
+    public long messageTwitchTimeStamp = 0;
 
     // VARs STATE
     public int worldX, worldY;
@@ -40,7 +43,6 @@ public class Entity {
     public boolean dying = false;
     boolean hpBarOn = false;
     public boolean onPath = false;
-    public long messageTwitchTimeStamp = 0;
 
     // VARs COUNTER
     public int spriteCounter = 0;
@@ -124,20 +126,31 @@ public class Entity {
     public void twitchSpeak(Graphics2D g2, int screenX, int screenY) {
         
         // NPC Twitch Message
-        if(type_npc == 8 && this.npcTwitchMessage != null && !this.npcTwitchMessage.equals("!new")) {
+        if(this.npcTwitchMessage != null && !this.npcTwitchMessage.equals("!new")) {
+            int width = this.npcTwitchMessage.length();
+            
+            Color c = new Color(0,0,0,200);
+            g2.setColor(c);
+            g2.fillRoundRect(screenX+gp.tileSize, screenY-gp.tileSize, width*(gp.tileSize/4), gp.tileSize, 35, 35);
+
+            c = new Color(255,255,255); //white
+            g2.setColor(c);
+            g2.setStroke(new BasicStroke(5));
+            g2.drawRoundRect(screenX+gp.tileSize+5, screenY-gp.tileSize+5, width*(gp.tileSize/4)-10, gp.tileSize-10, 25, 25);            
+            
             g2.setFont(g2.getFont().deriveFont(24f));
             g2.setColor(Color.black);
-            g2.drawString(this.npcTwitchMessage, screenX+gp.tileSize, screenY-gp.tileSize);
+            g2.drawString(this.npcTwitchMessage, screenX+gp.tileSize+15, screenY-gp.tileSize+30);
             g2.setColor(Color.green);
-            g2.drawString(this.npcTwitchMessage, screenX+gp.tileSize-2, screenY-gp.tileSize-2);
+            g2.drawString(this.npcTwitchMessage, screenX+gp.tileSize+15-2, screenY-gp.tileSize+30-2);
         }
         
-        switch(gp.player.direction) {
-            case "up": direction = "down"; break;
-            case "down": direction = "up"; break;
-            case "left": direction = "right"; break;
-            case "right": direction = "left"; break;
-        }
+//        switch(gp.player.direction) {
+//            case "up": direction = "down"; break;
+//            case "down": direction = "up"; break;
+//            case "left": direction = "right"; break;
+//            case "right": direction = "left"; break;
+//        }
     }    
     
     public void use(Entity entity) {
@@ -317,9 +330,7 @@ public class Entity {
             }
             
             // NPC Twitch Nick
-            //System.out.println("FORA:"+this.npcTwitchNick+" "+type_npc);
-            if(type_npc==8 && this.npcTwitchNick!=null) {
-            //System.out.println("dentro:"+this.npcTwitchNick);
+            if(this.npcTwitchNick!=null) {
                 g2.setFont(g2.getFont().deriveFont(20f));
                 g2.setColor(Color.black);
                 g2.drawString(this.npcTwitchNick, screenX-25, screenY);
@@ -327,8 +338,7 @@ public class Entity {
                 g2.drawString(this.npcTwitchNick, screenX-27, screenY-2);
             }
             
-            //this.npcTwitchMessage = "TESTE";
-            if(type_npc==8 && this.npcTwitchMessage != null) {
+            if(this.npcTwitchMessage != null) {
                 
                 if(System.currentTimeMillis() > (this.messageTwitchTimeStamp + TWITCH_MESSAGE_MAXSCREEN_TIME * 1000)) {
                     this.npcTwitchMessage = "";
@@ -349,8 +359,9 @@ public class Entity {
             g2.drawImage(image, screenX, screenY, null);
             changeAlpha(g2, 1F);
 
-            g2.setColor(new Color(255, 0, 0, 70));
-            g2.fillRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+            // DEBUG RED SOLID AREA VIEW
+//            g2.setColor(new Color(255, 0, 0, 70));
+//            g2.fillRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
             
         }           
     }

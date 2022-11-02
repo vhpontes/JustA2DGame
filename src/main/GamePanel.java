@@ -97,8 +97,9 @@ public class GamePanel extends JPanel implements Runnable{
     public final int gameOverState = 7;
     public final int transitionState = 8;
     public final int tradeState = 9;
+    public final int subState = 10;
     
-    // INDEX
+    // INDEX NPC TWITCH
     private int npcTwitchIndex = 0;
     
     public GamePanel() {
@@ -378,10 +379,13 @@ public class GamePanel extends JPanel implements Runnable{
     }
     
     public void addNPCTwitch(int mapNum, MessageEvent event) {
-        
+//        Random random = new Random();
+//        int X = random.nextInt(50)+1;
+//        int Y = random.nextInt(50)+1;
+    
         npcTwitch[mapNum][npcTwitchIndex] = new NPC_Twitch(this);
         
-        npcTwitch[mapNum][npcTwitchIndex].worldX = tileSize*30;
+        npcTwitch[mapNum][npcTwitchIndex].worldX = tileSize*25;
         npcTwitch[mapNum][npcTwitchIndex].worldY = tileSize*17;
         npcTwitch[mapNum][npcTwitchIndex].npcHashCode = event.getUser().hashCode();
         npcTwitch[mapNum][npcTwitchIndex].npcTwitchNick = event.getUser().getNick();

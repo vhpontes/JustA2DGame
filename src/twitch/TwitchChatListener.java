@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 import main.GamePanel;
+import main.KeyHandler;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
 
@@ -15,20 +16,23 @@ import org.pircbotx.hooks.events.MessageEvent;
 public class TwitchChatListener extends ListenerAdapter {
     
     GamePanel gp;
+    KeyHandler keyH;
     int i = 0;
     
     public TwitchChatListener() {
     }
     
-    public TwitchChatListener(GamePanel gp) {
+    public TwitchChatListener(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
+        this.keyH = keyH;
     }
     
     @Override
     public void onMessage(MessageEvent event) {
         // TO-DO:
-        //      - Limit spawn NPC 1 per chat user
-        //      - Exclusive dialogue window with chat user
+        //   OK - Limit spawn NPC 1 per chat user 
+        //   OK - Exclusive dialogue window with chat user
+        //      - Fireworks and Spaw a New MOB on Subscriptions
         
         int mapNum = 2;
         int userHashCode = 0;
@@ -38,44 +42,31 @@ public class TwitchChatListener extends ListenerAdapter {
         gp.ui.addMessage(event.getUser().getNick()+": "+event.getMessage());
         userHashCode = event.getUser().hashCode();
         
-        System.out.println("userHashCode:"+userHashCode);
+        //System.out.println("userHashCode:"+userHashCode);
         
-        if (event.getMessage().equals("!new")) {
+        if (event.getMessage().equals("!new") && gp.getNPCTwitch(userHashCode) == null) {
             
             gp.addNPCTwitch(mapNum, event);
-            
-            //gp.npcTwitchList.add(gp.npcTwitch[mapNum][i]);
-            //gp.npcTwitchList.s
-//            Random random = new Random();
-//            int X = random.nextInt(50)+1;
-//            int Y = random.nextInt(50)+1;
 
-//            projectile.set(worldX, worldY, direction, true, this);
-//            gp.npcTwitch[mapNum][userHashCode][i] = new NPC_Twitch(gp);
-//            gp.npcTwitch[mapNum][userHashCode][i].worldX = gp.tileSize*30;
-//            gp.npcTwitch[mapNum][userHashCode][i].worldY = gp.tileSize*17;
-//            gp.npcTwitch[mapNum][userHashCode][i].npcTwitchNick = event.getUser().getNick();
-//            gp.ui.addMessage(gp.npcTwitch[mapNum][userHashCode][i].npcTwitchNick+" created an NPC!");
             gp.ui.addMessage(event.getUser().getNick()+" now have an NPC!");
-//            System.out.println(gp.npc[mapNum][userHashCode][i].npcTwitchNick+" created an NPC!");
-//            i++;   
         }
         else {
             NPC_Twitch npcT = gp.getNPCTwitch(userHashCode);
             if(npcT!=null){
                 npcT.npcTwitchMessage = event.getMessage();
+                npcT.messageTwitchTimeStamp = System.currentTimeMillis();
             }
-//            for (Entity item : gp.npcTwitch[mapNum][userHashCode]) {
-//            for(int j = 0; j < gp.npcTwitch[2].length; j++) {
-//                for(int k = 0; k < gp.npcTwitch[1].length; k++) {
-//                //gp.npcTwitch[mapNum][userHashCode][].
-//                    if (gp.npcTwitch[mapNum][userHashCode] != null) {
-//                        gp.npcTwitch[mapNum][userHashCode][i].npcTwitchMessage = event.getMessage();
-//                        gp.npcTwitch[mapNum][userHashCode][i].messageTwitchTimeStamp = System.currentTimeMillis();
-                        //System.out.println("pegou msg:"+item.npcTwitchMessage);
-//                    }
-//                }
-//            }
+        }
+        
+        if (event.getUser().getNick().equalsIgnoreCase("twitchnotify")){
+            gp.gameState = gp.subState;
+            System.out.println(event.getMessage());
+            gp.gameState = gp.playState;
+        }
+        
+        if(event.getMessage().equals("!fireball")) {
+            keyH.shotKeyPressed = true;
+            
         }
     }
 }

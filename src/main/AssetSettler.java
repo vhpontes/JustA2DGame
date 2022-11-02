@@ -105,7 +105,7 @@ public class AssetSettler {
         gp.monster[mapNum][i].worldY = gp.tileSize*7;
         
         // MAP 2
-        mapNum = 2;
+/*        mapNum = 2;
         i = 0;
         gp.monster[mapNum][i] = new MON_GreenSlime(gp);
         gp.monster[mapNum][i].worldX = gp.tileSize*9;
@@ -122,6 +122,7 @@ public class AssetSettler {
         gp.monster[mapNum][i] = new MON_GreenSlime(gp);
         gp.monster[mapNum][i].worldX = gp.tileSize*45;
         gp.monster[mapNum][i].worldY = gp.tileSize*44;
+*/
     }
     
     public void setInteractiveTile() {

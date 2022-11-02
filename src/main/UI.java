@@ -62,7 +62,7 @@ public class UI {
         crystal_blank = crystal.image2;
         
         Entity coin = new OBJ_Coin_Bronze(gp);
-        coin_img = coin.image;
+        coin_img = coin.down1;
     }
     
     public void addMessage(String text) {
@@ -121,6 +121,9 @@ public class UI {
         // TRADE STATE
         if(gp.gameState == gp.tradeState) {
             drawTradeScreen();
+        }
+        if(gp.gameState == gp.subState) {
+            drawFirework(50, 5, 90);
         }
         // DEBUG STATE
         if(gp.gameState == gp.debugState) {
@@ -1052,5 +1055,22 @@ public class UI {
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         int x = tailX - length;
         return x;
+    }
+    
+    public void drawFirework(int time, double speed, int angle) {
+        g2.drawRect(200, 200, 40, 40);//check paint component works 
+        g2.drawOval(300, 300, 30, 30);
+
+        for (int i = 0; i < time; i++) {
+
+            int x1 = (int) (1.0 * (speed) * (Math.cos(angle)) * i);
+            int y1 = (int) ((1.0 * (speed) * (Math.sin(angle)) * i) - ((0.5) * (9.8) * (i*i)));
+
+            int x2 = (int) (1.0 * (speed) * (Math.cos(angle)) * (i+1));
+            int y2 = (int) ((1.0 * (speed) * (Math.sin(angle)) * i+1) - ((0.5) * (9.8) * ((i+1)*(i+1))));
+
+            g2.setColor (Color.ORANGE);
+            g2.drawLine(x1,y1, x2, y2);  
+        }        
     }
 }

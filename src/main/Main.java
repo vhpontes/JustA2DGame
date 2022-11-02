@@ -37,7 +37,7 @@ public class Main {
         new Thread(new Runnable(){
             public void run(){
                 try {
-                    new TwitchBot().startTwitch(Main.gamePanel);
+                    new TwitchBot().startTwitch(Main.gamePanel, null);
                 } catch (Exception ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println("ERROR");
