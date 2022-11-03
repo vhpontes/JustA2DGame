@@ -1,17 +1,15 @@
 package twitch;
 
-import entity.Entity;
 import entity.NPC_Twitch;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import main.GamePanel;
 import main.KeyHandler;
+import objects.OBJ_Fireball;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
 
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 
 public class TwitchChatListener extends ListenerAdapter {
     
@@ -28,7 +26,7 @@ public class TwitchChatListener extends ListenerAdapter {
     }
     
     @Override
-    public void onMessage(MessageEvent event) {
+    public void onMessage(MessageEvent event) throws InterruptedException {
         // TO-DO:
         //   OK - Limit spawn NPC 1 per chat user 
         //   OK - Exclusive dialogue window with chat user
@@ -36,37 +34,64 @@ public class TwitchChatListener extends ListenerAdapter {
         
         int mapNum = 2;
         int userHashCode = 0;
+        String twitchMessage = event.getMessage();
         
         DateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        
         System.out.println(f.format(event.getTimestamp())+"> "+event.getUser().getNick()+": "+event.getMessage());
-        gp.ui.addMessage(event.getUser().getNick()+": "+event.getMessage());
+        if(!twitchMessage.startsWith("!")) {
+            gp.ui.addMessage(event.getUser().getNick()+": "+twitchMessage);
+        }
         userHashCode = event.getUser().hashCode();
         
         //System.out.println("userHashCode:"+userHashCode);
         
-        if (event.getMessage().equals("!new") && gp.getNPCTwitch(userHashCode) == null) {
-            
+        if (twitchMessage.equals("!new") && gp.getNPCTwitch(userHashCode) == null) {
             gp.addNPCTwitch(mapNum, event);
 
             gp.ui.addMessage(event.getUser().getNick()+" now have an NPC!");
         }
-        else {
+        else if(!twitchMessage.startsWith("!")){
             NPC_Twitch npcT = gp.getNPCTwitch(userHashCode);
             if(npcT!=null){
-                npcT.npcTwitchMessage = event.getMessage();
+                npcT.npcTwitchMessage = twitchMessage;
                 npcT.messageTwitchTimeStamp = System.currentTimeMillis();
             }
         }
         
         if (event.getUser().getNick().equalsIgnoreCase("twitchnotify")){
-            gp.gameState = gp.subState;
-            System.out.println(event.getMessage());
-            gp.gameState = gp.playState;
+//            gp.gameState = gp.subState;
+//            System.out.println(twitchMessage);
+//            gp.gameState = gp.playState;
+            gp.player.generateFirework(gp.player.projectile, gp.player);
+            TimeUnit.SECONDS.sleep(1);
+            gp.player.generateFirework(gp.player.projectile, gp.player);
+            TimeUnit.SECONDS.sleep(1);
+            gp.player.generateFirework(gp.player.projectile, gp.player);
+            TimeUnit.SECONDS.sleep(2);
+            gp.player.generateFirework(gp.player.projectile, gp.player);
+            TimeUnit.SECONDS.sleep(1);
+            gp.player.generateFirework(gp.player.projectile, gp.player);
+            TimeUnit.SECONDS.sleep(1);
+            gp.player.generateFirework(gp.player.projectile, gp.player);
+            TimeUnit.SECONDS.sleep(1);
+            gp.player.generateFirework(gp.player.projectile, gp.player);
+            TimeUnit.SECONDS.sleep(3);
+            gp.player.generateFirework(gp.player.projectile, gp.player);
+            TimeUnit.SECONDS.sleep(3);
+            gp.player.generateFirework(gp.player.projectile, gp.player);
         }
         
-        if(event.getMessage().equals("!fireball")) {
-            keyH.shotKeyPressed = true;
-            
+        if(twitchMessage.equals("!firework")) {
+            gp.playSE(14);
+            gp.player.generateFirework(gp.player.projectile, gp.player);
+            TimeUnit.SECONDS.sleep(1);
+            gp.player.generateFirework(gp.player.projectile, gp.player);
+            TimeUnit.SECONDS.sleep(1);
+            gp.player.generateFirework(gp.player.projectile, gp.player);
+            TimeUnit.SECONDS.sleep(1);
+            //gp.projectileList.add(new OBJ_Fireball(gp));
+            //keyH.shotKeyPressed = true;
         }
     }
 }

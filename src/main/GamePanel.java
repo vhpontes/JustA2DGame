@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import org.pircbotx.hooks.events.MessageEvent;
 import tile.TileManager;
@@ -76,12 +77,13 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player = new Player(this, keyH);
     public Entity obj[][] = new Entity[maxMap][20]; 
     public Entity npc[][] = new Entity[maxMap][10];
-    //public Entity npcTwitch[][][] = new Entity[maxMap][maxUserTwitch][10];
     public Entity npcTwitch[][] = new Entity[maxMap][10];
     public Entity monster[][] = new Entity[maxMap][20];
     public InteractiveTile iTile[][] = new InteractiveTile[maxMap][50];
-    public ArrayList<Entity> projectileList = new ArrayList();
+//    public ArrayList<Entity> projectileList = new ArrayList();
+    public Entity projectile[][] = new Entity[maxMap][20];
     public ArrayList<Entity> particleList = new ArrayList();
+    public ArrayList<Entity> fireworkList = new ArrayList();
     ArrayList<Entity> entityList = new ArrayList();
     public ArrayList<Entity> npcTwitchList = new ArrayList();
     
@@ -101,6 +103,17 @@ public class GamePanel extends JPanel implements Runnable{
     
     // INDEX NPC TWITCH
     private int npcTwitchIndex = 0;
+    
+    // FIREWORKS
+//    private static final Color TRANSPARENT = new Color(255, 255, 255, 0);
+//    public static Color TWILIGHT = new Color(59, 44, 119); 
+//    public static int UIWIDTH = 470;
+//    public static double fuseMeasure = 3;
+//    public static int velMeasure = 40;
+//    public static int angleMeasure = 0;
+//    public static Color trailColor = Color.red;
+//    public static int explosionValue = 1; //1 = radial, 2 = arcs, 3 = ovals  
+//    private JPanel fwPanel;
     
     public GamePanel() {
         
@@ -206,6 +219,7 @@ public class GamePanel extends JPanel implements Runnable{
             // PLAYER
             player.update();
             
+
             // NPC
             for(int i = 0; i < npc[1].length; i++) {
                 if(npc[currentMap][i] != null){
@@ -236,13 +250,23 @@ public class GamePanel extends JPanel implements Runnable{
                 }
             }
             // PROJECTILE
-            for(int i = 0; i < projectileList.size(); i++) {
-                if(projectileList.get(i) != null) {
-                    if(projectileList.get(i).alive == true) {
-                        projectileList.get(i).update();
+//            for(int i = 0; i < projectileList.size(); i++) {
+//                if(projectileList.get(i) != null) {
+//                    if(projectileList.get(i).alive == true) {
+//                        projectileList.get(i).update();
+//                    }
+//                    if(projectileList.get(i).alive == false) {
+//                        projectileList.remove(i);
+//                    }
+//                }
+//            }
+            for(int i = 0; i < projectile[1].length; i++) {
+                if(projectile[currentMap][i] != null) {
+                    if(projectile[currentMap][i].alive == true) {
+                        projectile[currentMap][i].update();
                     }
-                    if(projectileList.get(i).alive == false) {
-                        projectileList.remove(i);
+                    if(projectile[currentMap][i].alive == false) {
+                        projectile[currentMap][i] = null;
                     }
                 }
             }
@@ -254,6 +278,17 @@ public class GamePanel extends JPanel implements Runnable{
                     }
                     if(particleList.get(i).alive == false) {
                         particleList.remove(i);
+                    }
+                }
+            }
+            // FIREWORKS
+            for(int i = 0; i < fireworkList.size(); i++) {
+                if(fireworkList.get(i) != null) {
+                    if(fireworkList.get(i).alive == true) {
+                        fireworkList.get(i).update();
+                    }
+                    if(fireworkList.get(i).alive == false) {
+                        fireworkList.remove(i);
                     }
                 }
             }
@@ -326,10 +361,16 @@ public class GamePanel extends JPanel implements Runnable{
                     entityList.add(particleList.get(i));
                 }
             }            
+            // FIREWORK LIST
+            for(int i = 0; i < fireworkList.size(); i++) {
+                if(fireworkList.get(i) != null) {
+                    entityList.add(fireworkList.get(i));
+                }
+            }            
             // PROJECTILE LIST
-            for(int i = 0; i < projectileList.size(); i++) {
-                if(projectileList.get(i) != null) {
-                    entityList.add(projectileList.get(i));
+            for(int i = 0; i < projectile[1].length; i++) {
+                if(projectile[currentMap][i] != null) {
+                    entityList.add(projectile[currentMap][i]);
                 }
             }            
             // SORT
@@ -404,6 +445,4 @@ public class GamePanel extends JPanel implements Runnable{
         }
         return null;
     }
-    
-    
 }

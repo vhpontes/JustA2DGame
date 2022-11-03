@@ -43,6 +43,7 @@ public class Entity {
     public boolean dying = false;
     boolean hpBarOn = false;
     public boolean onPath = false;
+    public boolean knockBack = false;
 
     // VARs COUNTER
     public int spriteCounter = 0;
@@ -51,9 +52,11 @@ public class Entity {
     public int shotAvailableCounter = 0;
     int dyingCounter = 0;
     int hpBarCounter = 0;
+    int knockBackCounter = 0;
 
     // VARs CHARACTER ATTRIBUTES
     public String name;
+    public int defaultSpeed;
     public int speed;
     public int maxLife;
     public int life;
@@ -210,6 +213,30 @@ public class Entity {
         gp.particleList.add(p4);
     }
     
+    public void generateFirework(Entity generator, Entity target) {
+        
+        int size = generator.getParticleSize();
+        int speed = generator.getParticleSpeed();
+        int maxLife = 15;
+        
+        Firework f1 = new Firework(gp, target, size, speed, maxLife, -2, -1);
+        Firework f2 = new Firework(gp, target, size, speed, maxLife, 2, -1);
+        Firework f3 = new Firework(gp, target, size, speed, maxLife, -2, 1);
+        Firework f4 = new Firework(gp, target, size, speed, maxLife, 2, 1);
+        Firework f5 = new Firework(gp, target, size, speed, maxLife, 2, 1);
+        Firework f6 = new Firework(gp, target, size, speed, maxLife, 2, 1);
+        Firework f7 = new Firework(gp, target, size, speed, maxLife, 2, 1);
+        Firework f8 = new Firework(gp, target, size, speed, maxLife, 2, 1);
+        gp.fireworkList.add(f1);
+        gp.fireworkList.add(f2);
+        gp.fireworkList.add(f3);
+        gp.fireworkList.add(f4);
+        gp.fireworkList.add(f5);
+        gp.fireworkList.add(f6);
+        gp.fireworkList.add(f7);
+        gp.fireworkList.add(f8);
+    }
+    
     public void checkCollision() {
         // CHECK TILE NPC COLLISION
         collisionOn = false;
@@ -227,16 +254,43 @@ public class Entity {
     
     public void update(){
         
-        setAction();
-        checkCollision();
-        
-        // IF COLLISION IS FALSE, NPC CAN MOVE
-        if(collisionOn == false) {
-            switch(direction) {
-                case "up": worldY -= speed; break;
-                case "down": worldY += speed; break;
-                case "left": worldX -= speed; break;
-                case "right": worldX += speed; break;
+        if(knockBack == true) {
+            
+            checkCollision();
+            
+            if(collisionOn == true) {
+                knockBackCounter = 0;
+                knockBack = false;
+                speed = defaultSpeed;
+            }
+            else if(collisionOn == false) {
+                switch(gp.player.direction) {
+                    case "up": worldY -= speed; break;
+                    case "down": worldY += speed; break;
+                    case "left": worldX -= speed; break;
+                    case "right": worldX += speed; break;                    
+                }
+            }
+            
+            knockBackCounter++;
+            if(knockBackCounter == 10) { // distance of knockback
+                knockBackCounter = 0;
+                knockBack = false;
+                speed = defaultSpeed;
+            }
+        }
+        else {
+            setAction();
+            checkCollision();
+
+            // IF COLLISION IS FALSE, NPC CAN MOVE
+            if(collisionOn == false) {
+                switch(direction) {
+                    case "up": worldY -= speed; break;
+                    case "down": worldY += speed; break;
+                    case "left": worldX -= speed; break;
+                    case "right": worldX += speed; break;
+                }
             }
         }
 

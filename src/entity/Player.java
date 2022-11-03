@@ -44,7 +44,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 2;
+        //gp.currentMap = 2;
         switch(gp.currentMap){
             case 0:
                 worldX = gp.tileSize * 23;
@@ -66,7 +66,8 @@ public class Player extends Entity{
     public void setDefaultValues() {
 
         setInitialPosition();
-        speed = 4;
+        defaultSpeed = 4; 
+        speed = defaultSpeed;
         direction = "down";
         
         // PLAYER STATUS
@@ -130,6 +131,15 @@ public class Player extends Entity{
         left2 = setup("player/boy_left_2", gp.tileSize, gp.tileSize);
         right1 = setup("player/boy_right_1", gp.tileSize, gp.tileSize);
         right2 = setup("player/boy_right_2", gp.tileSize, gp.tileSize);
+
+//        up1 = setup("npctwitch/twitch002_up_1", gp.tileSize, gp.tileSize);
+//        up2 = setup("npctwitch/twitch002_up_2", gp.tileSize, gp.tileSize);
+//        down1 = setup("npctwitch/twitch002_down_1", gp.tileSize, gp.tileSize);
+//        down2 = setup("npctwitch/twitch002_down_2", gp.tileSize, gp.tileSize);
+//        left1 = setup("npctwitch/twitch002_left_1", gp.tileSize, gp.tileSize);
+//        left2 = setup("npctwitch/twitch002_left_2", gp.tileSize, gp.tileSize);
+//        right1 = setup("npctwitch/twitch002_right_1", gp.tileSize, gp.tileSize);
+//        right2 = setup("npctwitch/twitch002_right_2", gp.tileSize, gp.tileSize);
     }
 
     public void getPlayerAttackImage() {
@@ -248,7 +258,14 @@ public class Player extends Entity{
             projectile.subtractResource(this);
             
             // ADD IT TO THE LIST
-            gp.projectileList.add(projectile);
+            //gp.projectileList.add(projectile);
+            // CHECK EMPTY SLOT PROJECTILE
+            for(int i=0; i < gp.projectile[1].length; i++) {
+                if(gp.projectile[gp.currentMap][i] == null) {
+                    gp.projectile[gp.currentMap][i] = projectile;
+                    break;
+                }
+            }
             
             shotAvailableCounter = 0;
             
@@ -346,6 +363,9 @@ public class Player extends Entity{
             int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
             damageInteractiveTile(iTileIndex, attack);
             
+            int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
+            damageProjectile(projectileIndex);
+            
             // After checking collision, rollback values of worldX/Y and solidArea
             worldX = currentWorldX;
             worldY = currentWorldY;
@@ -399,6 +419,8 @@ public class Player extends Entity{
                  
                 gp.playSE(5);
                 
+                knockBack(gp.monster[gp.currentMap][i]);
+                
                 int damage = attack - gp.monster[gp.currentMap][i].defense;
                 if(damage < 0){
                     damage = 0;
@@ -419,6 +441,13 @@ public class Player extends Entity{
          }
     }
     
+    public void knockBack(Entity entity) {
+        
+        entity.direction = direction;
+        entity.speed += 10;
+        entity.knockBack = true;
+    }
+    
     public void damageInteractiveTile(int i, int attack) {
         
         if(i != 999 && gp.iTile[gp.currentMap][i].destructible == true 
@@ -433,6 +462,15 @@ public class Player extends Entity{
             if(gp.iTile[gp.currentMap][i].life == 0) {
                 gp.iTile[gp.currentMap][i] = gp.iTile[gp.currentMap][i].getDestroyedForm();
             }
+        }
+    }
+    
+    public void damageProjectile(int i) {
+        
+        if(i != 999) {
+            Entity projectile = gp.projectile[gp.currentMap][i];
+            projectile.alive = false;
+            generateParticle(projectile, projectile);
         }
     }
     
