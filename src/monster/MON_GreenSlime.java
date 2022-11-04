@@ -85,12 +85,12 @@ public class MON_GreenSlime extends Entity {
                 projectile.set(worldX, worldY, direction, true, this);
 //                gp.projectileList.add(projectile);
                 // CHECK EMPTY SLOT PROJECTILE
-                for(int ii=0; ii < gp.projectile[1].length; ii++) {
-                    if(gp.projectile[gp.currentMap][ii] == null) {
-                        gp.projectile[gp.currentMap][ii] = projectile;
-                        break;
-                    }
-                }
+//                for(int ii=0; ii < gp.projectile[1].length; ii++) {
+//                    if(gp.projectile[gp.currentMap][ii] == null) {
+//                        gp.projectile[gp.currentMap][ii] = projectile;
+//                        break;
+//                    }
+//                }
             
                 shotAvailableCounter = 0;
             }

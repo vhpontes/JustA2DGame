@@ -116,7 +116,6 @@ public class PathFinder {
     public boolean search() {
 
         while(goalReached == false && step < 500) {
-//            System.out.println("STEP:"+step+" COL:"+currentNode.col+ " ROW:"+currentNode.row);
 
             int col = currentNode.col;
             int row = currentNode.row;

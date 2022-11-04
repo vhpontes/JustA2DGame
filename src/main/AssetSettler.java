@@ -4,8 +4,11 @@ import entity.NPC_Merchant;
 import entity.NPC_OldMan;
 import monster.MON_GreenSlime;
 import objects.OBJ_Axe;
+import objects.OBJ_Chest;
 import objects.OBJ_Coin_Bronze;
+import objects.OBJ_Door;
 import objects.OBJ_Heart;
+import objects.OBJ_Key;
 import objects.OBJ_ManaCrystal;
 import objects.OBJ_Potion_Red;
 import objects.OBJ_Shield_Blue;
@@ -54,6 +57,22 @@ public class AssetSettler {
         gp.obj[mapNum][i] = new OBJ_ManaCrystal(gp);
         gp.obj[mapNum][i].worldX = gp.tileSize*22;
         gp.obj[mapNum][i].worldY = gp.tileSize*31;
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Door(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize*12;
+        gp.obj[mapNum][i].worldY = gp.tileSize*23;
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Door(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize*10;
+        gp.obj[mapNum][i].worldY = gp.tileSize*12;
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Key(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize*15;
+        gp.obj[mapNum][i].worldY = gp.tileSize*21;
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Chest(gp, new OBJ_Key(gp));
+        gp.obj[mapNum][i].worldX = gp.tileSize*35;
+        gp.obj[mapNum][i].worldY = gp.tileSize*43;
         i++;
     }
     

@@ -224,7 +224,7 @@ public class UI {
         if(titleScreenState == 0) {
         
             g2.setFont(maruMonica);
-            g2.setColor(new Color(120, 120, 0));
+            g2.setColor(new Color(50, 50, 50));
             g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
             //TITLE NAME
@@ -587,16 +587,15 @@ public class UI {
                     currentDialogue = "You don't have necessary coins to buy this item!";
                     drawDialogueScreen();
                 }
-                else if(gp.player.inventory.size() == gp.player.maxInventorySize) {
-                    subState = 0;
-                    gp.gameState = gp.dialogueState;
-                    currentDialogue = "You don't carry any more! You fool.";
-                    drawDialogueScreen();
-                }
                 else {
-                    gp.player.coin -= price;
-                    gp.player.inventory.add(npc.inventory.get(itemIndex));
-                    //npc.inventory.remove(itemIndex);
+                    if(gp.player.canObtainItem(npc.inventory.get(itemIndex)) == true) {
+                        gp.player.coin -= npc.inventory.get(itemIndex).price;
+                    }
+                    else {
+                        subState = 0;
+                        gp.gameState = gp.dialogueState;
+                        currentDialogue = "You don't carry any more! You fool.";
+                    }
                 }
             }
         }
@@ -666,10 +665,16 @@ public class UI {
                     drawDialogueScreen();                    
                 }
                 else {
+                    if(gp.player.inventory.get(itemIndex).amount > 1) {
+                        gp.player.inventory.get(itemIndex).amount--;
+                        npc.inventory.add(gp.player.inventory.get(itemIndex));
+                    }
+                    else {
+                        npc.inventory.add(gp.player.inventory.get(itemIndex));
+                        gp.player.inventory.remove(itemIndex);
+                    }
                     npc.coin -= price;
                     gp.player.coin += price;
-                    npc.inventory.add(gp.player.inventory.get(itemIndex));
-                    gp.player.inventory.remove(itemIndex);
                 }
             }
         }
@@ -950,7 +955,7 @@ public class UI {
         int slotY = slotYstart;
         int slotSize = gp.tileSize + 2;
         
-        // DRAW ENTITY ITEMS
+        // DRAW PLAYER'S ITEMS
         for(int i = 0; i < entity.inventory.size(); i++) {
             
             // EQUIP CURSOR
@@ -962,6 +967,22 @@ public class UI {
             }
             
             g2.drawImage(entity.inventory.get(i).down1, slotX, slotY, null);
+            
+            // DISPLAY AMOUNT
+            if(entity.inventory.get(i).amount > 1) {
+                g2.setFont(maruMonica);
+                g2.setFont(g2.getFont().deriveFont(28F));
+                int amountX;
+                int amountY;
+                
+                String s = "x" + entity.inventory.get(i).amount;
+                amountX = getXforAlignToRightText(s, slotX + 44);
+                amountY = slotY + gp.tileSize;
+                g2.setColor(new Color(60,60,60));
+                g2.drawString(s, amountX, amountY);
+                g2.setColor(Color.white);
+                g2.drawString(s, amountX-2, amountY-2);
+            }
             
             slotX += slotSize;
             

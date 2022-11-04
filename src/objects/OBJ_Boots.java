@@ -9,6 +9,7 @@ public class OBJ_Boots extends Entity{
         super(gp);
         
         type = type_consumable;
+        stackable = true;
         name = "Boots";
         down1 = setup("objects/boots", gp.tileSize, gp.tileSize);
         description = "[" + name + "]\nThis boots increase your speed.";

@@ -4,6 +4,7 @@ import ai.PathFinder;
 import entity.Entity;
 import entity.NPC_Twitch;
 import entity.Player;
+import environment.EnvironmentManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -17,7 +18,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import org.pircbotx.hooks.events.MessageEvent;
 import tile.TileManager;
@@ -71,17 +71,18 @@ public class GamePanel extends JPanel implements Runnable{
     public EventHandler eHandler = new EventHandler(this);
     Config config = new Config(this);
     public PathFinder pFinder = new PathFinder(this);
+    EnvironmentManager eManager = new EnvironmentManager(this);
     Thread gameThread;
 
     // ENTITY AND OBJECT
     public Player player = new Player(this, keyH);
-    public Entity obj[][] = new Entity[maxMap][20]; 
-    public Entity npc[][] = new Entity[maxMap][10];
-    public Entity npcTwitch[][] = new Entity[maxMap][10];
-    public Entity monster[][] = new Entity[maxMap][20];
+    public Entity obj[][] = new Entity[maxMap][40]; 
+    public Entity npc[][] = new Entity[maxMap][20];
+    public Entity npcTwitch[][] = new Entity[maxMap][20];
+    public Entity monster[][] = new Entity[maxMap][30];
     public InteractiveTile iTile[][] = new InteractiveTile[maxMap][50];
 //    public ArrayList<Entity> projectileList = new ArrayList();
-    public Entity projectile[][] = new Entity[maxMap][20];
+    public Entity projectile[][] = new Entity[maxMap][40];
     public ArrayList<Entity> particleList = new ArrayList();
     public ArrayList<Entity> fireworkList = new ArrayList();
     ArrayList<Entity> entityList = new ArrayList();
@@ -130,6 +131,9 @@ public class GamePanel extends JPanel implements Runnable{
         aSetter.setNPC();
         aSetter.setMonster();
         aSetter.setInteractiveTile();
+        
+        eManager.setup();
+        
         gameState = titleState;
 
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
@@ -391,6 +395,9 @@ public class GamePanel extends JPanel implements Runnable{
 
             // EMPTY ENTITIES LIST
             entityList.clear();
+            
+            // ENVIRONMENT
+            eManager.draw(g2);
             
             // UI
             ui.draw(g2);

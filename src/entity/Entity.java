@@ -14,7 +14,7 @@ import main.UtilityTool;
 
 public class Entity {
     
-    GamePanel gp;
+    public GamePanel gp;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, 
             attackLeft1, attackLeft2, attackRight1, attackRight2;
@@ -86,6 +86,9 @@ public class Entity {
     public String description;
     public int useCost;
     public int price;
+    public int knockBackPower = 0;
+    public boolean stackable = false;
+    public int amount = 1;
 
     // TYPE
     public int type; //0 = player, 1 = npc, 2 = monster
@@ -97,10 +100,34 @@ public class Entity {
     public final int type_shield = 5;
     public final int type_consumable = 6;
     public final int type_pickupOnly = 7;
-    public final int type_npcTwitch = 8;
+    public final int type_obstacle = 8;
     
     public Entity(GamePanel gp) {
         this.gp = gp;
+    }
+    
+    public int getLextX() {
+        return worldX + solidArea.x;
+    }
+    
+    public int getRightX() {
+        return worldX + solidArea.x + solidArea.width;
+    }
+    
+    public int getTopY() {
+        return worldY + solidArea.y;
+    }
+    
+    public int getBottomY() {
+        return worldY + solidArea.y + solidArea.height;
+    }
+    
+    public int getCol() {
+        return (worldX + solidArea.x)/gp.tileSize;
+    }
+
+    public int getRow() {
+        return (worldY + solidArea.y)/gp.tileSize;
     }
     
     public void setAction(){}
@@ -156,8 +183,12 @@ public class Entity {
 //        }
     }    
     
-    public void use(Entity entity) {
-        //System.out.println("entrou use entity");
+    public void interact() {
+        
+    }
+    
+    public boolean use(Entity entity) {
+        return false;
     }
     
     public void checkDrop() {
@@ -481,12 +512,10 @@ public class Entity {
             // GO UP
             if(enTopY > nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize) {
                 direction = "up";
-                System.out.println("Collision:"+collisionOn + " " + direction);
             }
             // GO DOWN
             else if(enTopY < nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize) {
                 direction = "down";
-                System.out.println("Collision:"+collisionOn + " " + direction);
             }
             // GO left or right
             else if(enTopY >= nextY && enBottonY < nextY + gp.tileSize) {
@@ -496,7 +525,6 @@ public class Entity {
                 if(enLeftX < nextX) {
                     direction = "right";
                 }
-                System.out.println("Collision:"+collisionOn + " " + direction);
             }
             // GO up or left
             else if(enTopY < nextY && enLeftX > nextX) {
@@ -505,7 +533,6 @@ public class Entity {
                 if(collisionOn == true) {
                     direction = "left";
                 }
-                System.out.println("Collision:"+collisionOn + " " + direction);
             }
             // GO up or right
             else if(enTopY > nextY && enLeftX < nextX) {
@@ -514,7 +541,6 @@ public class Entity {
                 if(collisionOn == true) {
                     direction = "right";
                 }
-                System.out.println("Collision:"+collisionOn + " " + direction);
             }
             // GO down or left
             else if(enTopY < nextY && enLeftX > nextX) {
@@ -523,7 +549,6 @@ public class Entity {
                 if(collisionOn == true) {
                     direction = "left";
                 }
-                System.out.println("Collision:"+collisionOn + " " + direction);
             }
             // GO down or right
             else if(enTopY < nextY && enLeftX < nextX) {
@@ -532,7 +557,6 @@ public class Entity {
                 if(collisionOn == true) {
                     direction = "right";
                 }
-                System.out.println("Collision:"+collisionOn + " " + direction);
             }
             
             int nextCol = gp.pFinder.pathList.get(0).col;
@@ -541,5 +565,36 @@ public class Entity {
                 onPath = false;
             }
         }
+    }
+    
+    public int getDetected(Entity user, Entity target[][], String targetName) {
+        
+        int index = 999;
+        
+        // Check object arround
+        int nextWorldX = user.getLextX();
+        int nextWorldY = user.getTopY();
+        
+        switch(user.direction) {
+            case "up": nextWorldY = user.getTopY()-1; break;
+            case "down": nextWorldY = user.getBottomY()+1;break;
+            case "left": nextWorldX = user.getLextX()-1;break;
+            case "right": nextWorldX = user.getRightX()+1;break;
+        }
+        
+        int col = nextWorldX/gp.tileSize;
+        int row = nextWorldY/gp.tileSize;
+        
+        for(int i = 0; i < target[1].length; i++) {
+            if(target[gp.currentMap][i] != null) {
+                if(target[gp.currentMap][i].getCol() == col && 
+                        target[gp.currentMap][i].getRow() == row && 
+                        target[gp.currentMap][i].name.equals(targetName)) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        return index;
     }
 }

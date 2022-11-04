@@ -309,13 +309,19 @@ public class Player extends Entity{
                 gp.obj[gp.currentMap][i].use(this);
                 gp.obj[gp.currentMap][i] = null;
             }
+            // OBSTACLE
+            else if(gp.obj[gp.currentMap][i].type == type_obstacle) {
+                if(keyH.enterPressed == true) {
+                    attackCanceled = true;
+                    gp.obj[gp.currentMap][i].interact();
+                }
+            }
             // INVENTORY ITEMS
             else {
                 String text;
 
-                if(inventory.size() != maxInventorySize) {
+                if(canObtainItem(gp.obj[gp.currentMap][i]) == true) {
 
-                    inventory.add(gp.obj[gp.currentMap][i]);
                     gp.playSE(1);
                     text = "Pickup a " + gp.obj[gp.currentMap][i].name + "!";
                 }
@@ -358,7 +364,7 @@ public class Player extends Entity{
             
             // Check monster collision with update worldX/Y and solidArea
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-            damageMonster(monsterIndex, attack);
+            damageMonster(monsterIndex, attack, currentWeapon.knockBackPower);
             
             int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
             damageInteractiveTile(iTileIndex, attack);
@@ -411,7 +417,7 @@ public class Player extends Entity{
         }
     }
     
-    public void damageMonster(int i, int attack) {
+    public void damageMonster(int i, int attack, int knockBackPower) {
         
         if(i != 999) {
              
@@ -419,7 +425,9 @@ public class Player extends Entity{
                  
                 gp.playSE(5);
                 
-                knockBack(gp.monster[gp.currentMap][i]);
+                if(knockBackPower > 0) {
+                    knockBack(gp.monster[gp.currentMap][i], knockBackPower);
+                }
                 
                 int damage = attack - gp.monster[gp.currentMap][i].defense;
                 if(damage < 0){
@@ -441,10 +449,10 @@ public class Player extends Entity{
          }
     }
     
-    public void knockBack(Entity entity) {
+    public void knockBack(Entity entity, int knockBackPower) {
         
         entity.direction = direction;
-        entity.speed += 10;
+        entity.speed += knockBackPower;
         entity.knockBack = true;
     }
     
@@ -512,10 +520,59 @@ public class Player extends Entity{
             }
             if(selectedItem.type == type_consumable) {
                 
-                selectedItem.use(this);
-                inventory.remove(itemIndex);
+                if(selectedItem.use(this) == true) {
+                    if(selectedItem.amount > 1) {
+                        selectedItem.amount--; 
+                    }
+                    else {
+                        inventory.remove(itemIndex);
+                    }
+                }
             }
         }
+    }
+    
+    public int searchItemInventory(String itemName) {
+        
+        int itemIndex = 999;
+        
+        for(int i = 0; i < inventory.size(); i++) {
+            if(inventory.get(i).name.equals(itemName)) {
+                itemIndex = i;
+                break;
+            }
+        }
+        return itemIndex;
+    }
+    
+    public boolean canObtainItem(Entity item) {
+        
+        boolean canObtain = false;
+        
+        // Check if Stackable
+        if(item.stackable == true) {
+            
+            int index = searchItemInventory(item.name);
+            
+            if(index != 999) {
+                inventory.get(index).amount++;
+                canObtain = true;
+            }
+            else {
+                if(inventory.size() != maxInventorySize) {
+                    inventory.add(item);
+                    canObtain = true;
+                }
+            }
+        }
+        else {
+            if(inventory.size() != maxInventorySize) {
+                inventory.add(item);
+                canObtain = true;
+            }
+        }
+        
+        return canObtain;
     }
     
     public void draw(Graphics2D g2) {

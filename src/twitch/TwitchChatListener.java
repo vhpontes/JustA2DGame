@@ -31,6 +31,7 @@ public class TwitchChatListener extends ListenerAdapter {
         //   OK - Limit spawn NPC 1 per chat user 
         //   OK - Exclusive dialogue window with chat user
         //      - Fireworks and Spaw a New MOB on Subscriptions
+        //      - Não pegar certos chats de usuarios como o nightbot e etc
         
         int mapNum = 2;
         int userHashCode = 0;
