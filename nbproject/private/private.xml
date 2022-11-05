@@ -4,12 +4,19 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/Main.java</file>
-            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/Sound.java</file>
             <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/KeyHandler.java</file>
-            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/entity/Coffee.java</file>
-            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/UI.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/entity/Particle.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/objects/OBJ_Coin_Bronze.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/res/maps/dg_twitch01.txt</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/entity/NPC_Twitch.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/AssetSettler.java</file>
             <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/GamePanel.java</file>
             <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/entity/Player.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/Sound.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/twitch/TwitchBot.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/UI.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/entity/Entity.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/twitch/TwitchChatListener.java</file>
         </group>
     </open-files>
 </project-private>

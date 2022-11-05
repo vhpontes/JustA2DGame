@@ -9,9 +9,11 @@ import objects.OBJ_Coin_Bronze;
 import objects.OBJ_Door;
 import objects.OBJ_Heart;
 import objects.OBJ_Key;
+import objects.OBJ_Lantern;
 import objects.OBJ_ManaCrystal;
 import objects.OBJ_Potion_Red;
 import objects.OBJ_Shield_Blue;
+import objects.OBJ_Tent;
 import tile_interactive.IT_DryTree;
 
 public class AssetSettler {
@@ -26,6 +28,14 @@ public class AssetSettler {
 
         int mapNum = 0;
         int i = 0;
+        gp.obj[mapNum][i] = new OBJ_Lantern(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize*18;
+        gp.obj[mapNum][i].worldY = gp.tileSize*20;
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Tent(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize*19;
+        gp.obj[mapNum][i].worldY = gp.tileSize*20;
+        i++;
         gp.obj[mapNum][i] = new OBJ_Coin_Bronze(gp);
         gp.obj[mapNum][i].worldX = gp.tileSize*25;
         gp.obj[mapNum][i].worldY = gp.tileSize*23;

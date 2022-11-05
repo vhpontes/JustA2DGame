@@ -80,7 +80,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Entity npc[][] = new Entity[maxMap][20];
     public Entity npcTwitch[][] = new Entity[maxMap][20];
     public Entity monster[][] = new Entity[maxMap][30];
-    public InteractiveTile iTile[][] = new InteractiveTile[maxMap][50];
+    public InteractiveTile iTile[][] = new InteractiveTile[maxMap][60];
 //    public ArrayList<Entity> projectileList = new ArrayList();
     public Entity projectile[][] = new Entity[maxMap][40];
     public ArrayList<Entity> particleList = new ArrayList();
@@ -101,6 +101,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int transitionState = 8;
     public final int tradeState = 9;
     public final int subState = 10;
+    public final int sleepState = 11;
     
     // INDEX NPC TWITCH
     private int npcTwitchIndex = 0;
@@ -223,6 +224,8 @@ public class GamePanel extends JPanel implements Runnable{
             // PLAYER
             player.update();
             
+            // ENVIRONMENT
+            eManager.update();
 
             // NPC
             for(int i = 0; i < npc[1].length; i++) {
@@ -302,6 +305,7 @@ public class GamePanel extends JPanel implements Runnable{
                     iTile[currentMap][i].update();
                 }
             }
+            
         }
         if(gameState == pauseState) {
             

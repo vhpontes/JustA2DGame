@@ -14,7 +14,6 @@ import org.pircbotx.hooks.events.MessageEvent;
 public class TwitchChatListener extends ListenerAdapter {
     
     GamePanel gp;
-    KeyHandler keyH;
     int i = 0;
     
     public TwitchChatListener() {
@@ -22,7 +21,6 @@ public class TwitchChatListener extends ListenerAdapter {
     
     public TwitchChatListener(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
-        this.keyH = keyH;
     }
     
     @Override
@@ -39,8 +37,10 @@ public class TwitchChatListener extends ListenerAdapter {
         
         DateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         
-        System.out.println(f.format(event.getTimestamp())+"> "+event.getUser().getNick()+": "+event.getMessage());
-        if(!twitchMessage.startsWith("!")) {
+        if(!event.getUser().getNick().equals("nightbot")) {
+            System.out.println(f.format(event.getTimestamp())+"> "+event.getUser().getNick()+": "+event.getMessage());
+        }
+        if(!twitchMessage.startsWith("!") || !event.getUser().getNick().equals("nightbot")) {
             gp.ui.addMessage(event.getUser().getNick()+": "+twitchMessage);
         }
         userHashCode = event.getUser().hashCode();
