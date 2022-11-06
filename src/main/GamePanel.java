@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
 import org.pircbotx.hooks.events.MessageEvent;
+import tile.Map;
 import tile.TileManager;
 import tile_interactive.InteractiveTile;
 
@@ -72,6 +73,7 @@ public class GamePanel extends JPanel implements Runnable{
     Config config = new Config(this);
     public PathFinder pFinder = new PathFinder(this);
     EnvironmentManager eManager = new EnvironmentManager(this);
+    Map map = new Map(this);
     Thread gameThread;
 
     // ENTITY AND OBJECT
@@ -102,6 +104,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int tradeState = 9;
     public final int subState = 10;
     public final int sleepState = 11;
+    public final int mapState = 12;
     
     // INDEX NPC TWITCH
     private int npcTwitchIndex = 0;
@@ -148,7 +151,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void retry() {
         
         player.setDefaultPosition();
-        player.restoreLifeAndMana();
+        player.restoreDefaultStates();
         aSetter.setNPC();
         aSetter.setMonster();
     }
@@ -157,7 +160,7 @@ public class GamePanel extends JPanel implements Runnable{
         
         player.setDefaultValues();
         player.setDefaultPosition();
-        player.restoreLifeAndMana();
+        player.restoreDefaultStates();
         player.setItems();
         aSetter.setNPC();
         aSetter.setMonster();
@@ -324,6 +327,10 @@ public class GamePanel extends JPanel implements Runnable{
         if (gameState == titleState) {
             ui.draw(g2);
         }
+        // MAP SCREEN
+        else if(gameState == mapState) {
+            map.drawFullMapScreen(g2);
+        }
         // OTHERS
         else {
             // TILE
@@ -402,6 +409,9 @@ public class GamePanel extends JPanel implements Runnable{
             
             // ENVIRONMENT
             eManager.draw(g2);
+            
+            // MINI MAP
+            map.drawMiniMap(g2);
             
             // UI
             ui.draw(g2);

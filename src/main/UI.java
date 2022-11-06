@@ -20,7 +20,7 @@ import objects.OBJ_ManaCrystal;
 public class UI {
     GamePanel gp;
     Graphics2D g2;
-    Font maruMonica, purisaB;
+    public Font maruMonica, purisaB;
     
     BufferedImage heart_full, heart_half, heart_blank, crystal_full, crystal_blank, coin_img;
 
@@ -1052,7 +1052,7 @@ public class UI {
                 gp.eManager.lighting.dayState = gp.eManager.lighting.day;
                 gp.eManager.lighting.dayCounter = 0;
                 gp.gameState = gp.playState;
-                gp.player.getPlayerImage();
+                gp.player.getImage();
             }
         }
     }

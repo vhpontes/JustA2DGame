@@ -3,19 +3,35 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/CollisionChecker.java</file>
             <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/Main.java</file>
-            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/KeyHandler.java</file>
-            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/entity/Particle.java</file>
-            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/objects/OBJ_Coin_Bronze.java</file>
-            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/res/maps/dg_twitch01.txt</file>
-            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/entity/NPC_Twitch.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/objects/OBJ_Potion_Red.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/objects/OBJ_Fireball.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/tile_interactive/IT_DryTree.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/entity/NPC_Merchant.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/objects/OBJ_Tent.java</file>
             <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/AssetSettler.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/environment/Lighting.java</file>
             <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/GamePanel.java</file>
-            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/entity/Player.java</file>
-            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/Sound.java</file>
-            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/twitch/TwitchBot.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/tile/TileManager.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/tile/Tile.java</file>
             <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/UI.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/objects/OBJ_Chest.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/objects/OBJ_Axe.java</file>
             <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/entity/Entity.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/entity/NPC_OldMan.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/objects/OBJ_Coin_Bronze.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/tile_interactive/IT_Trunk.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/objects/OBJ_Lantern.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/objects/OBJ_Rock.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/entity/NPC_Twitch.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/environment/EnvironmentManager.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/entity/Player.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/objects/OBJ_Key.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/objects/OBJ_Door.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/entity/Projectile.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/objects/OBJ_Boots.java</file>
+            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/tile_interactive/InteractiveTile.java</file>
             <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/twitch/TwitchChatListener.java</file>
         </group>
     </open-files>

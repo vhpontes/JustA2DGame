@@ -99,7 +99,7 @@ public class TileManager {
         setup(62, "tiles/walldg_lavapit", false);
     }
 
-    public void setup(int index, String imagePath, boolean collision){
+    public void setup(int index, String imagePath, boolean collision) {
         
         UtilityTool uTool = new UtilityTool();
         
@@ -109,7 +109,7 @@ public class TileManager {
             tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
             tile[index].collision = collision;
             
-        }catch(IOException e){
+        }catch(IOException e) {
             e.printStackTrace();
         }
     }

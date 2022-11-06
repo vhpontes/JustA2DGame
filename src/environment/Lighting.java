@@ -87,7 +87,7 @@ public class Lighting {
         if(dayState == day) {
             dayCounter++;
             
-            if(dayCounter > 18000) { // 1min = 3600, 10min = 36000
+            if(dayCounter > 3600) { // 1min = 3600, 10min = 36000
                 dayState = dusk;
                 dayCounter = 0;
             }

@@ -6,7 +6,8 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener{
 
     GamePanel gp;
-    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed, shotKeyPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, 
+            enterPressed, shotKeyPressed, fPressed;
     
     // DEBUG
     boolean checkDrawTime = false;
@@ -52,9 +53,13 @@ public class KeyHandler implements KeyListener{
         else if(gp.gameState == gp.gameOverState) {
             gameOverState(code);
         }
-        // GAME OVER STATE
+        // TRADE STATE
         else if(gp.gameState == gp.tradeState) {
             tradeState(code);
+        }
+        // MAP STATE
+        else if(gp.gameState == gp.mapState) {
+            mapState(code);
         }
         else if(gp.debugState == gp.debugState) {
             debugState(code);
@@ -147,11 +152,26 @@ public class KeyHandler implements KeyListener{
         if(code == KeyEvent.VK_B) {
             gp.gameState = gp.debugState;
         }
+        if(code == KeyEvent.VK_M) {
+            gp.gameState = gp.mapState;
+        }
+        if(code == KeyEvent.VK_X) {
+            if(gp.map.miniMapOn == false) {
+                gp.map.miniMapOn = true;
+            }
+            else {
+                gp.map.miniMapOn = false;
+            }
+        }
         if(code == KeyEvent.VK_ENTER) {
             enterPressed = true;  
         }
         if(code == KeyEvent.VK_SPACE) {
             shotKeyPressed = true;  
+        }
+        if(code == KeyEvent.VK_SHIFT) {
+            //System.out.println("f KeyHandler true");
+            fPressed = true;
         }
 
         //DEBUG
@@ -320,6 +340,13 @@ public class KeyHandler implements KeyListener{
         }
     }
     
+    public void mapState(int code) {
+        
+        if(code == KeyEvent.VK_M) {
+            gp.gameState = gp.playState;
+        }
+    }
+    
     public void playerInventory(int code) {
         
         if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
@@ -400,8 +427,15 @@ public class KeyHandler implements KeyListener{
         if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
            rightPressed = false;            
         }       
+        if(code == KeyEvent.VK_ENTER) {
+            enterPressed = false;
+        }    
         if(code == KeyEvent.VK_SPACE) {
            shotKeyPressed = false;            
-        }       
+        }
+        if(code == KeyEvent.VK_SHIFT) {
+            //System.out.println("f KeyHandler false");
+            fPressed = false;
+        }        
     }
 }

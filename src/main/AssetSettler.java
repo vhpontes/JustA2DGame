@@ -3,6 +3,7 @@ package main;
 import entity.NPC_Merchant;
 import entity.NPC_OldMan;
 import monster.MON_GreenSlime;
+import monster.MON_Orc;
 import objects.OBJ_Axe;
 import objects.OBJ_Chest;
 import objects.OBJ_Coin_Bronze;
@@ -132,6 +133,10 @@ public class AssetSettler {
         gp.monster[mapNum][i] = new MON_GreenSlime(gp);
         gp.monster[mapNum][i].worldX = gp.tileSize*26;
         gp.monster[mapNum][i].worldY = gp.tileSize*7;
+        i++;
+        gp.monster[mapNum][i] = new MON_Orc(gp);
+        gp.monster[mapNum][i].worldX = gp.tileSize*12;
+        gp.monster[mapNum][i].worldY = gp.tileSize*33;
         
         // MAP 2
 /*        mapNum = 2;
