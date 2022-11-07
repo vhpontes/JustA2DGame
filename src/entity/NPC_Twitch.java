@@ -17,12 +17,12 @@ public class NPC_Twitch extends Entity{
 
     public void getImage() {
         
-        up1 = setup("npctwitch/twitch002_up_1", gp.tileSize, gp.tileSize);
-        up2 = setup("npctwitch/twitch002_up_2", gp.tileSize, gp.tileSize);
-        down1 = setup("npctwitch/twitch002_down_1", gp.tileSize, gp.tileSize);
-        down2 = setup("npctwitch/twitch002_down_2", gp.tileSize, gp.tileSize);
-        left1 = setup("npctwitch/twitch002_left_1", gp.tileSize, gp.tileSize);
-        left2 = setup("npctwitch/twitch002_left_2", gp.tileSize, gp.tileSize);
+        up1 =    setup("npctwitch/twitch002_up_1",    gp.tileSize, gp.tileSize);
+        up2 =    setup("npctwitch/twitch002_up_2",    gp.tileSize, gp.tileSize);
+        down1 =  setup("npctwitch/twitch002_down_1",  gp.tileSize, gp.tileSize);
+        down2 =  setup("npctwitch/twitch002_down_2",  gp.tileSize, gp.tileSize);
+        left1 =  setup("npctwitch/twitch002_left_1",  gp.tileSize, gp.tileSize);
+        left2 =  setup("npctwitch/twitch002_left_2",  gp.tileSize, gp.tileSize);
         right1 = setup("npctwitch/twitch002_right_1", gp.tileSize, gp.tileSize);
         right2 = setup("npctwitch/twitch002_right_2", gp.tileSize, gp.tileSize);
     }
@@ -54,7 +54,5 @@ public class NPC_Twitch extends Entity{
     public void speak(){
         
         super.speak();
-        
-        onPath = true;
     }  
 }

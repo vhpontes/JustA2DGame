@@ -5,6 +5,7 @@ import entity.NPC_OldMan;
 import monster.MON_GreenSlime;
 import monster.MON_Orc;
 import objects.OBJ_Axe;
+import objects.OBJ_Boots;
 import objects.OBJ_Chest;
 import objects.OBJ_Coin_Bronze;
 import objects.OBJ_Door;
@@ -81,7 +82,8 @@ public class AssetSettler {
         gp.obj[mapNum][i].worldX = gp.tileSize*15;
         gp.obj[mapNum][i].worldY = gp.tileSize*21;
         i++;
-        gp.obj[mapNum][i] = new OBJ_Chest(gp, new OBJ_Key(gp));
+        gp.obj[mapNum][i] = new OBJ_Chest(gp);
+        gp.obj[mapNum][i].setLoot(new OBJ_Boots(gp));
         gp.obj[mapNum][i].worldX = gp.tileSize*35;
         gp.obj[mapNum][i].worldY = gp.tileSize*43;
         i++;

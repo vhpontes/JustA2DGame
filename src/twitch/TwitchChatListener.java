@@ -34,26 +34,30 @@ public class TwitchChatListener extends ListenerAdapter {
         int mapNum = 2;
         int userHashCode = 0;
         String twitchMessage = event.getMessage();
+        userHashCode = event.getUser().hashCode();
         
         DateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         
         if(event.getUser().getNick().equalsIgnoreCase("nightbot")) {
+
             System.out.println(event.getUser().getUserLevels(event.getChannel())+" "+
                     f.format(event.getTimestamp())+"> "+
                     event.getUser().getNick()+": "+
                     event.getMessage());
         }
+        
         if(!twitchMessage.startsWith("!") || event.getUser().getNick().equalsIgnoreCase("nightbot")) {
-            gp.ui.addMessage(event.getUser().getNick()+": "+twitchMessage);
+
+            gp.ui.addMessage(event.getUser().getNick()+": " + twitchMessage);
         }
-        userHashCode = event.getUser().hashCode();
         
         if (twitchMessage.equals("!new") && gp.getNPCTwitch(userHashCode) == null) {
-            gp.addNPCTwitch(mapNum, event);
 
+            gp.addNPCTwitch(mapNum, event);
             gp.ui.addMessage(event.getUser().getNick()+" now have an NPC!");
         }
         else if(!twitchMessage.startsWith("!")){
+
             NPC_Twitch npcT = gp.getNPCTwitch(userHashCode);
             if(npcT!=null){
                 npcT.npcTwitchMessage = twitchMessage;

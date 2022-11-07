@@ -107,9 +107,11 @@ public class EventHandler {
             gp.gameState = gameState;
             gp.player.attackCanceled = true;
             gp.playSE(2);
-            gp.ui.currentDialogue = "Você bebeu água deste poço.\nSua vida e mana foram restauradas.";
+            gp.ui.currentDialogue = "Você bebeu água deste poço.\nSua vida e mana foram restauradas.\n\n" +
+                    "(The game progress has been saved!)";
             gp.player.life = gp.player.maxLife;
             gp.player.mana = gp.player.maxMana;
+            gp.saveLoad.save();
         }
     }
     

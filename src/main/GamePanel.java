@@ -1,6 +1,7 @@
 package main;
 
 import ai.PathFinder;
+import data.SaveLoad;
 import entity.Entity;
 import entity.NPC_Twitch;
 import entity.Player;
@@ -74,6 +75,7 @@ public class GamePanel extends JPanel implements Runnable{
     public PathFinder pFinder = new PathFinder(this);
     EnvironmentManager eManager = new EnvironmentManager(this);
     Map map = new Map(this);
+    SaveLoad saveLoad = new SaveLoad(this);
     Thread gameThread;
 
     // ENTITY AND OBJECT
@@ -109,17 +111,7 @@ public class GamePanel extends JPanel implements Runnable{
     // INDEX NPC TWITCH
     private int npcTwitchIndex = 0;
     
-    // FIREWORKS
-//    private static final Color TRANSPARENT = new Color(255, 255, 255, 0);
-//    public static Color TWILIGHT = new Color(59, 44, 119); 
-//    public static int UIWIDTH = 470;
-//    public static double fuseMeasure = 3;
-//    public static int velMeasure = 40;
-//    public static int angleMeasure = 0;
-//    public static Color trailColor = Color.red;
-//    public static int explosionValue = 1; //1 = radial, 2 = arcs, 3 = ovals  
-//    private JPanel fwPanel;
-    
+   
     public GamePanel() {
         
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -148,23 +140,19 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
     
-    public void retry() {
+    public void resetGame(boolean restart) {
         
         player.setDefaultPosition();
-        player.restoreDefaultStates();
+        player.restoreStatus();
         aSetter.setNPC();
         aSetter.setMonster();
-    }
-    
-    public void restart() {
         
-        player.setDefaultValues();
-        player.setDefaultPosition();
-        player.restoreDefaultStates();
-        player.setItems();
-        aSetter.setNPC();
-        aSetter.setMonster();
-        aSetter.setInteractiveTile();
+        if(restart == true) {
+            player.setDefaultValues();
+            aSetter.setObject();
+            aSetter.setInteractiveTile();
+            eManager.lighting.resetDay();
+        }
     }
     
     public void setFullScreen() {

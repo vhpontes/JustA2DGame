@@ -220,7 +220,25 @@ public class UI {
     }
     
     public void drawTwitchSpeak() {
+
+        g2.setFont(maruMonica);
+
+        // WINDOW
+        int x = gp.tileSize*2;
+        int y = gp.tileSize/2;
+        int width = gp.screenWidth - (gp.tileSize*4);
+        int height = gp.screenHeight/3;
         
+        drawSubWindow(x, y, width, height);
+        
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 28F));
+        x += gp.tileSize;
+        y += gp.tileSize;
+        
+        for(String line : currentDialogue.split("\n")) {
+            g2.drawString(line, x, y);
+            y += 40;
+        }        
     }
     
     public void drawTitleScreen() {
@@ -891,6 +909,7 @@ public class UI {
             if(gp.keyH.enterPressed == true) {
                 subState = 0;
                 gp.gameState = gp.titleState;
+                gp.resetGame(true);
                 gp.stopMusic();
             }
         }
