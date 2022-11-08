@@ -38,18 +38,6 @@ public class AssetSettler {
         gp.obj[mapNum][i].worldX = gp.tileSize*19;
         gp.obj[mapNum][i].worldY = gp.tileSize*20;
         i++;
-        gp.obj[mapNum][i] = new OBJ_Coin_Bronze(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize*25;
-        gp.obj[mapNum][i].worldY = gp.tileSize*23;
-        i++;
-        gp.obj[mapNum][i] = new OBJ_Coin_Bronze(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize*21;
-        gp.obj[mapNum][i].worldY = gp.tileSize*19;
-        i++;
-        gp.obj[mapNum][i] = new OBJ_Coin_Bronze(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize*26;
-        gp.obj[mapNum][i].worldY = gp.tileSize*21;
-        i++;
         gp.obj[mapNum][i] = new OBJ_Axe(gp);
         gp.obj[mapNum][i].worldX = gp.tileSize*32;
         gp.obj[mapNum][i].worldY = gp.tileSize*21;
@@ -78,15 +66,15 @@ public class AssetSettler {
         gp.obj[mapNum][i].worldX = gp.tileSize*10;
         gp.obj[mapNum][i].worldY = gp.tileSize*12;
         i++;
-        gp.obj[mapNum][i] = new OBJ_Key(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize*15;
-        gp.obj[mapNum][i].worldY = gp.tileSize*21;
-        i++;
         gp.obj[mapNum][i] = new OBJ_Chest(gp);
         gp.obj[mapNum][i].setLoot(new OBJ_Boots(gp));
         gp.obj[mapNum][i].worldX = gp.tileSize*35;
         gp.obj[mapNum][i].worldY = gp.tileSize*43;
         i++;
+        gp.obj[mapNum][i] = new OBJ_Chest(gp);
+        gp.obj[mapNum][i].setLoot(new OBJ_Key(gp));
+        gp.obj[mapNum][i].worldX = gp.tileSize*17;
+        gp.obj[mapNum][i].worldY = gp.tileSize*20;
     }
     
     public void setNPC(){
@@ -104,8 +92,6 @@ public class AssetSettler {
         gp.npc[mapNum][i] = new NPC_Merchant(gp);
         gp.npc[mapNum][i].worldX = gp.tileSize*12;
         gp.npc[mapNum][i].worldY = gp.tileSize*7;
-        i++;
-        
     }
     
     public void setMonster() {

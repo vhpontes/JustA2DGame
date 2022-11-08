@@ -2,10 +2,11 @@ package main;
 
 import entity.Entity;
 
-public class EventHandler {
+public class EventHandler{
     
     GamePanel gp;
     EventRect eventRect[][][];
+    Entity eventMaster;
     
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
@@ -14,6 +15,8 @@ public class EventHandler {
     public EventHandler(GamePanel gp) {
         
         this.gp = gp;
+        
+        eventMaster = new Entity(gp);
         
         eventRect = new EventRect[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
         
@@ -38,6 +41,24 @@ public class EventHandler {
                     row = 0;
                     map++;
                 }
+            }
+        }
+        setDialogue("en");
+    }
+    
+    public void setDialogue(String lang) {
+        switch(lang) {
+            case "en" -> {
+                eventMaster.dialogues[0][0] = "You fell into the well!";
+                eventMaster.dialogues[1][0] = "You drank water from this well.\nYour health and mana have been restored.\n\n" +
+                            "(The game progress has been saved!)";
+                eventMaster.dialogues[1][1] = "Damm,  this is a good water!";
+            }
+            case "br" -> {
+                eventMaster.dialogues[0][0] = "Você caiu dentro do poço!";
+                eventMaster.dialogues[1][0] = "Você bebeu água deste poço.\nSua vida e mana foram restauradas.\n\n" +
+                            "(O progresso do jogo foi salvo!)";
+                eventMaster.dialogues[1][1] = "Caramba, esta é uma boa água!";
             }
         }
     }
@@ -96,7 +117,8 @@ public class EventHandler {
         
         gp.gameState = gameState;
         gp.playSE(6);
-        gp.ui.currentDialogue = "Você caiu dentro do " + type + "!";
+        
+        eventMaster.startDialogue(eventMaster, 0);
         gp.player.life -= damage;
         canTouchEvent = false;
     }
@@ -107,8 +129,8 @@ public class EventHandler {
             gp.gameState = gameState;
             gp.player.attackCanceled = true;
             gp.playSE(2);
-            gp.ui.currentDialogue = "Você bebeu água deste poço.\nSua vida e mana foram restauradas.\n\n" +
-                    "(The game progress has been saved!)";
+            
+            eventMaster.startDialogue(eventMaster, 1);
             gp.player.life = gp.player.maxLife;
             gp.player.mana = gp.player.maxMana;
             gp.saveLoad.save();

@@ -38,10 +38,22 @@ public class NPC_Merchant extends Entity{
     public void setDialogue(String lang){
         switch(lang) {
             case "en" -> {
-                dialogues[0] = "So you found me.\nI have some good stuff.\nDo you want trade?";
+                dialogues[0][0] = "So you found me.\nI have some good stuff.\nDo you want trade?";
+                dialogues[1][0] = "Come back later, young man!";
+                dialogues[2][0] = "You don't have necessary coins to buy this item!";
+                dialogues[3][0] = "You don't carry any more! You fool.";
+                dialogues[4][0] = "You can´t sell equiped items!";
+                dialogues[5][0] = "I haven't necessary coins to buy this item!";
+                dialogues[6][0] = "I don't carry any more! Sorry.";
             }
             case "br" -> {
-                dialogues[0] = "Então você me achou.\nEu tenho algumas coisas boas aqui.\nVocê gostaria de negociar?";
+                dialogues[0][0] = "Então você me achou.\nEu tenho algumas coisas boas aqui.\nVocê gostaria de negociar?";
+                dialogues[1][0] = "Volte mais tarde, jovem!";
+                dialogues[2][0] = "Você não tem moedas necessárias para comprar este item!";
+                dialogues[3][0] = "Você não carrega mais! Seu idiota.";
+                dialogues[4][0] = "Você não pode vender itens equipados!";
+                dialogues[5][0] = "Não tenho moedas necessárias para comprar este item!";
+                dialogues[6][0] = "Eu não carrego mais! Desculpe.";
             }
         }
     }
@@ -60,7 +72,7 @@ public class NPC_Merchant extends Entity{
     
     public void speak() {
         
-        super.speak();
+        facePlayer();
         gp.gameState = gp.tradeState;
         gp.ui.npc = this;
     }

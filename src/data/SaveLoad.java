@@ -84,7 +84,9 @@ public class SaveLoad {
             ds.mapObjectOpened = new boolean[gp.maxMap][gp.obj[1].length];
             
             for(int mapNum = 0; mapNum < gp.maxMap; mapNum++) {
-                for(int i = 0; i < gp.obj[i].length; i++) {
+                
+                for(int i = 0; i < gp.obj[1].length; i++) {
+
                     if(gp.obj[mapNum][i] == null) {
                         ds.mapObjectNames[mapNum][i] = "NA";
                     }
@@ -95,6 +97,7 @@ public class SaveLoad {
                         if(gp.obj[mapNum][i].loot != null) {
                             ds.mapObjectLootNames[mapNum][i] = gp.obj[mapNum][i].loot.name;
                         }
+
                         ds.mapObjectOpened[mapNum][i] = gp.obj[mapNum][i].opened;
                     }
                 }
@@ -103,7 +106,7 @@ public class SaveLoad {
             oos.writeObject(ds);
         }
         catch(Exception e) {
-            System.out.println("Save Exception");
+            System.out.println("Save Exception: " + e);
         }
         
     }
@@ -144,12 +147,12 @@ public class SaveLoad {
             // OBJECT ON MAP
             for(int mapNum = 0; mapNum < gp.maxMap; mapNum++) {
                 
-                for(int i = 0; i < gp.obj[i].length; i++) {
+                for(int i = 0; i < gp.obj[1].length; i++) {
                     
                     if(ds.mapObjectNames[mapNum][i].equals("NA")) {
                         gp.obj[mapNum][i] = null;
                     }
-                    else {
+                    else if(getObject(ds.mapObjectNames[mapNum][i]) != null) {
                         gp.obj[mapNum][i] = getObject(ds.mapObjectNames[mapNum][i]);
                         gp.obj[mapNum][i].worldX = ds.mapObjectWorldX[mapNum][i];
                         gp.obj[mapNum][i].worldY = ds.mapObjectWorldY[mapNum][i];
@@ -165,7 +168,7 @@ public class SaveLoad {
             }
         }
         catch(Exception e) {
-            System.out.println("Load Exception");
+            System.out.println("Load Exception: " + e);
         }        
     }
 }

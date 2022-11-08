@@ -3,24 +3,13 @@ package entity;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.List;
 import java.awt.Rectangle;
-import static java.awt.SystemColor.text;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineBreakMeasurer;
-import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import static java.lang.String.format;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.imageio.ImageIO;
-import javax.swing.JTextArea;
 import main.GamePanel;
 import main.UtilityTool;
 
@@ -35,7 +24,7 @@ public class Entity {
     public Rectangle solidArea = new Rectangle(0,0,48,48);
     public Rectangle attackArea = new Rectangle(0,0,0,0);
     public int solidAreaDefaultX, solidAreaDefaultY;
-    String dialogues[] = new String[20];
+    public String dialogues[][] = new String[20][20];
     public Entity attacker;
     
     // VAR NPC TWITCH
@@ -46,7 +35,8 @@ public class Entity {
     public long messageTwitchTimeStamp = 0;
 
     // VARs STATE
-    int dialogueIndex = 0;
+    public int dialogueSet = 0;
+    public int dialogueIndex = 0;
     public int worldX, worldY;
     public int spriteNum = 1;
     public String knockBackDirection;
@@ -188,6 +178,19 @@ public class Entity {
         return goalRow;
     }
     
+    public void resetCounter() {
+
+        spriteCounter = 0;
+        actionLockCounter = 0;
+        invincibleCounter = 0;
+        shotAvailableCounter = 0;
+        guardCounter = 0;
+        dyingCounter = 0;
+        hpBarCounter = 0;
+        knockBackCounter = 0;
+        offBalanceCounter = 0;        
+    }
+    
     public void setLoot(Entity loot) {
         
     }
@@ -197,24 +200,32 @@ public class Entity {
     public void damageReaction() {}
     
     public void speak() {
-        
-        if(npcTwitchMessage != null) {
-
-            dialogues[0] = npcTwitchMessage;
-        }
-        else if(dialogues[dialogueIndex] == null) {
-            dialogueIndex = 0;
-        }
-        
-        gp.ui.currentDialogue = dialogues[dialogueIndex];
-        dialogueIndex++;
-        
+//        if(npcTwitchMessage != null) {
+//
+//            dialogues[0][0] = npcTwitchMessage;
+//        }
+//        else if(dialogues[dialogueIndex] == null) {
+//            dialogueIndex = 0;
+//        }
+//        
+//        gp.ui.currentDialogue = dialogues[dialogueSet][dialogueIndex];
+//        dialogueIndex++;
+    }
+    
+    public void facePlayer() {
         switch(gp.player.direction) {
             case "up": direction = "down"; break;
             case "down": direction = "up"; break;
             case "left": direction = "right"; break;
             case "right": direction = "left"; break;
-        }
+        }        
+    }
+    
+    public void startDialogue(Entity entity, int setNum) {
+        
+        gp.gameState = gp.dialogueState;
+        gp.ui.npc = entity;
+        dialogueSet = setNum;
     }
 
     public void drawTwitcChatDialogue(Graphics2D g2, int screenX, int screenY) {

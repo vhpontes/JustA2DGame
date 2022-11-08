@@ -20,6 +20,8 @@ public class NPC_OldMan extends Entity{
         solidArea.width = 30;
         solidArea.height = 30;
         
+        dialogueSet = -1;
+        
         getImage();
         setDialogue("br");
     }
@@ -39,16 +41,28 @@ public class NPC_OldMan extends Entity{
     public void setDialogue(String lang){
         switch(lang) {
             case "en" -> {
-                dialogues[0] = "Hello!";
-                dialogues[1] = "So you've come to this \nisland to find the \ntreasure?";
-                dialogues[2] = "I used to be a great \nwizard but now... I'm a bit \ntoo old talking an \nadventure.";
-                dialogues[3] = "Well, good luck \nto you.";
+                dialogues[0][0] = "Hello!";
+                dialogues[0][1] = "So you've come to this \nisland to find the \ntreasure?";
+                dialogues[0][2] = "I used to be a great \nwizard but now... I'm a bit \ntoo old talking an \nadventure.";
+                dialogues[0][3] = "Well, good luck \nto you.";
+
+                dialogues[1][0] = "If you become tired, rest at the water!";
+                dialogues[1][1] = "However, the monster reappear if you rest.\nI don't know why, but that's how it works.";
+                dialogues[1][2] = "In any case, don't push yourself too hard";
+                
+                dialogues[2][0] = "I wonder how to open that door...";
             }
             case "br" -> {
-                dialogues[0] = "Olá!";
-                dialogues[1] = "Então você veio a esta ilha \npara encontrar o tesouro?";
-                dialogues[2] = "Eu costumava ser um grande \nmago, mas agora... estou um \npouco velho demais para \nfalar de uma aventura.";
-                dialogues[3] = "Bem, boa sorte para você.";
+                dialogues[0][0] = "Olá!";
+                dialogues[0][1] = "Então você veio a esta ilha \npara encontrar o tesouro?";
+                dialogues[0][2] = "Eu costumava ser um grande \nmago, mas agora... estou um \npouco velho demais para \nfalar de uma aventura.";
+                dialogues[0][3] = "Bem, boa sorte para você.";
+
+                dialogues[1][0] = "Se você ficar cansado, descanse perto da água!";
+                dialogues[1][1] = "No entanto, o monstro reaparece se você descansar.\nNão sei porque, mas é assim que funciona.";
+                dialogues[1][2] = "De qualquer forma, não se esforce demais.";
+                
+                dialogues[2][0] = "Gostaria de saber como abrir essa porta...";
             }
         }
     }
@@ -84,9 +98,22 @@ public class NPC_OldMan extends Entity{
     
     public void speak(){
         
-        super.speak();
+        facePlayer();
+        startDialogue(this, dialogueSet);
         
-        onPath = true;
+        dialogueSet++;
+        
+        if(dialogues[dialogueSet][0] == null) {
+
+            dialogueSet = 0;
+            //dialogueSet--;
+        }
+        
+//        if(gp.player.life < gp.player.maxLife/3) {
+//            dialogueSet = 1;
+//        }
+        
+//        onPath = true;
     }
     
 }
