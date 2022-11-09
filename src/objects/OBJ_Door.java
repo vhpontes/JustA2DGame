@@ -5,12 +5,14 @@ import main.GamePanel;
 
 public class OBJ_Door extends Entity{
     
+    public static final String objName = "Door";
+    
     public OBJ_Door(GamePanel gp) {
         super(gp);
         this.gp = gp;
         
         type = type_obstacle;
-        name = "Door";
+        name = objName;
         down1 = setup("objects/door", gp.tileSize, gp.tileSize);
         collision = true;
 
@@ -20,6 +22,8 @@ public class OBJ_Door extends Entity{
         solidArea.height = 32;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+        
+        setDialogue();
     }
     
     public void setDialogue() {

@@ -199,18 +199,7 @@ public class Entity {
     
     public void damageReaction() {}
     
-    public void speak() {
-//        if(npcTwitchMessage != null) {
-//
-//            dialogues[0][0] = npcTwitchMessage;
-//        }
-//        else if(dialogues[dialogueIndex] == null) {
-//            dialogueIndex = 0;
-//        }
-//        
-//        gp.ui.currentDialogue = dialogues[dialogueSet][dialogueIndex];
-//        dialogueIndex++;
-    }
+    public void speak() {}
     
     public void facePlayer() {
         switch(gp.player.direction) {

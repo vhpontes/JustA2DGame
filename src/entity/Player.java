@@ -43,7 +43,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        //gp.currentMap = 1;
+        gp.currentMap = 1;
         switch(gp.currentMap){
             case 0:
                 worldX = gp.tileSize * 23;
@@ -540,6 +540,7 @@ public class Player extends Entity{
             gp.playSE(8);
             gp.gameState = gp.dialogueState;
 
+            setDialogue(); // force update level variable
             startDialogue(this, 0);
         }
     }
@@ -603,10 +604,12 @@ public class Player extends Entity{
         
         boolean canObtain = false;
         
+        Entity newItem = gp.eGenerator.getObject(item.name);
+        
         // Check if Stackable
-        if(item.stackable == true) {
+        if(newItem.stackable == true) {
             
-            int index = searchItemInventory(item.name);
+            int index = searchItemInventory(newItem.name);
             
             if(index != 999) {
                 inventory.get(index).amount++;
@@ -614,14 +617,14 @@ public class Player extends Entity{
             }
             else {
                 if(inventory.size() != maxInventorySize) {
-                    inventory.add(item);
+                    inventory.add(newItem);
                     canObtain = true;
                 }
             }
         }
         else {
             if(inventory.size() != maxInventorySize) {
-                inventory.add(item);
+                inventory.add(newItem);
                 canObtain = true;
             }
         }
