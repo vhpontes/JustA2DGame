@@ -49,7 +49,6 @@ public class MON_GreenSlime extends Entity {
         right1 = setup("monster/greenslime_down_1", gp.tileSize, gp.tileSize);
         right2 = setup("monster/greenslime_down_2", gp.tileSize, gp.tileSize);
     }
-    
 
     public void setAction() {
 
@@ -57,7 +56,7 @@ public class MON_GreenSlime extends Entity {
 
             checkStopChasingOrNot(gp.player, 10, 100);
             searchPath(getGoalCol(gp.player), getGoalRow(gp.player));
-            checkShootOrNot(200, 30);
+            //checkShootOrNot(200, 30);
         }
         else {
 

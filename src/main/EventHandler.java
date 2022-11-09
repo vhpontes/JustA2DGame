@@ -77,12 +77,17 @@ public class EventHandler{
 
             if(hit(0,25,19,"any") == true) {damagePit(0,25,19,"buraco", 1 ,gp.dialogueState);}
             else if(hit(0,23,12,"up") == true) {healingPool(23,12,gp.dialogueState);}
-            else if(hit(0,10,37,"any") == true) {teleport(1, 12, 12);} // teleport inside HUT in map 0
-            else if(hit(1, 12, 13,"any") == true) {teleport(0,10,38);} // teleport out HUT to world
             else if(hit(0, 30, 37,"up") == true) {teleport(2,8,47);} // teleport DG
             else if(hit(2, 8, 48,"down") == true) {teleport(0,30,37);} // teleport out DG to world
             else if(hit(2,20,26,"any") == true) {damagePit(2,20,26, "poço de lava", 1 ,gp.dialogueState);}
             else if(hit(1, 12, 9, "up") == true) {speak(gp.npc[1][0]);}
+            
+            else if(hit(0,10,39,"any") == true) {teleport(1, 12, 12);} // to the merchant's
+            else if(hit(1, 12, 13,"any") == true) {teleport(0,10,39);} // to outside
+            else if(hit(0, 12, 9,"any") == true) {teleport(2,9,41);} // to the dungeon
+            else if(hit(2, 9, 41,"any") == true) {teleport(0,12,9);} // to outside
+            else if(hit(2, 8, 7,"any") == true) {teleport(3,26,41);} // to B2
+            else if(hit(3, 26, 41,"any") == true) {teleport(2,8,7);} // to B1
         }
     }
     
