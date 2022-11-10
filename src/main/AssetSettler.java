@@ -2,6 +2,7 @@ package main;
 
 import entity.NPC_Merchant;
 import entity.NPC_OldMan;
+import monster.MON_Bat;
 import monster.MON_GreenSlime;
 import monster.MON_Orc;
 import monster.MON_RedSlime;
@@ -13,6 +14,7 @@ import objects.OBJ_Heart;
 import objects.OBJ_Key;
 import objects.OBJ_Lantern;
 import objects.OBJ_ManaCrystal;
+import objects.OBJ_Pickaxe;
 import objects.OBJ_Potion_Red;
 import objects.OBJ_Shield_Blue;
 import objects.OBJ_Tent;
@@ -54,16 +56,12 @@ public class AssetSettler {
         gp.obj[mapNum][i].worldX = gp.tileSize*22;
         gp.obj[mapNum][i].worldY = gp.tileSize*29;
         i++;
-        gp.obj[mapNum][i] = new OBJ_ManaCrystal(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize*22;
-        gp.obj[mapNum][i].worldY = gp.tileSize*31;
-        i++;
         gp.obj[mapNum][i] = new OBJ_Door(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize*12;
+        gp.obj[mapNum][i].worldX = gp.tileSize*13;
         gp.obj[mapNum][i].worldY = gp.tileSize*23;
         i++;
         gp.obj[mapNum][i] = new OBJ_Door(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize*10;
+        gp.obj[mapNum][i].worldX = gp.tileSize*12;
         gp.obj[mapNum][i].worldY = gp.tileSize*12;
         i++;
         gp.obj[mapNum][i] = new OBJ_Chest(gp);
@@ -75,6 +73,14 @@ public class AssetSettler {
         gp.obj[mapNum][i].setLoot(new OBJ_Key(gp));
         gp.obj[mapNum][i].worldX = gp.tileSize*17;
         gp.obj[mapNum][i].worldY = gp.tileSize*20;
+        
+        // MAP DUNGEON LVL 1
+        mapNum = 2;
+        i = 0;
+        gp.obj[mapNum][i] = new OBJ_Chest(gp);
+        gp.obj[mapNum][i].setLoot(new OBJ_Pickaxe(gp));
+        gp.obj[mapNum][i].worldX = gp.tileSize*40;
+        gp.obj[mapNum][i].worldY = gp.tileSize*41;      
     }
     
     public void setNPC(){
@@ -131,12 +137,12 @@ public class AssetSettler {
         gp.monster[mapNum][i].worldY = gp.tileSize*33;
         
         // MAP 2
-/*        mapNum = 2;
+        mapNum = 2;
         i = 0;
-        gp.monster[mapNum][i] = new MON_GreenSlime(gp);
-        gp.monster[mapNum][i].worldX = gp.tileSize*9;
-        gp.monster[mapNum][i].worldY = gp.tileSize*33;
-        i++;
+        gp.monster[mapNum][i] = new MON_Bat(gp);
+        gp.monster[mapNum][i].worldX = gp.tileSize*37;
+        gp.monster[mapNum][i].worldY = gp.tileSize*15;
+/*        i++;
         gp.monster[mapNum][i] = new MON_GreenSlime(gp);
         gp.monster[mapNum][i].worldX = gp.tileSize*19;
         gp.monster[mapNum][i].worldY = gp.tileSize*27;

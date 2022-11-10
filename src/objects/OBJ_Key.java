@@ -36,7 +36,10 @@ public class OBJ_Key extends Entity{
         if(objIndex != 999) {
             startDialogue(this, 0);
             gp.playSE(3);
-            gp.obj[gp.currentMap][objIndex] = null;
+            gp.obj[gp.currentMap][objIndex].down1 = gp.obj[gp.currentMap][objIndex].image2;
+            gp.obj[gp.currentMap][objIndex].opened = true;
+            gp.obj[gp.currentMap][objIndex].collision = false;
+            //gp.obj[gp.currentMap][objIndex] = null;
             return true;
         }
         else {

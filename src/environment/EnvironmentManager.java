@@ -21,8 +21,8 @@ public class EnvironmentManager {
     }
     
     public void draw(Graphics2D g2) {
-        if(gp.currentMap!=2) {
+//        if(gp.currentMap!=2) {
             lighting.draw(g2);
-        }
+//        }
     }
 }

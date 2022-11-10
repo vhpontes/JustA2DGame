@@ -13,7 +13,9 @@ public class OBJ_Door extends Entity{
         
         type = type_obstacle;
         name = objName;
-        down1 = setup("objects/door", gp.tileSize, gp.tileSize);
+        image = setup("objects/door", gp.tileSize, gp.tileSize);
+        image2 = setup("objects/door_opened", gp.tileSize, gp.tileSize);
+        down1 = image;
         collision = true;
 
         solidArea.x = 0;
@@ -33,6 +35,16 @@ public class OBJ_Door extends Entity{
     
     public void interact() {
         
-        startDialogue(this, 0);
+        if(opened == false) {
+            
+            startDialogue(this, 0);
+        }
+        else {
+
+            gp.playSE(3);
+            down1 = image2;
+            opened = true;
+        }
+            
     }
 }

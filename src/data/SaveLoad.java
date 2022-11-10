@@ -1,22 +1,12 @@
 package data;
 
-import entity.Entity;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import main.GamePanel;
-import objects.OBJ_Axe;
-import objects.OBJ_Boots;
-import objects.OBJ_Chest;
-import objects.OBJ_Key;
-import objects.OBJ_Lantern;
-import objects.OBJ_Potion_Red;
-import objects.OBJ_Shield_Blue;
-import objects.OBJ_Shield_Wood;
-import objects.OBJ_Sword_Normal;
-import objects.OBJ_Tent;
+
 
 public class SaveLoad {
     

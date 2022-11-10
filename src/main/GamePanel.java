@@ -109,6 +109,13 @@ public class GamePanel extends JPanel implements Runnable{
     public final int sleepState = 11;
     public final int mapState = 12;
     
+    // GAME AREAS
+    public int currentArea;
+    public int nextArea;
+    public final int outside = 50;
+    public final int indoor = 51;
+    public final int dungeon = 52;
+    
     // INDEX NPC TWITCH
     private int npcTwitchIndex = 0;
     
@@ -132,6 +139,7 @@ public class GamePanel extends JPanel implements Runnable{
         eManager.setup();
         
         gameState = titleState;
+        currentArea = outside;
 
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D)tempScreen.getGraphics();
@@ -428,6 +436,27 @@ public class GamePanel extends JPanel implements Runnable{
     public void playSE(int i) {
         se.setFile(i);
         se.play();
+    }
+    
+    public void changeArea() {
+        
+        if(nextArea != currentArea) {
+            
+            stopMusic();
+            
+            if(nextArea == outside) {
+                playMusic(0);
+            }
+            if(nextArea == indoor) {
+                playMusic(20);
+            }
+            if(nextArea == dungeon) {
+                playMusic(19);
+            }
+        }
+        
+        currentArea = nextArea;
+        aSetter.setMonster();
     }
     
     public void addNPCTwitch(int mapNum, MessageEvent event) {
