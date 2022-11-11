@@ -8,7 +8,9 @@ import objects.OBJ_Heart;
 import objects.OBJ_ManaCrystal;
 
 public class MON_Orc extends Entity {
+    
     GamePanel gp;
+    public static String monName = "Orc";
     
     public MON_Orc(GamePanel gp){
         super(gp);
@@ -16,12 +18,11 @@ public class MON_Orc extends Entity {
         this.gp = gp;
         
         type = type_monster;
-        name = "Orc";
+        name = monName;
         defaultSpeed = 2;
         speed = defaultSpeed;
         maxLife = 10;
         life = maxLife;
-        damage = 1;
         attack = 8;
         defense = 2;
         exp = 10;
@@ -33,6 +34,7 @@ public class MON_Orc extends Entity {
         solidArea.height = 44;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+        
         attackArea.width = 48;
         attackArea.height = 48;
         
@@ -77,7 +79,7 @@ public class MON_Orc extends Entity {
         else {
 
             checkStartChasingOrNot(gp.player, 5, 100);         
-            getRandomDirection();
+            getRandomDirection(120);
         }
         
         // Check if it attack
@@ -88,8 +90,8 @@ public class MON_Orc extends Entity {
     }
     
     public void damageReaction() {
+
         actionLockCounter = 0;
-//        direction = gp.player.direction;
         onPath = true;
     }
     

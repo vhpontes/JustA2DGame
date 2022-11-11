@@ -6,6 +6,7 @@ import objects.OBJ_Boots;
 import objects.OBJ_Chest;
 import objects.OBJ_Coin_Bronze;
 import objects.OBJ_Door;
+import objects.OBJ_Door_Iron;
 import objects.OBJ_Fireball;
 import objects.OBJ_Heart;
 import objects.OBJ_Key;
@@ -37,6 +38,7 @@ public class EntityGenerator {
             case OBJ_Chest.objName: obj = new OBJ_Chest(gp); break; 
             case OBJ_Coin_Bronze.objName: obj = new OBJ_Coin_Bronze(gp); break; 
             case OBJ_Door.objName: obj = new OBJ_Door(gp); break;
+            case OBJ_Door_Iron.objName: obj = new OBJ_Door_Iron(gp); break;
             case OBJ_Fireball.objName: obj = new OBJ_Fireball(gp); break;
             case OBJ_Heart.objName: obj = new OBJ_Heart(gp); break;
             case OBJ_Key.objName: obj = new OBJ_Key(gp); break; 

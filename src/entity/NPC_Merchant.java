@@ -10,10 +10,13 @@ import objects.OBJ_Sword_Normal;
 import objects.OBJ_Tent;
 
 public class NPC_Merchant extends Entity{
+    
+    public static final String npcName = "Merchant";
 
     public NPC_Merchant(GamePanel gp){
         super(gp);
         
+        name = npcName;
         direction = "down";
         speed = 1;
         coin = 1000;

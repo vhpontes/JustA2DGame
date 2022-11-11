@@ -11,6 +11,7 @@ import objects.OBJ_Rock;
 public class MON_Bat extends Entity {
     
     GamePanel gp;
+    public static String monName = "Bat";
     
     public MON_Bat(GamePanel gp){
         super(gp);
@@ -18,21 +19,19 @@ public class MON_Bat extends Entity {
         this.gp = gp;
         
         type = type_monster;
-        name = "GreenSlime";
+        name = monName;
         defaultSpeed = 3;
         speed = defaultSpeed;
         maxLife = 2;
         life = maxLife;
-        damage = 1;
         attack = 2;
         defense = 0;
         exp = 2;
-        projectile = new OBJ_Rock(gp);
         
         solidArea.x = 3;
-        solidArea.y = 18;
+        solidArea.y = 15;
         solidArea.width = 42;
-        solidArea.height = 30;
+        solidArea.height = 21;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         
@@ -54,20 +53,20 @@ public class MON_Bat extends Entity {
 
         if(onPath == true){
 
-            checkStopChasingOrNot(gp.player, 10, 100);
-            searchPath(getGoalCol(gp.player), getGoalRow(gp.player));
+//            checkStopChasingOrNot(gp.player, 10, 100);
+//            searchPath(getGoalCol(gp.player), getGoalRow(gp.player));
         }
         else {
 
-            checkStartChasingOrNot(gp.player, 5, 100);         
-            getRandomDirection();
+//            checkStartChasingOrNot(gp.player, 5, 100);         
+            getRandomDirection(10);
         }
     }
     
     public void damageReaction() {
 
         actionLockCounter = 0;
-        onPath = true;
+//        onPath = true;
     }
     
     public void checkDrop() {

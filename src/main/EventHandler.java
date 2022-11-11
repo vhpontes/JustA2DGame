@@ -79,7 +79,7 @@ public class EventHandler{
             else if(hit(0,23,12,"up") == true) {healingPool(23,12,gp.dialogueState);}
             else if(hit(0, 30, 37,"up") == true) {teleport(2,8,47, gp.dungeon);} // teleport DG
             else if(hit(2, 8, 48,"down") == true) {teleport(0,30,37, gp.outside);} // teleport out DG to world
-            else if(hit(2,20,26,"any") == true) {damagePit(2,20,26, "poço de lava", 1 ,gp.dialogueState);}
+            //else if(hit(2,20,26,"any") == true) {damagePit(2,20,26, "poço de lava", 1 ,gp.dialogueState);}
             else if(hit(1, 12, 9, "up") == true) {speak(gp.npc[1][0]);}
             
             else if(hit(0,10,39,"any") == true) {teleport(1, 12, 12, gp.indoor);} // to the merchant's

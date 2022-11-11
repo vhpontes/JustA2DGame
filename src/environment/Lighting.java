@@ -32,7 +32,7 @@ public class Lighting {
         
         if(gp.player.currentLight == null) {
             
-            g2.setColor(new Color(0,0,0.1f, 0.93f));
+            g2.setColor(new Color(0,0,0.1f, 0.96f));
         }
         else {
         
@@ -50,9 +50,9 @@ public class Lighting {
             color[6] = new Color(0, 0, 0.1f, 0.82f);
             color[7] = new Color(0, 0, 0.1f, 0.87f);
             color[8] = new Color(0, 0, 0.1f, 0.91f);
-            color[9] = new Color(0, 0, 0.1f, 0.94f);
-            color[10] = new Color(0, 0, 0.1f, 0.96f);
-            color[11] = new Color(0, 0, 0.1f, 0.98f);
+            color[9] = new Color(0, 0, 0.1f, 0.92f);
+            color[10] = new Color(0, 0, 0.1f, 0.93f);
+            color[11] = new Color(0, 0, 0.1f, 0.94f);
 
             fraction[0] = 0f;
             fraction[1] = 0.40f;

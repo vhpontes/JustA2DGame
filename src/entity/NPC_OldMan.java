@@ -6,9 +6,12 @@ import main.GamePanel;
 
 public class NPC_OldMan extends Entity{
     
+    public static final String npcName = "Old Man";
+    
     public NPC_OldMan(GamePanel gp){
         super(gp);
         
+        name = npcName;
         direction = "down";
         speed = 1;
 
@@ -23,7 +26,7 @@ public class NPC_OldMan extends Entity{
         dialogueSet = -1;
         
         getImage();
-        setDialogue("br");
+        setDialogue("en");
     }
 
     public void getImage() {

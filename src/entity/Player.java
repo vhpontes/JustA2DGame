@@ -7,8 +7,11 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import main.GamePanel;
 import main.KeyHandler;
+import objects.OBJ_Boots;
 import objects.OBJ_Fireball;
 import objects.OBJ_Key;
+import objects.OBJ_Lantern;
+import objects.OBJ_Pickaxe;
 import objects.OBJ_Potion_Red;
 import objects.OBJ_Shield_Wood;
 import objects.OBJ_Sword_Normal;
@@ -43,7 +46,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 2;
+        //gp.currentMap = 3;
         switch(gp.currentMap){
             case 0:
                 worldX = gp.tileSize * 23;
@@ -58,6 +61,10 @@ public class Player extends Entity{
                 //worldY = gp.tileSize * 48;
                 worldX = gp.tileSize * 10;
                 worldY = gp.tileSize * 41;
+            break;
+            case 3:
+                worldX = gp.tileSize * 25;
+                worldY = gp.tileSize * 30;
             break;
         }        
     }
@@ -97,6 +104,7 @@ public class Player extends Entity{
     
     public void setDefaultPosition() {
         
+        gp.currentMap = 0;
         worldX = gp.tileSize * 23;
         worldY = gp.tileSize * 21;
         direction = "down";
@@ -126,8 +134,10 @@ public class Player extends Entity{
         inventory.clear();
         inventory.add(currentWeapon);
         inventory.add(currentShield);
-        inventory.add(new OBJ_Potion_Red(gp));
+        inventory.add(new OBJ_Boots(gp));
         inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Pickaxe(gp));
+        inventory.add(new OBJ_Lantern(gp));
     }
     
     public int getAttack() {
@@ -403,11 +413,13 @@ public class Player extends Entity{
             mana = maxMana; 
         }
         
-        // PLAYER GAME OVER
-        if(life <= 0){
-            gp.gameState = gp.gameOverState;
-            gp.ui.commandNum = -1;
-            gp.playSE(12);
+        if(keyH.godModeOn == false) {
+            // PLAYER GAME OVER
+            if(life <= 0){
+                gp.gameState = gp.gameOverState;
+                gp.ui.commandNum = -1;
+                gp.playSE(12);
+            }            
         }
     }
     
@@ -452,7 +464,9 @@ public class Player extends Entity{
             if(gp.keyH.enterPressed == true) {
                 attackCanceled = true;
                 gp.npc[gp.currentMap][i].speak();
-            }        
+            }  
+            
+            gp.npc[gp.currentMap][i].move(direction);
         }
     }
     
@@ -490,9 +504,11 @@ public class Player extends Entity{
                 }
                 
                 int damage = attack - gp.monster[gp.currentMap][i].defense;
+                
                 if(damage < 0){
                     damage = 0;
                 }
+                
                 gp.monster[gp.currentMap][i].life -= damage;
                 gp.ui.addMessage(damage + " damage !");
                 gp.monster[gp.currentMap][i].invincible = true;
@@ -521,6 +537,7 @@ public class Player extends Entity{
             generateParticle(gp.iTile[gp.currentMap][i], gp.iTile[gp.currentMap][i]);
             
             if(gp.iTile[gp.currentMap][i].life == 0) {
+                gp.iTile[gp.currentMap][i].checkDrop();
                 gp.iTile[gp.currentMap][i] = gp.iTile[gp.currentMap][i].getDestroyedForm();
             }
         }

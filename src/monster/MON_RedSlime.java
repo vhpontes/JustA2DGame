@@ -11,6 +11,7 @@ import objects.OBJ_Rock;
 public class MON_RedSlime extends Entity {
     
     GamePanel gp;
+    public static String monName = "Red Slime";
     
     public MON_RedSlime(GamePanel gp){
         super(gp);
@@ -18,7 +19,7 @@ public class MON_RedSlime extends Entity {
         this.gp = gp;
         
         type = type_monster;
-        name = "RedSlime";
+        name = monName;
         defaultSpeed = 2;
         speed = defaultSpeed;
         maxLife = 8;
@@ -48,7 +49,6 @@ public class MON_RedSlime extends Entity {
         right1 = setup("monster/redslime_down_1", gp.tileSize, gp.tileSize);
         right2 = setup("monster/redslime_down_2", gp.tileSize, gp.tileSize);
     }
-    
 
     public void setAction() {
 
@@ -61,11 +61,12 @@ public class MON_RedSlime extends Entity {
         else {
 
             checkStartChasingOrNot(gp.player, 5, 100);         
-            getRandomDirection();
+            getRandomDirection(120);
         }
     }
     
     public void damageReaction() {
+        
         actionLockCounter = 0;
         onPath = true;
     }

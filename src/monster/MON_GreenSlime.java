@@ -11,6 +11,7 @@ import objects.OBJ_Rock;
 public class MON_GreenSlime extends Entity {
     
     GamePanel gp;
+    public static String monName = "Green Slime";
     
     public MON_GreenSlime(GamePanel gp){
         super(gp);
@@ -18,12 +19,12 @@ public class MON_GreenSlime extends Entity {
         this.gp = gp;
         
         type = type_monster;
-        name = "GreenSlime";
+        name = monName;
         defaultSpeed = 1;
         speed = defaultSpeed;
         maxLife = 4;
         life = maxLife;
-        damage = 1;
+//        damage = 1;
         attack = 5;
         defense = 0;
         exp = 2;
@@ -61,7 +62,7 @@ public class MON_GreenSlime extends Entity {
         else {
 
             checkStartChasingOrNot(gp.player, 5, 100);         
-            getRandomDirection();
+            getRandomDirection(120);
         }
     }
     

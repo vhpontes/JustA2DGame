@@ -8,6 +8,7 @@ import entity.Player;
 import environment.EnvironmentManager;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
@@ -151,6 +152,7 @@ public class GamePanel extends JPanel implements Runnable{
     
     public void resetGame(boolean restart) {
         
+        currentArea = outside;
         player.setDefaultPosition();
         player.restoreStatus();
         player.resetCounter();
@@ -317,7 +319,7 @@ public class GamePanel extends JPanel implements Runnable{
         
         // DEBUG START
         long drawStart = 0;
-        if(keyH.checkDrawTime == true){
+        if(keyH.showDebugText == true){
             drawStart = System.nanoTime();
         }
         
@@ -414,6 +416,26 @@ public class GamePanel extends JPanel implements Runnable{
             // UI
             ui.draw(g2);
         }
+        
+        if(keyH.showDebugText == true) {
+            long drawEnd = System.nanoTime();
+            long passed = drawEnd - drawStart;
+            
+            g2.setFont(new Font("Arial", Font.PLAIN, 20));
+            g2.setColor(Color.white);
+            
+            int x = 10;
+            int y = 400;
+            
+            int lineHeight = 20;
+            
+            g2.drawString("World X: "+ player.worldX, x, y); y += lineHeight;
+            g2.drawString("World Y: "+ player.worldY, x, y); y += lineHeight;
+            g2.drawString("Col: "+ (player.worldX * player.solidArea.x) / tileSize, x, y); y += lineHeight;
+            g2.drawString("Row: "+ (player.worldY * player.solidArea.y) / tileSize, x, y); y += lineHeight;
+            g2.drawString("Draw Time: " + passed, x, y); y += lineHeight;
+            g2.drawString("God Mode: " + keyH.godModeOn, x, y);
+        }
     }
     
     public void drawToScreen() {
@@ -453,6 +475,8 @@ public class GamePanel extends JPanel implements Runnable{
             if(nextArea == dungeon) {
                 playMusic(19);
             }
+            
+            aSetter.setNPC();
         }
         
         currentArea = nextArea;

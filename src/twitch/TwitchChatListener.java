@@ -38,66 +38,67 @@ public class TwitchChatListener extends ListenerAdapter {
         
         DateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         
-        if(event.getUser().getNick().equalsIgnoreCase("nightbot")) {
+        if(!event.getUser().getNick().equals("nightbot")) {
 
             System.out.println(event.getUser().getUserLevels(event.getChannel())+" "+
                     f.format(event.getTimestamp())+"> "+
                     event.getUser().getNick()+": "+
                     event.getMessage());
-        }
         
-        if(!twitchMessage.startsWith("!") || event.getUser().getNick().equalsIgnoreCase("nightbot")) {
-
-            gp.ui.addMessage(event.getUser().getNick()+": " + twitchMessage);
-        }
         
-        if (twitchMessage.equals("!new") && gp.getNPCTwitch(userHashCode) == null) {
+            if(!twitchMessage.startsWith("!") || event.getUser().getNick().equalsIgnoreCase("nightbot")) {
 
-            gp.addNPCTwitch(mapNum, event);
-            gp.ui.addMessage(event.getUser().getNick()+" now have an NPC!");
-        }
-        else if(!twitchMessage.startsWith("!")){
-
-            NPC_Twitch npcT = gp.getNPCTwitch(userHashCode);
-            if(npcT!=null){
-                npcT.npcTwitchMessage = twitchMessage;
-                npcT.messageTwitchTimeStamp = System.currentTimeMillis();
+                gp.ui.addMessage(event.getUser().getNick()+": " + twitchMessage);
             }
-        }
-        
-        if (event.getUser().getNick().equalsIgnoreCase("twitchnotify")){
-//            gp.gameState = gp.subState;
-//            System.out.println(twitchMessage);
-//            gp.gameState = gp.playState;
-            gp.player.generateFirework(gp.player.projectile, gp.player);
-            TimeUnit.SECONDS.sleep(1);
-            gp.player.generateFirework(gp.player.projectile, gp.player);
-            TimeUnit.SECONDS.sleep(1);
-            gp.player.generateFirework(gp.player.projectile, gp.player);
-            TimeUnit.SECONDS.sleep(2);
-            gp.player.generateFirework(gp.player.projectile, gp.player);
-            TimeUnit.SECONDS.sleep(1);
-            gp.player.generateFirework(gp.player.projectile, gp.player);
-            TimeUnit.SECONDS.sleep(1);
-            gp.player.generateFirework(gp.player.projectile, gp.player);
-            TimeUnit.SECONDS.sleep(1);
-            gp.player.generateFirework(gp.player.projectile, gp.player);
-            TimeUnit.SECONDS.sleep(3);
-            gp.player.generateFirework(gp.player.projectile, gp.player);
-            TimeUnit.SECONDS.sleep(3);
-            gp.player.generateFirework(gp.player.projectile, gp.player);
-        }
-        
-        if(twitchMessage.equals("!firework")) {
-            gp.playSE(14);
-            gp.player.generateFirework(gp.player.projectile, gp.player);
-            TimeUnit.SECONDS.sleep(1);
-            gp.player.generateFirework(gp.player.projectile, gp.player);
-            TimeUnit.SECONDS.sleep(1);
-            gp.player.generateFirework(gp.player.projectile, gp.player);
-            TimeUnit.SECONDS.sleep(1);
-            //gp.projectileList.add(new OBJ_Fireball(gp));
-            //keyH.shotKeyPressed = true;
+
+            if (twitchMessage.equals("!new") && gp.getNPCTwitch(userHashCode) == null) {
+
+                gp.addNPCTwitch(mapNum, event);
+                gp.ui.addMessage(event.getUser().getNick()+" now have an NPC!");
+            }
+            else if(!twitchMessage.startsWith("!")){
+
+                NPC_Twitch npcT = gp.getNPCTwitch(userHashCode);
+                if(npcT!=null){
+                    npcT.npcTwitchMessage = twitchMessage;
+                    npcT.messageTwitchTimeStamp = System.currentTimeMillis();
+                }
+            }
+
+            if (event.getUser().getNick().equalsIgnoreCase("twitchnotify")){
+    //            gp.gameState = gp.subState;
+    //            System.out.println(twitchMessage);
+    //            gp.gameState = gp.playState;
+                gp.player.generateFirework(gp.player.projectile, gp.player);
+                TimeUnit.SECONDS.sleep(1);
+                gp.player.generateFirework(gp.player.projectile, gp.player);
+                TimeUnit.SECONDS.sleep(1);
+                gp.player.generateFirework(gp.player.projectile, gp.player);
+                TimeUnit.SECONDS.sleep(2);
+                gp.player.generateFirework(gp.player.projectile, gp.player);
+                TimeUnit.SECONDS.sleep(1);
+                gp.player.generateFirework(gp.player.projectile, gp.player);
+                TimeUnit.SECONDS.sleep(1);
+                gp.player.generateFirework(gp.player.projectile, gp.player);
+                TimeUnit.SECONDS.sleep(1);
+                gp.player.generateFirework(gp.player.projectile, gp.player);
+                TimeUnit.SECONDS.sleep(3);
+                gp.player.generateFirework(gp.player.projectile, gp.player);
+                TimeUnit.SECONDS.sleep(3);
+                gp.player.generateFirework(gp.player.projectile, gp.player);
+            }
+
+            if(twitchMessage.equals("!firework")) {
+                gp.playSE(14);
+                gp.player.generateFirework(gp.player.projectile, gp.player);
+                TimeUnit.SECONDS.sleep(1);
+                gp.player.generateFirework(gp.player.projectile, gp.player);
+                TimeUnit.SECONDS.sleep(1);
+                gp.player.generateFirework(gp.player.projectile, gp.player);
+                TimeUnit.SECONDS.sleep(1);
+                //gp.projectileList.add(new OBJ_Fireball(gp));
+                //keyH.shotKeyPressed = true;
+            }
         }
     }
 }
