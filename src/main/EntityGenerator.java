@@ -1,8 +1,10 @@
 package main;
 
 import entity.Entity;
+import objects.OBJ_Arrow;
 import objects.OBJ_Axe;
 import objects.OBJ_Boots;
+import objects.OBJ_Bow_Normal;
 import objects.OBJ_Chest;
 import objects.OBJ_Coin_Bronze;
 import objects.OBJ_Door;
@@ -33,8 +35,10 @@ public class EntityGenerator {
         Entity obj = null;
         
         switch(itemName) {
+            case OBJ_Arrow.objName: obj = new OBJ_Arrow(gp); break; 
             case OBJ_Axe.objName: obj = new OBJ_Axe(gp); break; 
             case OBJ_Boots.objName: obj = new OBJ_Boots(gp); break; 
+            case OBJ_Bow_Normal.objName: obj = new OBJ_Bow_Normal(gp); break; 
             case OBJ_Chest.objName: obj = new OBJ_Chest(gp); break; 
             case OBJ_Coin_Bronze.objName: obj = new OBJ_Coin_Bronze(gp); break; 
             case OBJ_Door.objName: obj = new OBJ_Door(gp); break;

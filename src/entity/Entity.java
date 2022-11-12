@@ -78,6 +78,8 @@ public class Entity {
     public int life;
     public int maxMana;
     public int mana;
+    public int maxArrow;
+    public int arrow;
     public int ammo;
     public int damage = 0;
     public int level;
@@ -94,6 +96,7 @@ public class Entity {
     public Entity currentShield;
     public Entity currentLight;
     public Projectile projectile;
+    public Projectile projectileWeapow;
     
     // ITEM ATTRIBUTES
     public ArrayList<Entity> inventory = new ArrayList<>();
@@ -108,6 +111,7 @@ public class Entity {
     public int amount = 1;
     public int lightRadius;
     public boolean stackable = false;
+    public boolean handObject = false;
 
     // TYPE
     public int type; //0 = player, 1 = npc, 2 = monster
@@ -122,6 +126,7 @@ public class Entity {
     public final int type_obstacle = 8;
     public final int type_light = 9;
     public final int type_pickaxe = 10;
+    public final int type_bow = 11;
     
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -630,19 +635,19 @@ public class Entity {
     public void attacking(){
         
         spriteCounter++;
-        
+
         if (spriteCounter <= motion1_duration) {
             spriteNum = 1;
         }
         if (spriteCounter > motion1_duration && spriteCounter <= motion2_duration){
             spriteNum = 2;
-            
+
             // Save positions and areas
             int currentWorldX = worldX;
             int currentWorldY = worldY;
             int solidAreaWidth = solidArea.width;
             int solidAreaHeight = solidArea.height;
-            
+
             // Adjust player's worldX/Y for the attackArea
             switch(direction){
                 case "up": worldY -= attackArea.height; break;
@@ -650,13 +655,13 @@ public class Entity {
                 case "left": worldX -= attackArea.width; break;
                 case "right": worldX += attackArea.width; break;
             }
-            
+
             // attackArea -> solidArea
             solidArea.width = attackArea.width;
             solidArea.height = attackArea.height;
-            
+
             if(type == type_monster) {
-                
+
                 if(gp.cChecker.checkPlayer(this) == true) {
                     damagePlayer(attack);
                 }
@@ -669,17 +674,19 @@ public class Entity {
                 int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
                 gp.player.damageInteractiveTile(iTileIndex, attack);
 
-                int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
+                 int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
                 gp.player.damageProjectile(projectileIndex);
+
+
             }
-            
+
             // After checking collision, rollback values of worldX/Y and solidArea
             worldX = currentWorldX;
             worldY = currentWorldY;
             solidArea.width = solidAreaWidth;
             solidArea.height = solidAreaHeight;
         }
-        
+
         if (spriteCounter > motion2_duration) {
             spriteNum = 1;
             spriteCounter = 0;

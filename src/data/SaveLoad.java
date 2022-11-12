@@ -30,6 +30,8 @@ public class SaveLoad {
             ds.life = gp.player.life;
             ds.maxMana = gp.player.maxMana;
             ds.mana = gp.player.mana;
+            ds.maxArrow = gp.player.maxArrow;
+            ds.arrow = gp.player.arrow;
             ds.strength = gp.player.strength;
             ds.dexterty = gp.player.dexterty;
             ds.exp = gp.player.exp;
@@ -95,6 +97,8 @@ public class SaveLoad {
             gp.player.life = ds.life;
             gp.player.maxMana = ds.maxMana;
             gp.player.mana = ds.mana;
+            gp.player.maxArrow = ds.maxArrow;
+            gp.player.arrow = ds.arrow;
             gp.player.strength = ds.strength;
             gp.player.dexterty = ds.dexterty;
             gp.player.exp = ds.exp;

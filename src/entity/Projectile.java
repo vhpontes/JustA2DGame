@@ -18,10 +18,19 @@ public class Projectile extends Entity{
         this.alive = alive;
         this.user = user;
         this.life = this.maxLife;
+        this.stackable = true;
     }
     
     public void update() {
         
+        if(user == gp.player && gp.player.currentWeapon.type == type_bow) {
+            int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+            if (monsterIndex != 999) {
+                gp.player.damageMonster(monsterIndex, this, attack, user.projectileWeapow.knockBackPower);
+                generateParticle(user.projectileWeapow, gp.monster[gp.currentMap][monsterIndex]);
+                alive = false;
+            }
+        }
         if(user == gp.player) {
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             if (monsterIndex != 999) {

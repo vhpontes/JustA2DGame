@@ -12,6 +12,7 @@ public class OBJ_Axe extends Entity {
         
         type = type_axe;
         name = objName;
+        handObject = true;
         down1 = setup("objects/axe", gp.tileSize, gp.tileSize);
         attackValue = 2;
         attackArea.width = 30;

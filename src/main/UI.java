@@ -1073,7 +1073,10 @@ public class UI {
             if(itemIndex < entity.inventory.size()) {
 
                 drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
-
+                
+                if(entity.inventory.get(itemIndex).description == null) {
+                    g2.drawString("", textX, textY);
+                } else
                 for(String line: entity.inventory.get(itemIndex).description.split("\n")) {
                     g2.drawString(line, textX, textY);
                     g2.setColor(Color.green);

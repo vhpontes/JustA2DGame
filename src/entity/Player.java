@@ -7,7 +7,9 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import main.GamePanel;
 import main.KeyHandler;
+import objects.OBJ_Arrow;
 import objects.OBJ_Boots;
+import objects.OBJ_Bow_Normal;
 import objects.OBJ_Fireball;
 import objects.OBJ_Key;
 import objects.OBJ_Lantern;
@@ -24,6 +26,7 @@ public class Player extends Entity{
     int standCounter = 0;
     public boolean attackCanceled = false;
     public boolean lightUpdated = false;
+    public String imageHeroPlayer = "hero001";
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -46,7 +49,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        //gp.currentMap = 3;
+        //gp.currentMap = 1;
         switch(gp.currentMap){
             case 0:
                 worldX = gp.tileSize * 23;
@@ -82,16 +85,19 @@ public class Player extends Entity{
         life = maxLife;
         maxMana = 4;
         mana = maxMana;
+        maxArrow = 20;
+        arrow = maxArrow;
         ammo = 10;
         strength = 1; // the more strength he has, the more damage he gives.
         dexterty = 1; // the more dexterty he has, the less damage he receives.
         exp = 0;
         nextLevelExp = 5;
         coin = 500;
-        currentWeapon = new OBJ_Sword_Normal(gp);
-        currentShield = new OBJ_Shield_Wood(gp);
+        currentWeapon    = new OBJ_Sword_Normal(gp);
+        currentShield    = new OBJ_Shield_Wood(gp);
+        projectile       = new OBJ_Fireball(gp);
+        projectileWeapow = new OBJ_Arrow(gp);
         currentLight = null;
-        projectile = new OBJ_Fireball(gp);
         attack = getAttack();  // total attack value is decided by strength and weapon.
         defense = getDefense();// total defense value is decided by dexterty and shield.
         
@@ -120,6 +126,7 @@ public class Player extends Entity{
         
         life = maxLife;
         mana = maxMana;
+        arrow = maxArrow;
         speed = defaultSpeed;
         invincible = false;
         transparent = false;
@@ -138,9 +145,11 @@ public class Player extends Entity{
         inventory.add(new OBJ_Key(gp));
         inventory.add(new OBJ_Pickaxe(gp));
         inventory.add(new OBJ_Lantern(gp));
+        inventory.add(new OBJ_Bow_Normal(gp));
     }
     
     public int getAttack() {
+        
         attackArea = currentWeapon.attackArea;
         motion1_duration = currentWeapon.motion1_duration;
         motion2_duration = currentWeapon.motion2_duration;        
@@ -172,24 +181,15 @@ public class Player extends Entity{
     }
     
     public void getImage() {
-        
-        up1    = setup("player/boy_up_1",    gp.tileSize, gp.tileSize);
-        up2    = setup("player/boy_up_2",    gp.tileSize, gp.tileSize);
-        down1  = setup("player/boy_down_1",  gp.tileSize, gp.tileSize);
-        down2  = setup("player/boy_down_2",  gp.tileSize, gp.tileSize);
-        left1  = setup("player/boy_left_1",  gp.tileSize, gp.tileSize);
-        left2  = setup("player/boy_left_2",  gp.tileSize, gp.tileSize);
-        right1 = setup("player/boy_right_1", gp.tileSize, gp.tileSize);
-        right2 = setup("player/boy_right_2", gp.tileSize, gp.tileSize);
 
-//        up1 = setup("npctwitch/twitch002_up_1", gp.tileSize, gp.tileSize);
-//        up2 = setup("npctwitch/twitch002_up_2", gp.tileSize, gp.tileSize);
-//        down1 = setup("npctwitch/twitch002_down_1", gp.tileSize, gp.tileSize);
-//        down2 = setup("npctwitch/twitch002_down_2", gp.tileSize, gp.tileSize);
-//        left1 = setup("npctwitch/twitch002_left_1", gp.tileSize, gp.tileSize);
-//        left2 = setup("npctwitch/twitch002_left_2", gp.tileSize, gp.tileSize);
-//        right1 = setup("npctwitch/twitch002_right_1", gp.tileSize, gp.tileSize);
-//        right2 = setup("npctwitch/twitch002_right_2", gp.tileSize, gp.tileSize);
+        up1    = setup("player/"+imageHeroPlayer+"_up_1",    gp.tileSize, gp.tileSize);
+        up2    = setup("player/"+imageHeroPlayer+"_up_2",    gp.tileSize, gp.tileSize);
+        down1  = setup("player/"+imageHeroPlayer+"_down_1",  gp.tileSize, gp.tileSize);
+        down2  = setup("player/"+imageHeroPlayer+"_down_2",  gp.tileSize, gp.tileSize);
+        left1  = setup("player/"+imageHeroPlayer+"_left_1",  gp.tileSize, gp.tileSize);
+        left2  = setup("player/"+imageHeroPlayer+"_left_2",  gp.tileSize, gp.tileSize);
+        right1 = setup("player/"+imageHeroPlayer+"_right_1", gp.tileSize, gp.tileSize);
+        right2 = setup("player/"+imageHeroPlayer+"_right_2", gp.tileSize, gp.tileSize);
     }
     
     public void getSleepImage(BufferedImage image) {
@@ -209,43 +209,53 @@ public class Player extends Entity{
         int imgDouble = gp.tileSize*2;
         
         if(currentWeapon.type == type_sword) {
-            attackUp1    = setup("player/boy_attack_up_1",   gp.tileSize, imgDouble);
-            attackUp2    = setup("player/boy_attack_up_2",   gp.tileSize, imgDouble);
-            attackDown1  = setup("player/boy_attack_down_1", gp.tileSize, imgDouble);
-            attackDown2  = setup("player/boy_attack_down_2", gp.tileSize, imgDouble);
-            attackLeft1  = setup("player/boy_attack_left_1", imgDouble, gp.tileSize);
-            attackLeft2  = setup("player/boy_attack_left_2", imgDouble, gp.tileSize);
-            attackRight1 = setup("player/boy_attack_right_1",imgDouble, gp.tileSize);
-            attackRight2 = setup("player/boy_attack_right_2",imgDouble, gp.tileSize);
+            attackUp1    = setup("player/"+imageHeroPlayer+"_attack_up_1",   gp.tileSize, imgDouble);
+            attackUp2    = setup("player/"+imageHeroPlayer+"_attack_up_2",   gp.tileSize, imgDouble);
+            attackDown1  = setup("player/"+imageHeroPlayer+"_attack_down_1", gp.tileSize, imgDouble);
+            attackDown2  = setup("player/"+imageHeroPlayer+"_attack_down_2", gp.tileSize, imgDouble);
+            attackLeft1  = setup("player/"+imageHeroPlayer+"_attack_left_1", imgDouble, gp.tileSize);
+            attackLeft2  = setup("player/"+imageHeroPlayer+"_attack_left_2", imgDouble, gp.tileSize);
+            attackRight1 = setup("player/"+imageHeroPlayer+"_attack_right_1",imgDouble, gp.tileSize);
+            attackRight2 = setup("player/"+imageHeroPlayer+"_attack_right_2",imgDouble, gp.tileSize);
         }
         if(currentWeapon.type == type_axe) {
-            attackUp1    = setup("player/boy_axe_up_1",   gp.tileSize, imgDouble);
-            attackUp2    = setup("player/boy_axe_up_2",   gp.tileSize, imgDouble);
-            attackDown1  = setup("player/boy_axe_down_1", gp.tileSize, imgDouble);
-            attackDown2  = setup("player/boy_axe_down_2", gp.tileSize, imgDouble);
-            attackLeft1  = setup("player/boy_axe_left_1", imgDouble, gp.tileSize);
-            attackLeft2  = setup("player/boy_axe_left_2", imgDouble, gp.tileSize);
-            attackRight1 = setup("player/boy_axe_right_1",imgDouble, gp.tileSize);
-            attackRight2 = setup("player/boy_axe_right_2",imgDouble, gp.tileSize);
+            attackUp1    = setup("player/"+imageHeroPlayer+"_axe_up_1",   gp.tileSize, imgDouble);
+            attackUp2    = setup("player/"+imageHeroPlayer+"_axe_up_2",   gp.tileSize, imgDouble);
+            attackDown1  = setup("player/"+imageHeroPlayer+"_axe_down_1", gp.tileSize, imgDouble);
+            attackDown2  = setup("player/"+imageHeroPlayer+"_axe_down_2", gp.tileSize, imgDouble);
+            attackLeft1  = setup("player/"+imageHeroPlayer+"_axe_left_1", imgDouble, gp.tileSize);
+            attackLeft2  = setup("player/"+imageHeroPlayer+"_axe_left_2", imgDouble, gp.tileSize);
+            attackRight1 = setup("player/"+imageHeroPlayer+"_axe_right_1",imgDouble, gp.tileSize);
+            attackRight2 = setup("player/"+imageHeroPlayer+"_axe_right_2",imgDouble, gp.tileSize);
         }
         if(currentWeapon.type == type_pickaxe) {
-            attackUp1    = setup("player/boy_pick_up_1",   gp.tileSize, imgDouble);
-            attackUp2    = setup("player/boy_pick_up_2",   gp.tileSize, imgDouble);
-            attackDown1  = setup("player/boy_pick_down_1", gp.tileSize, imgDouble);
-            attackDown2  = setup("player/boy_pick_down_2", gp.tileSize, imgDouble);
-            attackLeft1  = setup("player/boy_pick_left_1", imgDouble, gp.tileSize);
-            attackLeft2  = setup("player/boy_pick_left_2", imgDouble, gp.tileSize);
-            attackRight1 = setup("player/boy_pick_right_1",imgDouble, gp.tileSize);
-            attackRight2 = setup("player/boy_pick_right_2",imgDouble, gp.tileSize);
+            attackUp1    = setup("player/"+imageHeroPlayer+"_pick_up_1",   gp.tileSize, imgDouble);
+            attackUp2    = setup("player/"+imageHeroPlayer+"_pick_up_2",   gp.tileSize, imgDouble);
+            attackDown1  = setup("player/"+imageHeroPlayer+"_pick_down_1", gp.tileSize, imgDouble);
+            attackDown2  = setup("player/"+imageHeroPlayer+"_pick_down_2", gp.tileSize, imgDouble);
+            attackLeft1  = setup("player/"+imageHeroPlayer+"_pick_left_1", imgDouble, gp.tileSize);
+            attackLeft2  = setup("player/"+imageHeroPlayer+"_pick_left_2", imgDouble, gp.tileSize);
+            attackRight1 = setup("player/"+imageHeroPlayer+"_pick_right_1",imgDouble, gp.tileSize);
+            attackRight2 = setup("player/"+imageHeroPlayer+"_pick_right_2",imgDouble, gp.tileSize);
+        }
+        if(currentWeapon.type == type_bow) {
+            attackUp1    = setup("player/"+imageHeroPlayer+"_up_1",   gp.tileSize, gp.tileSize);
+            attackUp2    = setup("player/"+imageHeroPlayer+"_up_2",   gp.tileSize, gp.tileSize);
+            attackDown1  = setup("player/"+imageHeroPlayer+"_down_1", gp.tileSize, gp.tileSize);
+            attackDown2  = setup("player/"+imageHeroPlayer+"_down_2", gp.tileSize, gp.tileSize);
+            attackLeft1  = setup("player/"+imageHeroPlayer+"_left_1", gp.tileSize, gp.tileSize);
+            attackLeft2  = setup("player/"+imageHeroPlayer+"_left_2", gp.tileSize, gp.tileSize);
+            attackRight1 = setup("player/"+imageHeroPlayer+"_right_1",gp.tileSize, gp.tileSize);
+            attackRight2 = setup("player/"+imageHeroPlayer+"_right_2",gp.tileSize, gp.tileSize);
         }
     }
     
     public void getGuardImage() {
         
-            guardUp    = setup("player/boy_guard_up",    gp.tileSize, gp.tileSize);
-            guardDown  = setup("player/boy_guard_down",  gp.tileSize, gp.tileSize);
-            guardLeft  = setup("player/boy_guard_left",  gp.tileSize, gp.tileSize);
-            guardRight = setup("player/boy_guard_right", gp.tileSize, gp.tileSize);
+            guardUp    = setup("player/"+imageHeroPlayer+"_guard_up",    gp.tileSize, gp.tileSize);
+            guardDown  = setup("player/"+imageHeroPlayer+"_guard_down",  gp.tileSize, gp.tileSize);
+            guardLeft  = setup("player/"+imageHeroPlayer+"_guard_left",  gp.tileSize, gp.tileSize);
+            guardRight = setup("player/"+imageHeroPlayer+"_guard_right", gp.tileSize, gp.tileSize);
     }
        
     public void update() {
@@ -281,7 +291,7 @@ public class Player extends Entity{
                 speed = defaultSpeed;
             }
         }
-        else if (attacking == true){
+        else if (attacking == true && gp.player.currentWeapon.type != type_bow){
             attacking();
         }
         else if(keyH.fPressed == true) {
@@ -333,9 +343,15 @@ public class Player extends Entity{
                 }
             }
             
-            if(keyH.enterPressed == true && attackCanceled == false){
+            // CHECK IF MELEE OR RANGED WEAPOW
+            if(keyH.enterPressed == true && attackCanceled == false && gp.player.currentWeapon.type != type_bow){
                 gp.playSE(7);
                 attacking = true;
+                spriteCounter = 0;
+            }
+            else if(keyH.enterPressed == true && attackCanceled == false && gp.player.currentWeapon.type == type_bow) {
+                gp.playSE(23);
+                //attacking = true;
                 spriteCounter = 0;
             }
             
@@ -367,9 +383,10 @@ public class Player extends Entity{
             guardCounter = 0;
         }            
         
-        // PROJECTILE
+        // PROJECTILE FIREBALL
         if(gp.keyH.shotKeyPressed == true && projectile.alive == false 
-                && shotAvailableCounter == 30 && projectile.haveResource(this) == true) {
+                && shotAvailableCounter == 30 && projectile.haveResource(this) == true 
+                && gp.player.attacking == false) {
             
             //SET DEFAULT COORDINATES, DIRECTION AND USER
             projectile.set(worldX, worldY, direction, true, this);
@@ -391,7 +408,30 @@ public class Player extends Entity{
             
             gp.playSE(10);
         }
-        
+        // PROJECTILE WEAPOW
+        else if(gp.keyH.shotKeyPressed == true && projectileWeapow.alive == false 
+                && shotAvailableCounter == 30 && projectileWeapow.haveResource(this) == true) {
+            
+            //SET DEFAULT COORDINATES, DIRECTION AND USER
+            projectileWeapow.set(worldX, worldY, direction, true, this);
+            
+            // SUBTRACT THE COST (MANA, AMMO, ETC.)
+            projectileWeapow.subtractResource(this);
+            
+            // ADD IT TO THE LIST
+            //gp.projectileList.add(projectile);
+            // CHECK EMPTY SLOT PROJECTILE
+            for(int i=0; i < gp.projectileWeapow[1].length; i++) {
+                if(gp.projectileWeapow[gp.currentMap][i] == null) {
+                    gp.projectileWeapow[gp.currentMap][i] = projectileWeapow;
+                    break;
+                }
+            }
+            
+            shotAvailableCounter = 0;
+            
+            gp.playSE(23);
+        }        
         // This needs to be outside of key if statement
         if(invincible == true) {
             invincibleCounter++;
@@ -580,8 +620,9 @@ public class Player extends Entity{
             
             Entity selectedItem = inventory.get(itemIndex);
             
-            if(selectedItem.type == type_sword || selectedItem.type == type_axe 
-                    || selectedItem.type == type_pickaxe) {
+//            if(selectedItem.type == type_sword || selectedItem.type == type_axe 
+//                    || selectedItem.type == type_pickaxe || selectedItem.type == type_bow) {
+            if(selectedItem.handObject == true) {
                 
                 currentWeapon = selectedItem;
                 attack = getAttack();

@@ -89,6 +89,7 @@ public class GamePanel extends JPanel implements Runnable{
     public InteractiveTile iTile[][] = new InteractiveTile[maxMap][60];
 //    public ArrayList<Entity> projectileList = new ArrayList();
     public Entity projectile[][] = new Entity[maxMap][40];
+    public Entity projectileWeapow[][] = new Entity[maxMap][40];
     public ArrayList<Entity> particleList = new ArrayList();
     public ArrayList<Entity> fireworkList = new ArrayList();
     ArrayList<Entity> entityList = new ArrayList();
@@ -270,6 +271,16 @@ public class GamePanel extends JPanel implements Runnable{
 //                    }
 //                }
 //            }
+            for(int i = 0; i < projectileWeapow[1].length; i++) {
+                if(projectileWeapow[currentMap][i] != null) {
+                    if(projectileWeapow[currentMap][i].alive == true) {
+                        projectileWeapow[currentMap][i].update();
+                    }
+                    if(projectileWeapow[currentMap][i].alive == false) {
+                        projectileWeapow[currentMap][i] = null;
+                    }
+                }
+            }
             for(int i = 0; i < projectile[1].length; i++) {
                 if(projectile[currentMap][i] != null) {
                     if(projectile[currentMap][i].alive == true) {
@@ -380,6 +391,12 @@ public class GamePanel extends JPanel implements Runnable{
             for(int i = 0; i < fireworkList.size(); i++) {
                 if(fireworkList.get(i) != null) {
                     entityList.add(fireworkList.get(i));
+                }
+            }            
+            // PROJECTILE WEAPOW LIST
+            for(int i = 0; i < projectileWeapow[1].length; i++) {
+                if(projectileWeapow[currentMap][i] != null) {
+                    entityList.add(projectileWeapow[currentMap][i]);
                 }
             }            
             // PROJECTILE LIST

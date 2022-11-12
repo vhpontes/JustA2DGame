@@ -11,6 +11,8 @@ public class DataStorage implements Serializable {
     int life;
     int maxMana;
     int mana;
+    int maxArrow;
+    int arrow;
     int strength;
     int dexterty;
     int exp;

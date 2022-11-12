@@ -3,6 +3,7 @@ package monster;
 import entity.Entity;
 import java.util.Random;
 import main.GamePanel;
+import objects.OBJ_Arrow;
 import objects.OBJ_Coin_Bronze;
 import objects.OBJ_Heart;
 import objects.OBJ_ManaCrystal;
@@ -78,8 +79,11 @@ public class MON_GreenSlime extends Entity {
         int i = new Random().nextInt(100)+1;
         
         // SET THE MONSTER DROP
-        if(i < 50) {
+        if(i < 25) {
             dropItem(new OBJ_Coin_Bronze(gp));
+        }
+        if(i >= 25 && i < 50) {
+            dropItem(new OBJ_Arrow(gp));
         }
         if(i >= 50 && i < 75) {
             dropItem(new OBJ_Heart(gp));

@@ -12,6 +12,7 @@ public class OBJ_Pickaxe extends Entity {
         
         type = type_pickaxe;
         name = objName;
+        handObject = true;
         down1 = setup("objects/pickaxe", gp.tileSize, gp.tileSize);
         attackValue = 2;
         attackArea.width = 30;

@@ -167,7 +167,10 @@ public class KeyHandler implements KeyListener{
             }
         }
         if(code == KeyEvent.VK_ENTER) {
-            enterPressed = true;  
+            enterPressed = true;
+            if(gp.player.currentWeapon.type == gp.player.type_bow) {
+                shotKeyPressed = true;  
+            }
         }
         if(code == KeyEvent.VK_SPACE) {
             shotKeyPressed = true;  
@@ -440,6 +443,9 @@ public class KeyHandler implements KeyListener{
         }       
         if(code == KeyEvent.VK_ENTER) {
             enterPressed = false;
+            if(gp.player.currentWeapon.type == gp.player.type_bow) {
+                shotKeyPressed = false;  
+            }
         }    
         if(code == KeyEvent.VK_SPACE) {
            shotKeyPressed = false;            
