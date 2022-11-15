@@ -31,7 +31,7 @@ public class Projectile extends Entity{
                 alive = false;
             }
         }
-        if(user == gp.player) {
+        if(user == gp.player && gp.player.currentWeapon.type != type_bow) {
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             if (monsterIndex != 999) {
                 gp.player.damageMonster(monsterIndex, this, attack, user.projectile.knockBackPower);

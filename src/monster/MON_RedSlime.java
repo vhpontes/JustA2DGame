@@ -26,7 +26,7 @@ public class MON_RedSlime extends Entity {
         life = maxLife;
         attack = 5;
         defense = 0;
-        exp = 5;
+        exp = 3;
         projectile = new OBJ_Rock(gp);
         
         solidArea.x = 3;

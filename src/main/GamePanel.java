@@ -507,8 +507,8 @@ public class GamePanel extends JPanel implements Runnable{
     
         npcTwitch[mapNum][npcTwitchIndex] = new NPC_Twitch(this);
         
-        npcTwitch[mapNum][npcTwitchIndex].worldX = tileSize*25;
-        npcTwitch[mapNum][npcTwitchIndex].worldY = tileSize*17;
+        npcTwitch[mapNum][npcTwitchIndex].worldX = tileSize*23;
+        npcTwitch[mapNum][npcTwitchIndex].worldY = tileSize*20;
         npcTwitch[mapNum][npcTwitchIndex].npcHashCode = event.getUser().hashCode();
         npcTwitch[mapNum][npcTwitchIndex].npcTwitchNick = event.getUser().getNick();
         

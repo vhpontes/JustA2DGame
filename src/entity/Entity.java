@@ -46,6 +46,7 @@ public class Entity {
     public boolean collisionOn = false;
     public boolean invincible = false;
     public boolean attacking = false;
+    public boolean rangedweapon = false;
     public boolean alive = true;
     public boolean dying = false;
     public boolean onPath = false;
@@ -245,73 +246,30 @@ public class Entity {
         // DRAW Twitch Message
         if(this.npcTwitchMessage != null && !this.npcTwitchMessage.equals("!new")) {
             int width = this.npcTwitchMessage.length();
+            int padding = 3;
             
-            Color c = new Color(0,0,0,200);
-            g2.setColor(c);
-            g2.fillRoundRect(screenX+gp.tileSize, screenY-gp.tileSize, width*(gp.tileSize/4), gp.tileSize, 35, 35);
-
-            c = new Color(255,255,255); //white
-            g2.setColor(c);
-            g2.setStroke(new BasicStroke(5));
-            g2.drawRoundRect(screenX+gp.tileSize+5, screenY-gp.tileSize+5, width*(gp.tileSize/4)-10, gp.tileSize-10, 25, 25);            
+            int x = screenX + gp.tileSize;
+            int y = screenY-gp.tileSize;
             
             g2.setFont(g2.getFont().deriveFont(24f));
-            g2.setColor(Color.black);
-            g2.drawString(this.npcTwitchMessage, screenX+gp.tileSize+15, screenY-gp.tileSize+30);
-            g2.setColor(Color.green);
-            g2.drawString(this.npcTwitchMessage, screenX+gp.tileSize+15-2, screenY-gp.tileSize+30-2);
-
-//            g2.setFont(g2.getFont().deriveFont(24f));
             
-//            String s = this.npcTwitchMessage;
-//            FontMetrics fm = g2.getFontMetrics();
-//            
-//            int lineHeight = fm.getHeight();
-//            int curX = screenX;
-//            int curY = screenY;
-//            int shadowOffset = 2;
-//            
-//            width = 300;
-//            String[] words = s.split(" ");
-//
-//            Color c = new Color(0,0,0,200);            
-//            int lines = 0;
-//            for (String word : words)
-//            {
-//                // Find out thw width of the word.
-//                int wordWidth = fm.stringWidth(word + " ");
-//
-//                // If text exceeds the width, then move to next line.
-//                if (curX + wordWidth >= screenX + width)
-//                {
-//                    System.out.println(word.toString());
-//                    chatLines.add(word.toString());
-//                    lines++;
-//                    curY += lineHeight;
-//                    curX = screenX;
-//                }
-//                           
-//                // Move over to the right for next word.
-//                curX += wordWidth;
-//            }            
-//
-//            c = new Color(0,0,0,200);  
-//            g2.setColor(c);
-//            g2.fillRoundRect(screenX+gp.tileSize, screenY-gp.tileSize, width, lines*lineHeight, 35, 35);
-//
-//            c = new Color(255,255,255); //white
-//            g2.setColor(c);
-//            g2.setStroke(new BasicStroke(5));
-//            g2.drawRoundRect(screenX+gp.tileSize+5, screenY-gp.tileSize+5, width-10, lines*lineHeight-10, 25, 25);            
-//
-//            for(int j = 0; j < chatLines.size(); j++) {
-//                System.out.println(chatLines.get(j)); 	
-//                g2.setColor(Color.black);
-//                g2.drawString(chatLines.get(j), curX + gp.tileSize + 15, curY - gp.tileSize + 30);
-//                g2.setColor(Color.green);
-//                g2.drawString(chatLines.get(j), curX + gp.tileSize + 15 - shadowOffset, curY - gp.tileSize + 30 - shadowOffset);
-//            }
-
+            // draw a backgroud of npc twitch chat 
+            Rectangle bounds = g2.getFontMetrics().getStringBounds(this.npcTwitchMessage, g2).getBounds();
+            Color c = new Color(0,0,0,170);
+            g2.setColor(c);
+            g2.fillRoundRect(x - padding, y - padding, bounds.width + padding, bounds.height + padding, 5, 5);
+            
+            // draw a border of backgroud
+            c = new Color(255,255,255); //white
+            g2.setColor(c);
+            g2.setStroke(new BasicStroke(1));
+            g2.drawRoundRect(x - padding, y - padding, bounds.width + padding, bounds.height + padding, 5, 5);            
+            
+            // draw a string line (message) with shadow
+            g2.setColor(Color.black);
+            g2.drawString(this.npcTwitchMessage, x + 2, y + 23);
+            g2.setColor(Color.green);
+            g2.drawString(this.npcTwitchMessage, x, y + 21);
         }
     }    
     
@@ -660,13 +618,13 @@ public class Entity {
             solidArea.width = attackArea.width;
             solidArea.height = attackArea.height;
 
-            if(type == type_monster) {
+            if(type == type_monster) { // MOB ATTACKING PLAYER
 
                 if(gp.cChecker.checkPlayer(this) == true) {
                     damagePlayer(attack);
                 }
             }
-            else { // PLAYER
+            else { // PLAYER ATTACKING MOB
                 // Check monster collision with update worldX/Y and solidArea
                 int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
                 gp.player.damageMonster(monsterIndex, this, attack, currentWeapon.knockBackPower);
@@ -674,10 +632,8 @@ public class Entity {
                 int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
                 gp.player.damageInteractiveTile(iTileIndex, attack);
 
-                 int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
+                int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
                 gp.player.damageProjectile(projectileIndex);
-
-
             }
 
             // After checking collision, rollback values of worldX/Y and solidArea
@@ -824,18 +780,20 @@ public class Entity {
                 }
             }
             
-            // NPC TWITCH NICK
-            if(this.npcTwitchNick!=null) {
+            // DRAW NPC TWITCH NICK
+            if(this.npcTwitchNick != null) {
                 g2.setFont(g2.getFont().deriveFont(20f));
                 g2.setColor(Color.black);
                 g2.drawString(this.npcTwitchNick, screenX-25, screenY);
                 g2.setColor(Color.white);
                 g2.drawString(this.npcTwitchNick, screenX-27, screenY-2);
             }
+            
+            // DRAW NPC TWITCH MESSAGE ABOVE NPC IN GAME
             if(this.npcTwitchMessage != null) {
                 
                 if(System.currentTimeMillis() > (this.messageTwitchTimeStamp + TWITCH_MESSAGE_MAXSCREEN_TIME * 1000)) {
-                    this.npcTwitchMessage = "";
+                    this.npcTwitchMessage = null;
                 }
                 drawTwitcChatDialogue(g2, screenX, screenY);
             }

@@ -13,7 +13,17 @@ import org.pircbotx.PircBotX;
 import org.pircbotx.cap.EnableCapHandler;
 import org.pircbotx.exception.IrcException;
 
+/*
+channel:read:subscriptions
+channel:read:redemptions
+chat:read
+moderator:read:chatters
+moderator:manage:announcements
+user:manage:whispers
 
+channel%3Aread%3Asubscriptions+channel%3Aread%3Aredemptions+chat%3Aread+moderator%3Aread%3Achatters
+%3A
+*/
 public class TwitchBot {
     private String caphandler;
     private String url;
@@ -43,7 +53,7 @@ public class TwitchBot {
                 .setAutoNickChange(false)
                 .setOnJoinWhoEnabled(false)
                 .setCapEnabled(true)
-                .addCapHandler(new EnableCapHandler("twitch.tv/"+this.caphandler))
+                .addCapHandler(new EnableCapHandler(this.caphandler))
                 .addServer(this.url, this.port)
                 .setServerPassword("oauth:"+this.oauth)
                 .setName(this.name)

@@ -15,15 +15,15 @@ public class OBJ_Bow_Normal extends Entity{
         name = objName;
         handObject = true;
         down1 = setup("objects/bow_normal", gp.tileSize, gp.tileSize);
-        attackValue = 0;
+        attackValue = 1;
         attackArea.width = 36;
         attackArea.height = 36;
         description = "[" + name + "]\nAn wooden bow.";
-        price = 10;
-        knockBackPower = 0;
+        price = 50;
+        knockBackPower = 1;
         
-        motion1_duration = 5;
-        motion2_duration = 20;
+        motion1_duration = 2;
+        motion2_duration = 8;
     }
 
     public void setProjectile(Projectile projectileWeapow) {

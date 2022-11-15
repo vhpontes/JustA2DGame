@@ -9,6 +9,7 @@ import main.KeyHandler;
 import objects.OBJ_Fireball;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
+import org.pircbotx.hooks.events.NoticeEvent;
 
 
 public class TwitchChatListener extends ListenerAdapter {
@@ -21,6 +22,18 @@ public class TwitchChatListener extends ListenerAdapter {
     
     public TwitchChatListener(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
+        
+    }
+    
+    @Override
+    public void onNotice(NoticeEvent event)throws InterruptedException {
+        int mapNum = 0;
+        int userHashCode = 0;
+        
+        String twitchNotice = event.getNotice();
+        userHashCode = event.getUser().hashCode();
+        
+        DateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     }
     
     @Override
@@ -31,13 +44,20 @@ public class TwitchChatListener extends ListenerAdapter {
         //      - Fireworks and Spaw a New MOB on Subscriptions
         //      - Não pegar certos chats de usuarios como o nightbot e etc
         
-        int mapNum = 2;
+        int mapNum = 0;
         int userHashCode = 0;
         String twitchMessage = event.getMessage();
         userHashCode = event.getUser().hashCode();
         
         DateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         
+        if(event.getMessage().contains("framework")) {
+            event.respondChannel("Java puro amigão! RAIZ");
+        }
+        if(event.getMessage().contains("linguagem")) {
+            event.respondChannel("Programando em Java.. e contando os erros!");
+        }
+                
         if(!event.getUser().getNick().equals("nightbot")) {
 
             System.out.println(event.getUser().getUserLevels(event.getChannel())+" "+
@@ -55,6 +75,7 @@ public class TwitchChatListener extends ListenerAdapter {
 
                 gp.addNPCTwitch(mapNum, event);
                 gp.ui.addMessage(event.getUser().getNick()+" now have an NPC!");
+                System.out.println("ID: " +event.getUser().getUserId());
             }
             else if(!twitchMessage.startsWith("!")){
 

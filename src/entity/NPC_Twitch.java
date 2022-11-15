@@ -1,5 +1,13 @@
 package entity;
 
+/*
+Pixel Art Credits:
+    Twitch NPC: 
+        riquecamargo 
+         - https://itch.io/queue/c/2008591/npc?game_id=1777552
+         - https://www.youtube.com/riquecamargo
+*/
+
 import java.util.Random;
 import main.GamePanel;
 
@@ -9,7 +17,7 @@ public class NPC_Twitch extends Entity{
         super(gp);
         
         direction = "down";
-        speed = 2;
+        speed = 1;
         alive = true;
 
         getImage();

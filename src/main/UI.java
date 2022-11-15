@@ -13,6 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import objects.OBJ_Heart;
 import entity.Entity;
+import java.awt.FontMetrics;
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import objects.OBJ_Coin_Bronze;
 import objects.OBJ_ManaCrystal;
@@ -197,16 +200,21 @@ public class UI {
         
         g2.setFont(maruMonica);
         int messageX = gp.tileSize;
-        int messageY= gp.tileSize*8;
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
+        int messageY= gp.tileSize*7;
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 28));
+        Font font = Font.decode("maruMonica");
         
         for(int i = 0; i < message.size(); i++) {
             
             if(message.get(i) != null) {
+                Rectangle bounds = g2.getFontMetrics().getStringBounds(message.get(i), g2).getBounds();
+                Color c = new Color(0,0,0,150);
+                g2.setColor(c);
+                g2.fillRoundRect(gp.tileSize, messageY-23, bounds.width, bounds.height, 5, 5);
                 
                 g2.setColor(Color.black);
                 g2.drawString(message.get(i), messageX+2, messageY+2);
-                g2.setColor(Color.white);
+                g2.setColor(Color.green);
                 g2.drawString(message.get(i), messageX, messageY);
                 
                 int counter = messageCounter.get(i) + 1;
@@ -231,13 +239,18 @@ public class UI {
         int width = gp.screenWidth - (gp.tileSize*4);
         int height = gp.screenHeight/3;
         
-        drawSubWindow(x, y, width, height);
+//        drawSubWindow(x, y, width, height);
         
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 28F));
         x += gp.tileSize;
         y += gp.tileSize;
         
         for(String line : currentDialogue.split("\n")) {
+            Rectangle bounds = g2.getFontMetrics().getStringBounds(line, g2).getBounds();
+            Color c = new Color(0,0,0,150);
+            g2.setColor(c);
+            g2.fillRoundRect(x, y, bounds.width, bounds.height, 5, 5);
+            
             g2.drawString(line, x, y);
             y += 40;
         }        

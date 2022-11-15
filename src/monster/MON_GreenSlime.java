@@ -28,7 +28,7 @@ public class MON_GreenSlime extends Entity {
 //        damage = 1;
         attack = 5;
         defense = 0;
-        exp = 2;
+        exp = 1;
         projectile = new OBJ_Rock(gp);
         
         solidArea.x = 3;

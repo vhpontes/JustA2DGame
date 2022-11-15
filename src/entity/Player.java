@@ -186,6 +186,8 @@ public class Player extends Entity{
         up2    = setup("player/"+imageHeroPlayer+"_up_2",    gp.tileSize, gp.tileSize);
         down1  = setup("player/"+imageHeroPlayer+"_down_1",  gp.tileSize, gp.tileSize);
         down2  = setup("player/"+imageHeroPlayer+"_down_2",  gp.tileSize, gp.tileSize);
+//        down1  = setup("player/hero002_down_1",  gp.tileSize, gp.tileSize);
+//        down2  = setup("player/hero002_down_2",  gp.tileSize, gp.tileSize);
         left1  = setup("player/"+imageHeroPlayer+"_left_1",  gp.tileSize, gp.tileSize);
         left2  = setup("player/"+imageHeroPlayer+"_left_2",  gp.tileSize, gp.tileSize);
         right1 = setup("player/"+imageHeroPlayer+"_right_1", gp.tileSize, gp.tileSize);
@@ -239,14 +241,14 @@ public class Player extends Entity{
             attackRight2 = setup("player/"+imageHeroPlayer+"_pick_right_2",imgDouble, gp.tileSize);
         }
         if(currentWeapon.type == type_bow) {
-            attackUp1    = setup("player/"+imageHeroPlayer+"_up_1",   gp.tileSize, gp.tileSize);
-            attackUp2    = setup("player/"+imageHeroPlayer+"_up_2",   gp.tileSize, gp.tileSize);
-            attackDown1  = setup("player/"+imageHeroPlayer+"_down_1", gp.tileSize, gp.tileSize);
-            attackDown2  = setup("player/"+imageHeroPlayer+"_down_2", gp.tileSize, gp.tileSize);
-            attackLeft1  = setup("player/"+imageHeroPlayer+"_left_1", gp.tileSize, gp.tileSize);
-            attackLeft2  = setup("player/"+imageHeroPlayer+"_left_2", gp.tileSize, gp.tileSize);
-            attackRight1 = setup("player/"+imageHeroPlayer+"_right_1",gp.tileSize, gp.tileSize);
-            attackRight2 = setup("player/"+imageHeroPlayer+"_right_2",gp.tileSize, gp.tileSize);
+            attackUp1    = setup("player/"+imageHeroPlayer+"_bow_up_1",   gp.tileSize, imgDouble);
+            attackUp2    = setup("player/"+imageHeroPlayer+"_bow_up_2",   gp.tileSize, imgDouble);
+            attackDown1  = setup("player/"+imageHeroPlayer+"_bow_down_1", gp.tileSize, imgDouble);
+            attackDown2  = setup("player/"+imageHeroPlayer+"_bow_down_2", gp.tileSize, imgDouble);
+            attackLeft1  = setup("player/"+imageHeroPlayer+"_bow_left_1", imgDouble, gp.tileSize);
+            attackLeft2  = setup("player/"+imageHeroPlayer+"_bow_left_2", imgDouble, gp.tileSize);
+            attackRight1 = setup("player/"+imageHeroPlayer+"_bow_right_1",imgDouble, gp.tileSize);
+            attackRight2 = setup("player/"+imageHeroPlayer+"_bow_right_2",imgDouble, gp.tileSize);
         }
     }
     
@@ -259,7 +261,12 @@ public class Player extends Entity{
     }
        
     public void update() {
-
+        System.out.println("attacking? "+attacking);
+        System.out.println("attackCanceled? "+attackCanceled);
+        System.out.println("rangedweapow? "+rangedweapon);
+        System.out.println("enterPressed? "+keyH.enterPressed);
+        System.out.println("currentWeapon? "+gp.player.currentWeapon.type);
+        System.out.println("-------------------");
         if(knockBack == true) {
 
             // CHECK TILE COLLISION
@@ -291,14 +298,44 @@ public class Player extends Entity{
                 speed = defaultSpeed;
             }
         }
-        else if (attacking == true && gp.player.currentWeapon.type != type_bow){
+        // MELEE ATACK
+        if (attacking == true && rangedweapon == false){
             attacking();
         }
-        else if(keyH.fPressed == true) {
+        // RANGED ATACK
+        if (rangedweapon == true) {
+            // PROJECTILE WEAPOW
+            if(gp.keyH.enterPressed == true && projectileWeapow.alive == false 
+                    && shotAvailableCounter == 30 && projectileWeapow.haveResource(this) == true) {
+
+                //SET DEFAULT COORDINATES, DIRECTION AND USER
+                projectileWeapow.set(worldX, worldY, direction, true, this);
+
+                // SUBTRACT THE COST (MANA, AMMO, ETC.)
+                projectileWeapow.subtractResource(this);
+
+                // CHECK EMPTY SLOT PROJECTILE
+                for(int i = 0; i < gp.projectileWeapow[1].length; i++) {
+                    if(gp.projectileWeapow[gp.currentMap][i] == null) {
+                        gp.projectileWeapow[gp.currentMap][i] = projectileWeapow;
+                        break;
+                    }
+                }
+
+                shotAvailableCounter = 0;
+
+                gp.playSE(23);
+            }
+            attacking = false; // assim não move
+        }
+        
+        // DEFENSE MODE GUARDING (F PRESSED)
+        if(keyH.fPressed == true) {
             guarding = true;
             guardCounter++;
         }
-        else if(keyH.upPressed == true || keyH.downPressed == true || 
+        // ANOTHER ACTIONS MADE WITH ENTER PRESSED
+        if(keyH.upPressed == true || keyH.downPressed == true || 
                 keyH.leftPressed == true || keyH.rightPressed == true 
                 || keyH.enterPressed == true) {
 
@@ -327,10 +364,8 @@ public class Player extends Entity{
             int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
             contactMonster(monsterIndex);
             
-            
             // CHECK EVENT
             gp.eHandler.checkEvent();
-            //gp.keyH.enterPressed = false;
                 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if(collisionOn == false && gp.keyH.enterPressed == false) {
@@ -344,20 +379,19 @@ public class Player extends Entity{
             }
             
             // CHECK IF MELEE OR RANGED WEAPOW
-            if(keyH.enterPressed == true && attackCanceled == false && gp.player.currentWeapon.type != type_bow){
+            if(keyH.enterPressed == true && attackCanceled == false){
                 gp.playSE(7);
                 attacking = true;
                 spriteCounter = 0;
             }
-            else if(keyH.enterPressed == true && attackCanceled == false && gp.player.currentWeapon.type == type_bow) {
-                gp.playSE(23);
-                //attacking = true;
+            if(keyH.enterPressed == true && attackCanceled == false && rangedweapon == true) {
+                attacking = true;
                 spriteCounter = 0;
             }
-            
+    
             // RESET PLAYER STATES
-            attackCanceled = false;
             gp.keyH.enterPressed = false;
+            attackCanceled = false;
             guarding = false;
             guardCounter = 0;
             
@@ -408,30 +442,7 @@ public class Player extends Entity{
             
             gp.playSE(10);
         }
-        // PROJECTILE WEAPOW
-        else if(gp.keyH.shotKeyPressed == true && projectileWeapow.alive == false 
-                && shotAvailableCounter == 30 && projectileWeapow.haveResource(this) == true) {
-            
-            //SET DEFAULT COORDINATES, DIRECTION AND USER
-            projectileWeapow.set(worldX, worldY, direction, true, this);
-            
-            // SUBTRACT THE COST (MANA, AMMO, ETC.)
-            projectileWeapow.subtractResource(this);
-            
-            // ADD IT TO THE LIST
-            //gp.projectileList.add(projectile);
-            // CHECK EMPTY SLOT PROJECTILE
-            for(int i=0; i < gp.projectileWeapow[1].length; i++) {
-                if(gp.projectileWeapow[gp.currentMap][i] == null) {
-                    gp.projectileWeapow[gp.currentMap][i] = projectileWeapow;
-                    break;
-                }
-            }
-            
-            shotAvailableCounter = 0;
-            
-            gp.playSE(23);
-        }        
+        
         // This needs to be outside of key if statement
         if(invincible == true) {
             invincibleCounter++;
@@ -466,13 +477,13 @@ public class Player extends Entity{
     public void pickUpObject(int i) {
         
         if(i != 999) {
-        // PICKUP ONLY ITEMS
+            // PICKUP ONLY ITEMS
             if(gp.obj[gp.currentMap][i].type == type_pickupOnly) {
                 
                 gp.obj[gp.currentMap][i].use(this);
                 gp.obj[gp.currentMap][i] = null;
             }
-            // OBSTACLE
+            // OBSTACLE (chest, etc...)
             else if(gp.obj[gp.currentMap][i].type == type_obstacle) {
                 if(keyH.enterPressed == true) {
                     attackCanceled = true;
@@ -624,6 +635,7 @@ public class Player extends Entity{
 //                    || selectedItem.type == type_pickaxe || selectedItem.type == type_bow) {
             if(selectedItem.handObject == true) {
                 
+                rangedweapon = false;
                 currentWeapon = selectedItem;
                 attack = getAttack();
                 getAttackImage();
@@ -652,6 +664,9 @@ public class Player extends Entity{
                         inventory.remove(itemIndex);
                     }
                 }
+            }
+            if(selectedItem.type == type_bow) {
+                rangedweapon = true;
             }
         }
     }

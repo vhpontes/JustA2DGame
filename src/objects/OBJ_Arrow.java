@@ -30,6 +30,9 @@ public class OBJ_Arrow extends Projectile{
         alive = false;
         knockBackPower = 3;
         stackable = true;
+
+        motion1_duration = 2;
+        motion2_duration = 8;
         
         getImage();
     }
