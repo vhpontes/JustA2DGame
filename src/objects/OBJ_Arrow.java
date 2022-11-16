@@ -20,6 +20,7 @@ public class OBJ_Arrow extends Projectile{
         super(gp);
         this.gp = gp;
         
+        type = type_pickupOnly;
         name = objName;
         description = "[" + name + "]\nA simple wood \narrow.";
         speed = 8;
@@ -31,22 +32,22 @@ public class OBJ_Arrow extends Projectile{
         knockBackPower = 3;
         stackable = true;
 
-        motion1_duration = 2;
-        motion2_duration = 8;
+        motion1_duration = 5;
+        motion2_duration = 20;
         
         getImage();
     }
     
     public void getImage(){
         
-        up1 =    setup("projectile/arrow_up_1",    gp.tileSize, gp.tileSize);
-        up2 =    setup("projectile/arrow_up_2",    gp.tileSize, gp.tileSize);
-        down1 =  setup("projectile/arrow_down_1",  gp.tileSize, gp.tileSize);
-        down2 =  setup("projectile/arrow_down_2",  gp.tileSize, gp.tileSize);
-        left1 =  setup("projectile/arrow_left_1",  gp.tileSize, gp.tileSize);
-        left2 =  setup("projectile/arrow_left_2",  gp.tileSize, gp.tileSize);
-        right1 = setup("projectile/arrow_right_1", gp.tileSize, gp.tileSize);
-        right2 = setup("projectile/arrow_right_2", gp.tileSize, gp.tileSize);
+        up1 =    setup("projectile/arrow02_up_1",    gp.tileSize, gp.tileSize);
+        up2 =    setup("projectile/arrow02_up_2",    gp.tileSize, gp.tileSize);
+        down1 =  setup("projectile/arrow02_down_1",  gp.tileSize, gp.tileSize);
+        down2 =  setup("projectile/arrow02_down_2",  gp.tileSize, gp.tileSize);
+        left1 =  setup("projectile/arrow02_left_1",  gp.tileSize, gp.tileSize);
+        left2 =  setup("projectile/arrow02_left_2",  gp.tileSize, gp.tileSize);
+        right1 = setup("projectile/arrow02_right_1", gp.tileSize, gp.tileSize);
+        right2 = setup("projectile/arrow02_right_2", gp.tileSize, gp.tileSize);
     }
     
     public boolean haveResource(Entity user) {
@@ -80,5 +81,13 @@ public class OBJ_Arrow extends Projectile{
     public int getMaxLife() {
         int maxLife = 20; // frames count of particle
         return maxLife;
+    }   
+    
+    public boolean use(Entity entity) {
+        
+        gp.playSE(2);
+        gp.ui.addMessage("Arrow +" + value);
+        gp.player.arrow += value;
+        return true;
     }    
 }

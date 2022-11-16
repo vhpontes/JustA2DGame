@@ -1,7 +1,6 @@
 package entity;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -14,7 +13,6 @@ import objects.OBJ_Fireball;
 import objects.OBJ_Key;
 import objects.OBJ_Lantern;
 import objects.OBJ_Pickaxe;
-import objects.OBJ_Potion_Red;
 import objects.OBJ_Shield_Wood;
 import objects.OBJ_Sword_Normal;
 
@@ -85,7 +83,7 @@ public class Player extends Entity{
         life = maxLife;
         maxMana = 4;
         mana = maxMana;
-        maxArrow = 20;
+        maxArrow = 0;
         arrow = maxArrow;
         ammo = 10;
         strength = 1; // the more strength he has, the more damage he gives.
@@ -141,11 +139,7 @@ public class Player extends Entity{
         inventory.clear();
         inventory.add(currentWeapon);
         inventory.add(currentShield);
-        inventory.add(new OBJ_Boots(gp));
         inventory.add(new OBJ_Key(gp));
-        inventory.add(new OBJ_Pickaxe(gp));
-        inventory.add(new OBJ_Lantern(gp));
-        inventory.add(new OBJ_Bow_Normal(gp));
     }
     
     public int getAttack() {
@@ -261,12 +255,12 @@ public class Player extends Entity{
     }
        
     public void update() {
-        System.out.println("attacking? "+attacking);
-        System.out.println("attackCanceled? "+attackCanceled);
-        System.out.println("rangedweapow? "+rangedweapon);
-        System.out.println("enterPressed? "+keyH.enterPressed);
-        System.out.println("currentWeapon? "+gp.player.currentWeapon.type);
-        System.out.println("-------------------");
+//        System.out.println("attacking? "+attacking);
+//        System.out.println("attackCanceled? "+attackCanceled);
+//        System.out.println("rangedweapow? "+rangedweapon);
+//        System.out.println("enterPressed? "+keyH.enterPressed);
+//        System.out.println("currentWeapon? "+gp.player.currentWeapon.type);
+//        System.out.println("-------------------");
         if(knockBack == true) {
 
             // CHECK TILE COLLISION
@@ -303,7 +297,7 @@ public class Player extends Entity{
             attacking();
         }
         // RANGED ATACK
-        if (rangedweapon == true) {
+        if (rangedweapon == true && gp.cChecker.checkObject(this, true) == 999) {
             // PROJECTILE WEAPOW
             if(gp.keyH.enterPressed == true && projectileWeapow.alive == false 
                     && shotAvailableCounter == 30 && projectileWeapow.haveResource(this) == true) {
@@ -326,7 +320,7 @@ public class Player extends Entity{
 
                 gp.playSE(23);
             }
-            attacking = false; // assim não move
+            attacking = false;
         }
         
         // DEFENSE MODE GUARDING (F PRESSED)

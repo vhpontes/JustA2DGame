@@ -22,8 +22,8 @@ public class OBJ_Bow_Normal extends Entity{
         price = 50;
         knockBackPower = 1;
         
-        motion1_duration = 2;
-        motion2_duration = 8;
+        motion1_duration = 5;
+        motion2_duration = 20;
     }
 
     public void setProjectile(Projectile projectileWeapow) {

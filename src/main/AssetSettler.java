@@ -8,8 +8,10 @@ import monster.MON_GreenSlime;
 import monster.MON_Orc;
 import monster.MON_RedSlime;
 import monster.MON_SkeletonLord;
+import objects.OBJ_Arrow;
 import objects.OBJ_Axe;
 import objects.OBJ_Boots;
+import objects.OBJ_Bow_Normal;
 import objects.OBJ_Chest;
 import objects.OBJ_Door;
 import objects.OBJ_Door_Iron;
@@ -70,12 +72,16 @@ public class AssetSettler {
         gp.obj[mapNum][i].worldY = gp.tileSize*12;
         i++;
         gp.obj[mapNum][i] = new OBJ_Chest(gp);
-        gp.obj[mapNum][i].setLoot(new OBJ_Boots(gp));
+        //gp.obj[mapNum][i].setItems(new OBJ_Bow_Normal(gp));
+        gp.obj[mapNum][i].setLoot(new OBJ_Bow_Normal(gp));
+        gp.obj[mapNum][i].setLoot(new OBJ_Arrow(gp));
+        gp.obj[mapNum][i].setLoot(new OBJ_Arrow(gp));
         gp.obj[mapNum][i].worldX = gp.tileSize*35;
         gp.obj[mapNum][i].worldY = gp.tileSize*43;
         i++;
         gp.obj[mapNum][i] = new OBJ_Chest(gp);
         gp.obj[mapNum][i].setLoot(new OBJ_Key(gp));
+        gp.obj[mapNum][i].setLoot(new OBJ_Lantern(gp));
         gp.obj[mapNum][i].worldX = gp.tileSize*17;
         gp.obj[mapNum][i].worldY = gp.tileSize*20;
         
@@ -93,7 +99,7 @@ public class AssetSettler {
         gp.obj[mapNum][i].worldY = gp.tileSize*16;      
         i++;
         gp.obj[mapNum][i] = new OBJ_Chest(gp);
-        gp.obj[mapNum][i].setLoot(new OBJ_Potion_Red(gp));
+        gp.obj[mapNum][i].setLoot(new OBJ_Boots(gp));
         gp.obj[mapNum][i].worldX = gp.tileSize*26;
         gp.obj[mapNum][i].worldY = gp.tileSize*34;      
         i++;
