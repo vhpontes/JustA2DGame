@@ -2,6 +2,11 @@ package objects;
 
 import entity.Entity;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import main.GamePanel;
 
 public class OBJ_Chest extends Entity{
@@ -30,63 +35,81 @@ public class OBJ_Chest extends Entity{
         solidAreaDefaultY = solidArea.y;
                 
     }
-    
-    public void setLoot(Entity loot) {
+
+    public void setLootItem(Entity loot, int lootAmount) {
         
-        this.loot = loot;
-        setItems(loot);
+        for(var i = 0; i < lootAmount; i++) {
+            this.inventory.add(loot);
+        }
+        
         setDialogue();
     }
+    
+    public String getInventoryList() {
+        
+       String stringLootItens = "";
+       
+       for(int i = 0; i < this.inventory.size(); i++) {
+          
+            if(this.inventory.size() == 1) {
 
-    public void setItems(Entity loot_p) {
-        this.inventory.add(loot_p);
+                stringLootItens = this.inventory.get(i).name;
+            }
+            else {
+
+                if (i < this.inventory.size() - 1) {
+                    
+                        stringLootItens += this.inventory.get(i).name + ", ";
+                }
+                else
+
+                    stringLootItens += this.inventory.get(i).name;
+            }
+        }
+        
+        List<String> list = new ArrayList<>(Arrays.asList(stringLootItens.split(",")));
+        Map<String, Long> result = list.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        
+        stringLootItens = "";
+        for (Map.Entry<String, Long> entry : result.entrySet()) {
+            if(entry.getValue() > 1)
+                stringLootItens += entry.getKey()+"("+entry.getValue()+")" + ", ";
+            else 
+                stringLootItens += entry.getKey() + ", ";
+           //System.out.println(entry.getKey()  + '[' + entry.getValue() + ']');
+        }
+        
+        //System.out.println(result);
+       
+        return stringLootItens;
     }
     
     public void setDialogue() {
-        
-        dialogues[0][0] = "You open the chest and find a "+ loot.name + "!\n...But you not carry any more!";
-        dialogues[1][0] = "You open the chest and find a "+ loot.name + "!\nYou obtain the "+ loot.name +"!";
+
+        dialogues[0][0] = "You open the chest and find "+ getInventoryList() + "!\n...But you not carry any more!";
+        dialogues[1][0] = "You open the chest and find "+ getInventoryList() + "!\nYou obtain the "+ getInventoryList() +"!";
         dialogues[2][0] = "It's empty";
     }    
 
     public void interact() {
-        ArrayList<Entity> inventoryTemp = new ArrayList<>();
         
         if(opened == false) {
             
             gp.playSE(3);
 
-            System.out.println("Player Inventory Size: "+gp.player.inventory.size());
-            System.out.println("Chest  Inventory Size: "+this.inventory.size());
-            System.out.println("---------------------------------------");
-            
-            int chestSize = this.inventory.size();
             for(int i = 0; i < this.inventory.size(); i++) {
-                if(gp.player.canObtainItem(this.inventory.get(i)) == false) {
+                if(gp.player.canObtainItem(gp.eGenerator.getObject(this.inventory.get(i).name)) == false) {
 
                     startDialogue(this, 0);
                 }
                 else {
-                    gp.player.inventory.add(this.inventory.get(i));
-                    //gp.player.inventory.add(gp.eGenerator.getObject(this.inventory.get(0).name));
                     
-                    //this.inventory.remove(0);
-                    //this.inventory.remove(i);
-                    //this.inventory.remove(gp.eGenerator.getObject(this.inventory.get(i).name));
-                    //gp.player.inventory.get(i).amount = this.inventory.get(i).amount;
                     startDialogue(this, 1);
                     down1 = image2;
                     opened = true;
 
-                    System.out.println(" - Add item  : "+this.inventory.get(i).name+" ("+this.inventory.get(i).amount+")");
-                    System.out.println("Chest Size: "+inventory.size());
-                    System.out.println("Player Inventory Size: "+gp.player.inventory.size());
                 }
-                total ++;
             }
-            System.out.println("Chest  Inventory Size: "+this.inventory.size());
-            System.out.println("---------------------------------------");
-            System.out.println("Total Itens Add: " + total);
         }
         else {
             

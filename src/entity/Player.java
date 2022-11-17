@@ -691,11 +691,17 @@ public class Player extends Entity{
             
             if(index != 999) {
                 inventory.get(index).amount++;
+                if(newItem.name == "Arrow") {
+                    this.arrow++;
+                }
                 canObtain = true;
             }
             else {
                 if(inventory.size() != maxInventorySize) {
                     inventory.add(newItem);
+                    if(newItem.name == "Arrow") {
+                        this.arrow++;
+                    }
                     canObtain = true;
                 }
             }

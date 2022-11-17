@@ -20,9 +20,10 @@ public class OBJ_Arrow extends Projectile{
         super(gp);
         this.gp = gp;
         
-        type = type_pickupOnly;
+        type = type_consumable;
         name = objName;
         description = "[" + name + "]\nA simple wood \narrow.";
+        value = 1;
         speed = 8;
         maxLife = 100;
         life = maxLife;
@@ -61,6 +62,15 @@ public class OBJ_Arrow extends Projectile{
     
     public void subtractResource(Entity user) {
         user.arrow -= useCost;
+        for(var i = 0; i < gp.player.inventory.size(); i++) {
+            if(gp.player.inventory.get(i).name == "Arrow") {
+                gp.player.inventory.get(i).amount--;
+                if(gp.player.inventory.get(i).amount <= 0) {
+                    gp.player.inventory.remove(i);
+                }
+                break;
+            }
+        }
     }
     
     public Color getParticleColor() {

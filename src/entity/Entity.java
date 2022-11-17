@@ -215,6 +215,13 @@ public class Entity {
         
     }
 
+    public void setLootItem(Entity loot, int lootAmount) {
+        
+    }
+    public void setLootItem(Entity loot) {
+        setLootItem(loot, 1);
+    }
+
     public void setAction(){}
     
     public void move(String direction) {
