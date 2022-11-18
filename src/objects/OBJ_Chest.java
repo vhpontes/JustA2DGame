@@ -3,6 +3,7 @@ package objects;
 import entity.Entity;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -71,16 +72,23 @@ public class OBJ_Chest extends Entity{
         Map<String, Long> result = list.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
         
         stringLootItens = "";
-        for (Map.Entry<String, Long> entry : result.entrySet()) {
-            if(entry.getValue() > 1)
-                stringLootItens += entry.getKey()+"("+entry.getValue()+")" + ", ";
-            else 
-                stringLootItens += entry.getKey() + ", ";
-           //System.out.println(entry.getKey()  + '[' + entry.getValue() + ']');
+        
+        for (Iterator<Map.Entry<String, Long>> it = result.entrySet().iterator(); it.hasNext();) {
+            Map.Entry<String, Long> entry = it.next();
+            if(!it.hasNext()) {
+                if(entry.getValue() > 1)
+                    stringLootItens += entry.getKey()+"(x"+entry.getValue()+")";
+                else 
+                    stringLootItens += entry.getKey();
+            }
+            else {
+                if(entry.getValue() > 1)
+                    stringLootItens += entry.getKey()+"(x"+entry.getValue()+")" + ", ";
+                else 
+                    stringLootItens += entry.getKey() + ", ";
+            }
         }
         
-        //System.out.println(result);
-       
         return stringLootItens;
     }
     
@@ -117,28 +125,4 @@ public class OBJ_Chest extends Entity{
         }
     }
 
-/*    
-    public void interact_old() {
-        
-        if(opened == false) {
-            
-            gp.playSE(3);
-            
-            if(gp.player.canObtainItem(loot) == false) {
-                
-                startDialogue(this, 0);
-            }
-            else {
-                
-                startDialogue(this, 1);
-                down1 = image2;
-                opened = true;
-            }
-        }
-        else {
-            
-            startDialogue(this, 2);
-        }
-    }  
-    */  
 }

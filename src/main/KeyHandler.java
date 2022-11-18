@@ -7,7 +7,7 @@ public class KeyHandler implements KeyListener{
 
     GamePanel gp;
     public boolean upPressed, downPressed, leftPressed, rightPressed, 
-            enterPressed, shotKeyPressed, fPressed;
+            enterPressed, shotKeyPressed, shiftPressed;
     
     public boolean godModeOn = false;
             
@@ -178,7 +178,7 @@ public class KeyHandler implements KeyListener{
         }
         if(code == KeyEvent.VK_SHIFT) {
             //System.out.println("f KeyHandler true");
-            fPressed = true;
+            shiftPressed = true;
         }
 
         //DEBUG
@@ -444,16 +444,12 @@ public class KeyHandler implements KeyListener{
         }       
         if(code == KeyEvent.VK_ENTER) {
             enterPressed = false;
-//            if(gp.player.currentWeapon.type == gp.player.type_bow) {
-//                shotKeyPressed = false;  
-//            }
         }    
         if(code == KeyEvent.VK_SPACE) {
            shotKeyPressed = false;            
         }
         if(code == KeyEvent.VK_SHIFT) {
-            //System.out.println("f KeyHandler false");
-            fPressed = false;
+            shiftPressed = false;
         }        
     }
 }

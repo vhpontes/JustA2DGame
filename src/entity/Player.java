@@ -260,7 +260,10 @@ public class Player extends Entity{
 //        System.out.println("rangedweapow? "+rangedweapon);
 //        System.out.println("enterPressed? "+keyH.enterPressed);
 //        System.out.println("currentWeapon? "+gp.player.currentWeapon.type);
-//        System.out.println("-------------------");
+        System.out.println("keyH.shiftPressed? "+keyH.shiftPressed);
+        System.out.println("guarding? "+guarding);
+        
+        System.out.println("-------------------");
         if(knockBack == true) {
 
             // CHECK TILE COLLISION
@@ -324,12 +327,12 @@ public class Player extends Entity{
         }
         
         // DEFENSE MODE GUARDING (F PRESSED)
-        if(keyH.fPressed == true) {
+        if(keyH.shiftPressed == true) {
             guarding = true;
             guardCounter++;
         }
         // ANOTHER ACTIONS MADE WITH ENTER PRESSED
-        if(keyH.upPressed == true || keyH.downPressed == true || 
+        else if(keyH.upPressed == true || keyH.downPressed == true || 
                 keyH.leftPressed == true || keyH.rightPressed == true 
                 || keyH.enterPressed == true) {
 
