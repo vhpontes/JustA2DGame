@@ -2,6 +2,9 @@ package main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class KeyHandler implements KeyListener{
 
@@ -169,15 +172,11 @@ public class KeyHandler implements KeyListener{
         }
         if(code == KeyEvent.VK_ENTER) {
             enterPressed = true;
-//            if(gp.player.currentWeapon.type == gp.player.type_bow) {
-//                shotKeyPressed = true;  
-//            }
         }
         if(code == KeyEvent.VK_SPACE) {
             shotKeyPressed = true;  
         }
         if(code == KeyEvent.VK_SHIFT) {
-            //System.out.println("f KeyHandler true");
             shiftPressed = true;
         }
 
@@ -205,7 +204,15 @@ public class KeyHandler implements KeyListener{
             else if(godModeOn == true){
                 godModeOn = false;
             }
-        }        
+        }
+        if(code == KeyEvent.VK_F) {
+            gp.player.generateFirework(gp.player.projectile, gp.player);
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException ex) {
+                System.out.println(ex);
+            }
+        }
     }
     
     public void pauseState(int code) {

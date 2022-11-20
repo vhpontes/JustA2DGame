@@ -43,10 +43,10 @@ public class AssetSettler {
         gp.obj[mapNum][i].worldX = gp.tileSize*32;
         gp.obj[mapNum][i].worldY = gp.tileSize*21;
         i++;
-        gp.obj[mapNum][i] = new OBJ_Shield_Blue(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize*18;
-        gp.obj[mapNum][i].worldY = gp.tileSize*21;
-        i++;
+//        gp.obj[mapNum][i] = new OBJ_Shield_Blue(gp);
+//        gp.obj[mapNum][i].worldX = gp.tileSize*18;
+//        gp.obj[mapNum][i].worldY = gp.tileSize*21;
+//        i++;
         gp.obj[mapNum][i] = new OBJ_Potion_Red(gp);
         gp.obj[mapNum][i].worldX = gp.tileSize*22;
         gp.obj[mapNum][i].worldY = gp.tileSize*26;
@@ -110,10 +110,11 @@ public class AssetSettler {
         
         int mapNum = 0;
         int i = 0;
-        gp.npc[mapNum][i] = new NPC_OldMan(gp);
-        gp.npc[mapNum][i].worldX = gp.tileSize*21;
-        gp.npc[mapNum][i].worldY = gp.tileSize*21;
-        i++;
+
+//        gp.npc[mapNum][i] = new NPC_OldMan(gp);
+//        gp.npc[mapNum][i].worldX = gp.tileSize*21;
+//        gp.npc[mapNum][i].worldY = gp.tileSize*21;
+//        i++;
         
         // MAP 1 INDOOR
         mapNum = 1;
@@ -160,10 +161,10 @@ public class AssetSettler {
         gp.monster[mapNum][i].worldX = gp.tileSize*38;
         gp.monster[mapNum][i].worldY = gp.tileSize*42;
         i++;
-        gp.monster[mapNum][i] = new MON_RedSlime(gp);
-        gp.monster[mapNum][i].worldX = gp.tileSize*22;
-        gp.monster[mapNum][i].worldY = gp.tileSize*13;
-        i++;
+//        gp.monster[mapNum][i] = new MON_RedSlime(gp);
+//        gp.monster[mapNum][i].worldX = gp.tileSize*22;
+//        gp.monster[mapNum][i].worldY = gp.tileSize*13;
+//        i++;
         gp.monster[mapNum][i] = new MON_RedSlime(gp);
         gp.monster[mapNum][i].worldX = gp.tileSize*26;
         gp.monster[mapNum][i].worldY = gp.tileSize*7;

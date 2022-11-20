@@ -4,6 +4,7 @@ import entity.Entity;
 import java.util.Random;
 import main.GamePanel;
 import objects.OBJ_Coin_Bronze;
+import objects.OBJ_Coin_Gold;
 import objects.OBJ_Heart;
 import objects.OBJ_ManaCrystal;
 import objects.OBJ_Rock;
@@ -28,6 +29,7 @@ public class MON_RedSlime extends Entity {
         defense = 0;
         exp = 3;
         projectile = new OBJ_Rock(gp);
+        numDrop = 2;
         
         solidArea.x = 3;
         solidArea.y = 18;
@@ -40,14 +42,14 @@ public class MON_RedSlime extends Entity {
     }
     
     public void getImage() {
-        up1 =    setup("monster/redslime_down_1", gp.tileSize, gp.tileSize);
-        up2 =    setup("monster/redslime_down_2", gp.tileSize, gp.tileSize);
-        down1 =  setup("monster/redslime_down_1", gp.tileSize, gp.tileSize);
-        down2 =  setup("monster/redslime_down_2", gp.tileSize, gp.tileSize);
-        left1 =  setup("monster/redslime_down_1", gp.tileSize, gp.tileSize);
-        left2 =  setup("monster/redslime_down_2", gp.tileSize, gp.tileSize);
-        right1 = setup("monster/redslime_down_1", gp.tileSize, gp.tileSize);
-        right2 = setup("monster/redslime_down_2", gp.tileSize, gp.tileSize);
+        up1 =    setup("monster/redslime48_down_1", gp.tileSize, gp.tileSize);
+        up2 =    setup("monster/redslime48_down_2", gp.tileSize, gp.tileSize);
+        down1 =  setup("monster/redslime48_down_1", gp.tileSize, gp.tileSize);
+        down2 =  setup("monster/redslime48_down_2", gp.tileSize, gp.tileSize);
+        left1 =  setup("monster/redslime48_down_1", gp.tileSize, gp.tileSize);
+        left2 =  setup("monster/redslime48_down_2", gp.tileSize, gp.tileSize);
+        right1 = setup("monster/redslime48_down_1", gp.tileSize, gp.tileSize);
+        right2 = setup("monster/redslime48_down_2", gp.tileSize, gp.tileSize);
     }
 
     public void setAction() {
@@ -71,20 +73,23 @@ public class MON_RedSlime extends Entity {
         onPath = true;
     }
     
-    public void checkDrop() {
+    public void checkDrop(int X, int Y) {
         
         // CAST A DIE
         int i = new Random().nextInt(100)+1;
         
         // SET THE MONSTER DROP
-        if(i < 50) {
-            dropItem(new OBJ_Coin_Bronze(gp));
+        if(i < 35) {
+            dropItem(new OBJ_Coin_Bronze(gp), X, Y);
+        }
+        if(i >= 35 && i < 50) {
+            dropItem(new OBJ_Coin_Gold(gp), X, Y);
         }
         if(i >= 50 && i < 75) {
-            dropItem(new OBJ_Heart(gp));
+            dropItem(new OBJ_Heart(gp), X, Y);
         }
         if(i >= 75 && i < 100) {
-            dropItem(new OBJ_ManaCrystal(gp));
+            dropItem(new OBJ_ManaCrystal(gp), X, Y);
         }
     }
 }    

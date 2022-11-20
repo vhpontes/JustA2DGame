@@ -34,6 +34,7 @@ public class TwitchChatListener extends ListenerAdapter {
         userHashCode = event.getUser().hashCode();
         
         DateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        System.out.println("NOTICE: "+ twitchNotice);
     }
     
     @Override

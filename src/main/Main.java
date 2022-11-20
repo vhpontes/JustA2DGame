@@ -17,7 +17,7 @@ public class Main {
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setAlwaysOnTop(true);
+        window.setAlwaysOnTop(false);
         window.setTitle("Just a 2D Game");
         
         window.add(gamePanel);

@@ -15,6 +15,8 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,6 +31,7 @@ import tile_interactive.InteractiveTile;
 
 public class GamePanel extends JPanel implements Runnable{
     
+    final double PI = 3.1415926535;
     // SCREEN SETTINGS
     final int originalTileSize = 16; // 16x16 original tile size
     final int scale = 3;
@@ -37,11 +40,14 @@ public class GamePanel extends JPanel implements Runnable{
     
     // 768 x 576 resolution
 //    public final int maxScreenCol = 16; // Width 768 pixels
-    public final int maxScreenCol = 20; // Width 960 pixels
-    public final int maxScreenRow = 12; // Height 576 pixels
+//    public final int maxScreenCol = 20; // Width 960 pixels
+//    public final int maxScreenRow = 12; // Height 576 pixels
     // 1280 x 1024 resolution
 //    public final int maxScreenCol = 26; // Width 1280 pixels
 //    public final int maxScreenRow = 21; // Height 1024 pixels
+    // 1920x1080 resolution
+    public final int maxScreenCol = 40; // Width 1920 pixels
+    public final int maxScreenRow = 22; // Height 1080 pixels
     
     public final int screenWidth = tileSize * maxScreenCol;  
     public final int screenHeight = tileSize * maxScreenRow; 
@@ -255,7 +261,21 @@ public class GamePanel extends JPanel implements Runnable{
                         monster[currentMap][i].update();
                     }
                     if(monster[currentMap][i].alive == false) {
-                        monster[currentMap][i].checkDrop();
+                        int circle = 0;
+                        int radius = 10 * monster[currentMap][i].numDrop;
+                        for(int k=0; k < monster[currentMap][i].numDrop; k++) {
+                                int angle = circle;
+                                double x1 = radius * cos(angle * PI / 180);
+                                double y1 = radius * sin(angle * PI / 180);
+                                int lX = monster[currentMap][i].worldX/48 + (int)x1;
+                                int lY = monster[currentMap][i].worldY/48 + (int)y1;
+                                monster[currentMap][i].checkDrop(lX, lY);
+                                circle += 360 / monster[currentMap][i].numDrop;
+                                if(circle > 360) {
+                                    circle = 0;
+                                }
+                            //monster[currentMap][i].checkDrop();
+                        }
                         monster[currentMap][i] = null;
                     }
                 }

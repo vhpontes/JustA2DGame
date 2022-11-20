@@ -260,10 +260,9 @@ public class Player extends Entity{
 //        System.out.println("rangedweapow? "+rangedweapon);
 //        System.out.println("enterPressed? "+keyH.enterPressed);
 //        System.out.println("currentWeapon? "+gp.player.currentWeapon.type);
-        System.out.println("keyH.shiftPressed? "+keyH.shiftPressed);
-        System.out.println("guarding? "+guarding);
-        
-        System.out.println("-------------------");
+//        System.out.println("keyH.shiftPressed? "+keyH.shiftPressed);
+//        System.out.println("guarding? "+guarding);
+//        System.out.println("-------------------");
         if(knockBack == true) {
 
             // CHECK TILE COLLISION
@@ -585,7 +584,7 @@ public class Player extends Entity{
             generateParticle(gp.iTile[gp.currentMap][i], gp.iTile[gp.currentMap][i]);
             
             if(gp.iTile[gp.currentMap][i].life == 0) {
-                gp.iTile[gp.currentMap][i].checkDrop();
+                gp.iTile[gp.currentMap][i].checkDrop(gp.iTile[gp.currentMap][i].worldX, gp.iTile[gp.currentMap][i].worldY);
                 gp.iTile[gp.currentMap][i] = gp.iTile[gp.currentMap][i].getDestroyedForm();
             }
         }

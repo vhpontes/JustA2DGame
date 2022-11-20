@@ -4,6 +4,7 @@ import entity.Entity;
 import java.util.Random;
 import main.GamePanel;
 import objects.OBJ_Coin_Bronze;
+import objects.OBJ_Coin_Gold;
 import objects.OBJ_Heart;
 import objects.OBJ_ManaCrystal;
 import objects.OBJ_Rock;
@@ -27,6 +28,7 @@ public class MON_Bat extends Entity {
         attack = 2;
         defense = 0;
         exp = 2;
+        numDrop = 1;
         
         solidArea.x = 3;
         solidArea.y = 15;
@@ -69,20 +71,23 @@ public class MON_Bat extends Entity {
 //        onPath = true;
     }
     
-    public void checkDrop() {
+    public void checkDrop(int X, int Y) {
         
         // CAST A DIE
         int i = new Random().nextInt(100)+1;
         
         // SET THE MONSTER DROP
         if(i < 50) {
-            dropItem(new OBJ_Coin_Bronze(gp));
+            dropItem(new OBJ_Coin_Bronze(gp), X, Y);
         }
         if(i >= 50 && i < 75) {
-            dropItem(new OBJ_Heart(gp));
+            dropItem(new OBJ_Heart(gp), X, Y);
         }
-        if(i >= 75 && i < 100) {
-            dropItem(new OBJ_ManaCrystal(gp));
+        if(i >= 75 && i < 95) {
+            dropItem(new OBJ_ManaCrystal(gp), X, Y);
+        }
+        if(i >= 95 && i < 10) {
+            dropItem(new OBJ_Coin_Gold(gp), X, Y);
         }
     }
 }

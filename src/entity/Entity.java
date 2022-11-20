@@ -113,6 +113,7 @@ public class Entity {
     public int lightRadius;
     public boolean stackable = false;
     public boolean handObject = false;
+    public int numDrop;
 
     // TYPE
     public int type; //0 = player, 1 = npc, 2 = monster
@@ -288,12 +289,12 @@ public class Entity {
         return false;
     }
     
-    public void checkDrop() {
+    public void checkDrop(int X, int Y) {
         
     }
     
-//    public void dropItem(Entity droppedItem, int wX, int wY) {
-    public void dropItem(Entity droppedItem) {
+    public void dropItem(Entity droppedItem, int wX, int wY) {
+    //public void dropItem(Entity droppedItem) {
         
         for(int i = 0; i < gp.obj[1].length; i++) {
             if(gp.obj[gp.currentMap][i] == null) {
@@ -302,8 +303,8 @@ public class Entity {
 //                    worldY = wY;
 //                }
                 gp.obj[gp.currentMap][i] = droppedItem;
-                gp.obj[gp.currentMap][i].worldX = worldX; // the dead monster's worldX
-                gp.obj[gp.currentMap][i].worldY = worldY; // the dead monster's worldY
+                gp.obj[gp.currentMap][i].worldX = worldX + wX; // the dead monster's worldX
+                gp.obj[gp.currentMap][i].worldY = worldY + wY; // the dead monster's worldY
                 break;
             }
         }
@@ -348,26 +349,48 @@ public class Entity {
     
     public void generateFirework(Entity generator, Entity target) {
         
-        int size = generator.getParticleSize();
-        int speed = generator.getParticleSpeed();
-        int maxLife = 15;
+//        int size = generator.getParticleSize();
+//        int speed = generator.getParticleSpeed();
+        int size = 4;
+        int speed = 2;
+        int maxLife = 40; //15
         
-        Firework f1 = new Firework(gp, target, size, speed, maxLife, -2, -1);
-        Firework f2 = new Firework(gp, target, size, speed, maxLife, 2, -1);
-        Firework f3 = new Firework(gp, target, size, speed, maxLife, -2, 1);
-        Firework f4 = new Firework(gp, target, size, speed, maxLife, 2, 1);
-        Firework f5 = new Firework(gp, target, size, speed, maxLife, 2, 1);
-        Firework f6 = new Firework(gp, target, size, speed, maxLife, 2, 1);
-        Firework f7 = new Firework(gp, target, size, speed, maxLife, 2, 1);
-        Firework f8 = new Firework(gp, target, size, speed, maxLife, 2, 1);
-        gp.fireworkList.add(f1);
-        gp.fireworkList.add(f2);
-        gp.fireworkList.add(f3);
-        gp.fireworkList.add(f4);
-        gp.fireworkList.add(f5);
-        gp.fireworkList.add(f6);
-        gp.fireworkList.add(f7);
-        gp.fireworkList.add(f8);
+//        Firework f1 = new Firework(gp, target, size, speed, maxLife, -2, -1);
+//        Firework f2 = new Firework(gp, target, size, speed, maxLife, 2, -1);
+//        Firework f3 = new Firework(gp, target, size, speed, maxLife, -2, 1);
+//        Firework f4 = new Firework(gp, target, size, speed, maxLife, 2, 1);
+        
+//        gp.fireworkList.add(f1);
+//        gp.fireworkList.add(f2);
+//        gp.fireworkList.add(f3);
+//        gp.fireworkList.add(f4);
+
+
+
+        gp.fireworkList.add(new Firework(gp, target, size, speed, maxLife, 0, 2, Color.white));
+        gp.fireworkList.add(new Firework(gp, target, size, speed, maxLife, 0, -2, Color.white));
+        gp.fireworkList.add(new Firework(gp, target, size, speed, maxLife, 2, 0, Color.white));
+        gp.fireworkList.add(new Firework(gp, target, size, speed, maxLife, -2, 0, Color.white));
+
+        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife, 0, 2, Color.cyan));
+        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife, 0, -2, Color.cyan));
+        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife, 2, 0, Color.cyan));
+        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife, -2, 0, Color.cyan));
+
+        gp.fireworkList.add(new Firework(gp, target, size, speed/2, maxLife/2, 2, 2, Color.white));
+        gp.fireworkList.add(new Firework(gp, target, size, speed/2, maxLife/2, 2, -2, Color.white));
+        gp.fireworkList.add(new Firework(gp, target, size, speed/2, maxLife/2, -2, 2, Color.white));
+        gp.fireworkList.add(new Firework(gp, target, size, speed/2, maxLife/2, -2, -2, Color.white));
+
+        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, 2, 1, Color.yellow));
+        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, 2, -1, Color.yellow));
+        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, -2, 1, Color.yellow));
+        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, -2, -1, Color.yellow));
+        
+        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, 1, 2, Color.yellow));
+        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, 1, -2, Color.yellow));
+        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, -1, 2, Color.yellow));
+        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, -1, -2, Color.yellow));
     }
     
     public void checkCollision() {
