@@ -26,7 +26,7 @@ public class TileManager {
         this.gp = gp;
         
         // READ TILE DATA FILE
-        InputStream is = getClass().getResourceAsStream("/res/maps/tiledata.txt");
+        InputStream is = getClass().getResourceAsStream("/res/tiles/48/tiledata.txt");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         
         // GETTING TILE NAMES AND COLLISION INFO FROM FILE
@@ -170,13 +170,15 @@ public class TileManager {
         UtilityTool uTool = new UtilityTool();
         
         try {
+            //System.out.println("imagePath: " + imagePath);
             tile[index] = new Tile();
-            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/"+imagePath));
+            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/48/"+imagePath));
             tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
             tile[index].collision = collision;
             
         }catch(IOException e) {
             e.printStackTrace();
+            System.out.println("ERROR: " + e);
         }
     }
     

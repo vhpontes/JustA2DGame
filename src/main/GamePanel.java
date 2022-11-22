@@ -43,12 +43,12 @@ public class GamePanel extends JPanel implements Runnable{
 //    public final int maxScreenCol = 20; // Width 960 pixels
 //    public final int maxScreenRow = 12; // Height 576 pixels
     // 1280 x 1024 resolution
-//    public final int maxScreenCol = 26; // Width 1280 pixels
-//    public final int maxScreenRow = 21; // Height 1024 pixels
+    public final int maxScreenCol = 26; // Width 1280 pixels
+    public final int maxScreenRow = 21; // Height 1024 pixels
     // 1920x1080 resolution
-    public final int maxScreenCol = 40; // Width 1920 pixels
-    public final int maxScreenRow = 22; // Height 1080 pixels
-    
+//    public final int maxScreenCol = 40; // Width 1920 pixels
+//    public final int maxScreenRow = 22; // Height 1080 pixels
+
     public final int screenWidth = tileSize * maxScreenCol;  
     public final int screenHeight = tileSize * maxScreenRow; 
     
@@ -60,8 +60,13 @@ public class GamePanel extends JPanel implements Runnable{
     public final int maxUserTwitch = 10;
     
     // FULL SCREEN
-    int screenWidth2 = screenWidth;
-    int screenHeight2 = screenHeight;
+        // GET MONITOR DEVICE DIMENSIONS
+    GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    int monitorWidth = gd.getDisplayMode().getWidth();
+    int monitorHeight = gd.getDisplayMode().getHeight();
+
+    int screenWidth2 = monitorWidth;
+    int screenHeight2 = monitorHeight;
     public boolean fullScreenOn;
     BufferedImage tempScreen;
     Graphics2D g2;
