@@ -15,7 +15,7 @@ public class OBJ_Heart extends Entity {
         type = type_pickupOnly;
         name = objName;
         value = 2;
-        down1 = setup("objects/heart_full", gp.tileSize, gp.tileSize);
+        down1 = setup("objects/red_minorpotion48", gp.tileSize, gp.tileSize);
         
         image = setup("objects/heart_full", gp.tileSize, gp.tileSize);
         image2 = setup("objects/heart_half", gp.tileSize, gp.tileSize);

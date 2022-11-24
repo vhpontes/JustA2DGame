@@ -36,6 +36,12 @@ public class GamePanel extends JPanel implements Runnable{
     final int originalTileSize = 16; // 16x16 original tile size
     final int scale = 3;
     
+    // FPS CALC
+    private static long lastFPSCheck = 0;
+    private static int currentFPS = 0;
+    private static int totalFrames = 0;
+    
+    
     public final int tileSize = originalTileSize * scale; // 48x48 tile size
     
     // 768 x 576 resolution
@@ -196,7 +202,7 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread = new Thread(this);
         gameThread.start();
     }
-    
+
     public void run() {
         
         double drawInterval = 1000000000/FPS;
@@ -207,6 +213,13 @@ public class GamePanel extends JPanel implements Runnable{
         int drawCount = 0;
         
         while(gameThread !=null) {
+            // Calculate FPS
+            totalFrames++;
+            if(System.nanoTime() > lastFPSCheck + 1000000000) {
+                lastFPSCheck = System.nanoTime();
+                currentFPS = totalFrames;
+                totalFrames = 0;
+            }
             
             currentTime = System.nanoTime();
             
@@ -224,6 +237,8 @@ public class GamePanel extends JPanel implements Runnable{
                 drawToScreen();     // buffered to screen
                 delta--;
                 drawCount++;
+                
+                
             }
             
             if (timer >= 1000000000) {
@@ -476,6 +491,9 @@ public class GamePanel extends JPanel implements Runnable{
             g2.drawString("Col: "+ (player.worldX * player.solidArea.x) / tileSize, x, y); y += lineHeight;
             g2.drawString("Row: "+ (player.worldY * player.solidArea.y) / tileSize, x, y); y += lineHeight;
             g2.drawString("Draw Time: " + passed, x, y); y += lineHeight;
+            g2.setColor(Color.red);
+            g2.drawString("FPS: " + currentFPS, x, y); y += lineHeight; 
+            g2.setColor(Color.white);
             g2.drawString("God Mode: " + keyH.godModeOn, x, y);
         }
     }
