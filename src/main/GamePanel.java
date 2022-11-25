@@ -237,8 +237,6 @@ public class GamePanel extends JPanel implements Runnable{
                 drawToScreen();     // buffered to screen
                 delta--;
                 drawCount++;
-                
-                
             }
             
             if (timer >= 1000000000) {
@@ -543,18 +541,19 @@ public class GamePanel extends JPanel implements Runnable{
         aSetter.setMonster();
     }
     
-    public void addNPCTwitch(int mapNum, MessageEvent event) {
+    public void addNPCTwitch(int mapNum, MessageEvent event, int pX, int pY) {
 //        Random random = new Random();
 //        int X = random.nextInt(50)+1;
 //        int Y = random.nextInt(50)+1;
     
         npcTwitch[mapNum][npcTwitchIndex] = new NPC_Twitch(this);
         
-        npcTwitch[mapNum][npcTwitchIndex].worldX = tileSize*23;
-        npcTwitch[mapNum][npcTwitchIndex].worldY = tileSize*20;
-        npcTwitch[mapNum][npcTwitchIndex].npcHashCode = event.getUser().hashCode();
-        npcTwitch[mapNum][npcTwitchIndex].npcTwitchNick = event.getUser().getNick();
-        
+        npcTwitch[mapNum][npcTwitchIndex].worldX = tileSize*pX;
+        npcTwitch[mapNum][npcTwitchIndex].worldY = tileSize*pY;
+        if (event != null) {
+            npcTwitch[mapNum][npcTwitchIndex].npcHashCode = event.getUser().hashCode();
+            npcTwitch[mapNum][npcTwitchIndex].npcTwitchNick = event.getUser().getNick();
+        }
         npcTwitchList.add(npcTwitch[mapNum][npcTwitchIndex]);
         
         npcTwitchIndex++;

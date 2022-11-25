@@ -42,14 +42,22 @@ public class MON_RedSlime extends Entity {
     }
     
     public void getImage() {
-        up1 =    setup("monster/redslime48_down_1", gp.tileSize, gp.tileSize);
-        up2 =    setup("monster/redslime48_down_2", gp.tileSize, gp.tileSize);
         down1 =  setup("monster/redslime48_down_1", gp.tileSize, gp.tileSize);
         down2 =  setup("monster/redslime48_down_2", gp.tileSize, gp.tileSize);
-        left1 =  setup("monster/redslime48_down_1", gp.tileSize, gp.tileSize);
-        left2 =  setup("monster/redslime48_down_2", gp.tileSize, gp.tileSize);
-        right1 = setup("monster/redslime48_down_1", gp.tileSize, gp.tileSize);
-        right2 = setup("monster/redslime48_down_2", gp.tileSize, gp.tileSize);
+        down3 = down1;
+        down4 = down2;
+        up1 = down1;
+        up2 = down2;
+        up3 = down1;
+        up4 = down2;
+        left1 = down1;
+        left2 = down2;
+        left3 = down3;
+        left4 = down4;
+        right1 = down1;
+        right2 = down2;
+        right3 = down3;
+        right4 = down4;
     }
 
     public void setAction() {

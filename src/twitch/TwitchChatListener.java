@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
 import main.GamePanel;
 import main.KeyHandler;
-import objects.OBJ_Fireball;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.events.NoticeEvent;
@@ -69,14 +68,14 @@ public class TwitchChatListener extends ListenerAdapter {
         
             if(!twitchMessage.startsWith("!") || event.getUser().getNick().equalsIgnoreCase("nightbot")) {
 
-                gp.ui.addMessage(event.getUser().getNick()+": " + twitchMessage);
+                //gp.ui.addMessage(event.getUser().getNick()+": " + twitchMessage);
             }
 
             if (twitchMessage.equals("!new") && gp.getNPCTwitch(userHashCode) == null) {
 
-                gp.addNPCTwitch(mapNum, event);
+                gp.addNPCTwitch(mapNum, event, 16, 39);
                 gp.ui.addMessage(event.getUser().getNick()+" now have an NPC!");
-                System.out.println("ID: " +event.getUser().getUserId());
+                //System.out.println("ID: " +event.getUser().getUserId());
             }
             else if(!twitchMessage.startsWith("!")){
 

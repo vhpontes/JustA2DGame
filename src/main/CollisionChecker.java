@@ -24,6 +24,9 @@ public class CollisionChecker {
         
         int tileNum1, tileNum2;
         
+        entity.canMove = true;
+
+
         // Usando uma direção temporária quando começa o empurrão
         String direction = entity.direction;
         if(entity.knockBack == true) {
@@ -38,6 +41,7 @@ public class CollisionChecker {
                 tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
                 if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
                     entity.collisionOn = true;
+                    entity.canMove = false;
                 }
                 break;
             case "down":
@@ -47,6 +51,7 @@ public class CollisionChecker {
                 tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
                 if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
                     entity.collisionOn = true;
+                    entity.canMove = false;
                 }
                 break;
             case "left":
@@ -56,6 +61,7 @@ public class CollisionChecker {
                 tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
                 if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
                     entity.collisionOn = true;
+                    entity.canMove = false;
                 }
                 break;
             case "right":
@@ -65,6 +71,7 @@ public class CollisionChecker {
                 tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
                 if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
                     entity.collisionOn = true;
+                    entity.canMove = false;
                 }
                 break;
         }

@@ -139,6 +139,9 @@ public class AssetSettler {
         gp.npc[mapNum][i].worldX = gp.tileSize*23;
         gp.npc[mapNum][i].worldY = gp.tileSize*14;
         i++;
+        
+        //gp.addNPCTwitch(4, null, 16, 39);
+        //i++;
     }
     
     public void setMonster() {

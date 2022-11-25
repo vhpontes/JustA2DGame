@@ -16,10 +16,19 @@ import main.UtilityTool;
 public class Entity {
     
     public GamePanel gp;
-    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
-    public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, 
-            attackLeft1, attackLeft2, attackRight1, attackRight2,
-            guardUp, guardDown, guardLeft, guardRight;
+    public BufferedImage 
+            up1, up2, up3, up4, 
+            down1, down3, down4, down2, 
+            left1, left2, left3, left4, 
+            right1, right2, right3, right4;
+    public BufferedImage 
+            attackUp1, attackUp2, 
+            attackDown1, attackDown2, 
+            attackLeft1, attackLeft2, 
+            attackRight1, attackRight2;
+    public BufferedImage 
+            guardUp, guardDown, 
+            guardLeft, guardRight;
     public BufferedImage image, image2, image3;
     public Rectangle solidArea = new Rectangle(0,0,48,48);
     public Rectangle attackArea = new Rectangle(0,0,0,0);
@@ -29,7 +38,7 @@ public class Entity {
     public Entity linkedEntity;
     
     // VAR NPC TWITCH
-    public static final int TWITCH_MESSAGE_MAXSCREEN_TIME = 5;
+    public static final int TWITCH_MESSAGE_MAXSCREEN_TIME = 6;
     public String npcTwitchNick = null;
     public String npcTwitchMessage = null;
     public int npcHashCode = 0;
@@ -57,6 +66,7 @@ public class Entity {
     public Entity loot;
     public boolean opened = false;
     public boolean inRage = false;
+    public boolean canMove = true;
 
     // VARs COUNTER
     public int spriteCounter = 0;
@@ -451,16 +461,36 @@ public class Entity {
                     case "right": worldX += speed; break;
                 }
             }
+            
+            if(this.canMove) {
             spriteCounter++;
-            if(spriteCounter > 24) {
+            if(spriteCounter > 10) {
                 if(spriteNum == 1) {
                     spriteNum = 2;
                 }
                 else if(spriteNum == 2) {
+                    spriteNum = 3;
+                }
+                else if(spriteNum == 3) {
+                    spriteNum = 4;
+                }
+                else if(spriteNum == 4) {
                     spriteNum = 1;
                 }
                 spriteCounter = 0;
             }
+            } else {spriteNum = 1;}
+            // Old loop with 2 frames in move of sprite
+//            spriteCounter++;
+//            if(spriteCounter > 24) {
+//                if(spriteNum == 1) {
+//                    spriteNum = 2;
+//                }
+//                else if(spriteNum == 2) {
+//                    spriteNum = 1;
+//                }
+//                spriteCounter = 0;
+//            }
         }
 
         if(invincible == true) {
@@ -750,6 +780,8 @@ public class Entity {
                     if(attacking == false){
                         if(spriteNum == 1){ image = up1; break;}
                         if(spriteNum == 2){ image = up2; break;}
+                        if(spriteNum == 3){ image = up3; break;}
+                        if(spriteNum == 4){ image = up4; break;}
                     }
                     else {
                         tempScreenY = screenY - up1.getHeight();
@@ -761,6 +793,8 @@ public class Entity {
                     if(attacking == false){
                         if(spriteNum == 1){ image = down1; break;}
                         if(spriteNum == 2){ image = down2; break;}
+                        if(spriteNum == 3){ image = down3; break;}
+                        if(spriteNum == 4){ image = down4; break;}
                     }
                     else {
                         if(spriteNum == 1){ image = attackDown1; break;}
@@ -771,6 +805,8 @@ public class Entity {
                     if(attacking == false){
                         if(spriteNum == 1){ image = left1; break;}
                         if(spriteNum == 2){ image = left2; break;}
+                        if(spriteNum == 3){ image = left3; break;}
+                        if(spriteNum == 4){ image = left4; break;}
                     }
                     else {
                         tempScreenX = screenX - left1.getWidth();
@@ -782,6 +818,8 @@ public class Entity {
                     if(attacking == false){
                         if(spriteNum == 1){ image = right1; break;}
                         if(spriteNum == 2){ image = right2; break;}
+                        if(spriteNum == 3){ image = right3; break;}
+                        if(spriteNum == 4){ image = right4; break;}
                     }
                     else {
                         if(spriteNum == 1){ image = attackRight1; break;}

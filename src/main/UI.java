@@ -21,7 +21,8 @@ import objects.OBJ_ManaCrystal;
 public class UI {
     GamePanel gp;
     Graphics2D g2;
-    public Font maruMonica, purisaB;
+    public Font maruMonica, purisaB, AdventureRequest, Britannian, Anglorunic,
+            malveryFreeItalic, malveryFreeOutline, malveryFreeOutlineItalic, malveryFreeRegular;
     
     BufferedImage heart_full, heart_half, heart_blank, crystal_full, crystal_blank, coin_img;
 
@@ -48,8 +49,27 @@ public class UI {
         try {
             InputStream is = getClass().getResourceAsStream("/res/font/x12y16pxMaruMonica.ttf");
             maruMonica = Font.createFont(Font.TRUETYPE_FONT, is);
+            
             is = getClass().getResourceAsStream("/res/font/Purisa Bold.ttf");
             purisaB = Font.createFont(Font.TRUETYPE_FONT, is);
+
+            is = getClass().getResourceAsStream("/res/font/AdventureRequest.ttf");
+            AdventureRequest = Font.createFont(Font.TRUETYPE_FONT, is);
+
+            is = getClass().getResourceAsStream("/res/font/Britannian.ttf");
+            Britannian = Font.createFont(Font.TRUETYPE_FONT, is);
+            
+            is = getClass().getResourceAsStream("/res/font/Anglorunic.ttf");
+            Anglorunic = Font.createFont(Font.TRUETYPE_FONT, is);
+            
+            is = getClass().getResourceAsStream("/res/font/MalveryFree-Italic.otf");
+            malveryFreeItalic = Font.createFont(Font.PLAIN, is);
+            is = getClass().getResourceAsStream("/res/font/MalveryFree-Outline.otf");
+            malveryFreeOutline = Font.createFont(Font.PLAIN, is);
+            is = getClass().getResourceAsStream("/res/font/MalveryFree-OutlineItalic.otf");
+            malveryFreeOutlineItalic = Font.createFont(Font.PLAIN, is);
+            is = getClass().getResourceAsStream("/res/font/MalveryFree-Regular.otf");
+            malveryFreeRegular = Font.createFont(Font.PLAIN, is);
         } catch (IOException | FontFormatException ex) {
             Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -258,7 +278,8 @@ public class UI {
         
         if(titleScreenState == 0) {
         
-            g2.setFont(maruMonica);
+            //g2.setFont(Britannian);
+            g2.setFont(Anglorunic);
             g2.setColor(new Color(50, 50, 50));
             g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
@@ -267,6 +288,7 @@ public class UI {
             String text = "Just a 2D Game";
             int x = getXforCenteredText(text);
             int y = gp.tileSize*3;
+            
 
             // SHADOW
             g2.setColor(Color.BLACK);
@@ -276,14 +298,15 @@ public class UI {
             g2.setColor(Color.white);
             g2.drawString(text, x, y);
 
-            // IMAGE
+            // TITLE IMAGE
             x = gp.screenWidth/2 - (gp.tileSize*2)/2;
             y += gp.screenHeight/18;
             g2.drawImage(gp.player.down1, x, y, gp.tileSize*2, gp.tileSize*2, null);
 
             // MENU
+            g2.setFont(AdventureRequest);
             g2.setColor(Color.yellow);
-            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F));
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 38F));
 
             text = "NEW Game";
             x = getXforCenteredText(text);
@@ -425,6 +448,8 @@ public class UI {
     
     public void drawCharacterScreen() {
         
+
+        
         // CREATE A FRAME
         final int frameX = gp.tileSize*2;
         final int frameY = gp.tileSize;
@@ -435,8 +460,8 @@ public class UI {
         
         // TEXT
         g2.setColor(Color.white);
-        g2.setFont(maruMonica);
-        g2.setFont(g2.getFont().deriveFont(32F));
+        g2.setFont(AdventureRequest);
+        g2.setFont(g2.getFont().deriveFont(22F));
         
         int textX = frameX + 20;
         int textY = frameY + gp.tileSize;
@@ -514,6 +539,15 @@ public class UI {
         g2.drawImage(gp.player.currentWeapon.down1, tailX - gp.tileSize, textY-24, null);
         textY += gp.tileSize;
         g2.drawImage(gp.player.currentShield.down1, tailX - gp.tileSize, textY-24, null);
+
+        // IMAGE
+        int posX = gp.screenWidth / 2 - (gp.tileSize*5);
+        int posY = gp.tileSize * 2;
+        drawSubWindow(posX, posY-gp.tileSize, gp.tileSize * 4, gp.tileSize * 6);
+        g2.drawImage(gp.player.down1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
+        g2.drawImage(gp.player.left1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
+        g2.drawImage(gp.player.up1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
+        g2.drawImage(gp.player.right1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
     }
     
     public void drawGameOverScreen() {

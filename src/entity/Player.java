@@ -7,12 +7,8 @@ import java.awt.image.BufferedImage;
 import main.GamePanel;
 import main.KeyHandler;
 import objects.OBJ_Arrow;
-import objects.OBJ_Boots;
-import objects.OBJ_Bow_Normal;
 import objects.OBJ_Fireball;
 import objects.OBJ_Key;
-import objects.OBJ_Lantern;
-import objects.OBJ_Pickaxe;
 import objects.OBJ_Shield_Wood;
 import objects.OBJ_Sword_Normal;
 
@@ -47,7 +43,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 0;
+        gp.currentMap = 4;
         switch(gp.currentMap){
             case 0:
                 worldX = gp.tileSize * 23;
@@ -179,17 +175,26 @@ public class Player extends Entity{
     }
     
     public void getImage() {
-
+        imageHeroPlayer = "man48";
+        
         up1    = setup("player/"+imageHeroPlayer+"_up_1",    gp.tileSize, gp.tileSize);
         up2    = setup("player/"+imageHeroPlayer+"_up_2",    gp.tileSize, gp.tileSize);
+        up3    = setup("player/"+imageHeroPlayer+"_up_3",    gp.tileSize, gp.tileSize);
+        up4    = setup("player/"+imageHeroPlayer+"_up_4",    gp.tileSize, gp.tileSize);
         down1  = setup("player/"+imageHeroPlayer+"_down_1",  gp.tileSize, gp.tileSize);
         down2  = setup("player/"+imageHeroPlayer+"_down_2",  gp.tileSize, gp.tileSize);
-//        down1  = setup("player/hero002_down_1",  gp.tileSize, gp.tileSize);
-//        down2  = setup("player/hero002_down_2",  gp.tileSize, gp.tileSize);
+        down3  = setup("player/"+imageHeroPlayer+"_down_3",  gp.tileSize, gp.tileSize);
+        down4  = setup("player/"+imageHeroPlayer+"_down_4",  gp.tileSize, gp.tileSize);
         left1  = setup("player/"+imageHeroPlayer+"_left_1",  gp.tileSize, gp.tileSize);
         left2  = setup("player/"+imageHeroPlayer+"_left_2",  gp.tileSize, gp.tileSize);
+        left3  = setup("player/"+imageHeroPlayer+"_left_3",  gp.tileSize, gp.tileSize);
+        left4  = setup("player/"+imageHeroPlayer+"_left_4",  gp.tileSize, gp.tileSize);
         right1 = setup("player/"+imageHeroPlayer+"_right_1", gp.tileSize, gp.tileSize);
         right2 = setup("player/"+imageHeroPlayer+"_right_2", gp.tileSize, gp.tileSize);
+        right3 = setup("player/"+imageHeroPlayer+"_right_3", gp.tileSize, gp.tileSize);
+        right4 = setup("player/"+imageHeroPlayer+"_right_4", gp.tileSize, gp.tileSize);
+        
+        imageHeroPlayer = "hero001";
     }
     
     public void getSleepImage(BufferedImage image) {
@@ -395,16 +400,35 @@ public class Player extends Entity{
             guarding = false;
             guardCounter = 0;
             
+            if(canMove) {
             spriteCounter++;
-            if(spriteCounter > 12) {
+            if(spriteCounter > 10) {
                 if(spriteNum == 1) {
                     spriteNum = 2;
                 }
                 else if(spriteNum == 2) {
+                    spriteNum = 3;
+                }
+                else if(spriteNum == 3) {
+                    spriteNum = 4;
+                }
+                else if(spriteNum == 4) {
                     spriteNum = 1;
                 }
                 spriteCounter = 0;
             }
+            } else {spriteNum = 1;}
+
+//            spriteCounter++;
+//            if(spriteCounter > 12) {
+//                if(spriteNum == 1) {
+//                    spriteNum = 2;
+//                }
+//                else if(spriteNum == 2) {
+//                    spriteNum = 1;
+//                }
+//                spriteCounter = 0;
+//            }
         }
         else {
             standCounter++;
@@ -733,6 +757,8 @@ public class Player extends Entity{
                 if(attacking == false) {
                     if(spriteNum == 1){ image = up1;}
                     if(spriteNum == 2){ image = up2;}
+                    if(spriteNum == 3){ image = up3;}
+                    if(spriteNum == 4){ image = up4;}
                 }
                 if(attacking == true) {
                     tempScreenY = screenY - gp.tileSize;
@@ -747,6 +773,8 @@ public class Player extends Entity{
                 if(attacking == false) {
                     if(spriteNum == 1){ image = down1;}
                     if(spriteNum == 2){ image = down2;}
+                    if(spriteNum == 3){ image = down3;}
+                    if(spriteNum == 4){ image = down4;}
                 }
                 if(attacking == true) {
                     if(spriteNum == 1){ image = attackDown1;}
@@ -760,6 +788,8 @@ public class Player extends Entity{
                 if(attacking == false) {
                     if(spriteNum == 1){ image = left1;}
                     if(spriteNum == 2){ image = left2;}
+                    if(spriteNum == 3){ image = left3;}
+                    if(spriteNum == 4){ image = left4;}
                 }
                 if(attacking == true) {
                     tempScreenX = screenX - gp.tileSize;
@@ -774,6 +804,8 @@ public class Player extends Entity{
                 if(attacking == false) {
                     if(spriteNum == 1){ image = right1;}
                     if(spriteNum == 2){ image = right2;}
+                    if(spriteNum == 3){ image = right3;}
+                    if(spriteNum == 4){ image = right4;}
                 }
                 if(attacking == true) {
                     if(spriteNum == 1){ image = attackRight1;}

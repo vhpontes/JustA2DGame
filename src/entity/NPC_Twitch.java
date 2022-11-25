@@ -11,7 +11,7 @@ Pixel Art Credits:
 import java.util.Random;
 import main.GamePanel;
 
-public class NPC_Twitch extends Entity{
+public final class NPC_Twitch extends Entity{
     
     public NPC_Twitch(GamePanel gp){
         super(gp);
@@ -19,20 +19,31 @@ public class NPC_Twitch extends Entity{
         direction = "down";
         speed = 1;
         alive = true;
+        canMove = true;
 
         getImage();
     }
 
     public void getImage() {
         
-        up1 =    setup("npctwitch/twitch002_up_1",    gp.tileSize, gp.tileSize);
-        up2 =    setup("npctwitch/twitch002_up_2",    gp.tileSize, gp.tileSize);
-        down1 =  setup("npctwitch/twitch002_down_1",  gp.tileSize, gp.tileSize);
-        down2 =  setup("npctwitch/twitch002_down_2",  gp.tileSize, gp.tileSize);
-        left1 =  setup("npctwitch/twitch002_left_1",  gp.tileSize, gp.tileSize);
-        left2 =  setup("npctwitch/twitch002_left_2",  gp.tileSize, gp.tileSize);
-        right1 = setup("npctwitch/twitch002_right_1", gp.tileSize, gp.tileSize);
-        right2 = setup("npctwitch/twitch002_right_2", gp.tileSize, gp.tileSize);
+        String imageNPC = "twitch003";
+        
+        up1 =    setup("npctwitch/"+imageNPC+"_up_1",    gp.tileSize, gp.tileSize);
+        up2 =    setup("npctwitch/"+imageNPC+"_up_2",    gp.tileSize, gp.tileSize);
+        up3 =    setup("npctwitch/"+imageNPC+"_up_3",    gp.tileSize, gp.tileSize);
+        up4 =    setup("npctwitch/"+imageNPC+"_up_4",    gp.tileSize, gp.tileSize);
+        down1 =  setup("npctwitch/"+imageNPC+"_down_1",  gp.tileSize, gp.tileSize);
+        down2 =  setup("npctwitch/"+imageNPC+"_down_2",  gp.tileSize, gp.tileSize);
+        down3 =  setup("npctwitch/"+imageNPC+"_down_3",  gp.tileSize, gp.tileSize);
+        down4 =  setup("npctwitch/"+imageNPC+"_down_4",  gp.tileSize, gp.tileSize);
+        left1 =  setup("npctwitch/"+imageNPC+"_left_1",  gp.tileSize, gp.tileSize);
+        left2 =  setup("npctwitch/"+imageNPC+"_left_2",  gp.tileSize, gp.tileSize);
+        left3 =  setup("npctwitch/"+imageNPC+"_left_3",  gp.tileSize, gp.tileSize);
+        left4 =  setup("npctwitch/"+imageNPC+"_left_4",  gp.tileSize, gp.tileSize);
+        right1 = setup("npctwitch/"+imageNPC+"_right_1", gp.tileSize, gp.tileSize);
+        right2 = setup("npctwitch/"+imageNPC+"_right_2", gp.tileSize, gp.tileSize);
+        right3 = setup("npctwitch/"+imageNPC+"_right_3", gp.tileSize, gp.tileSize);
+        right4 = setup("npctwitch/"+imageNPC+"_right_4", gp.tileSize, gp.tileSize);
     }
 
     public void set(int worldX, int worldY, String userID, String nick, String lastMsg) {
@@ -41,6 +52,7 @@ public class NPC_Twitch extends Entity{
         this.worldY = worldY;
     }
     
+    @Override
     public void setAction(){
         
         actionLockCounter ++;
@@ -59,6 +71,7 @@ public class NPC_Twitch extends Entity{
         }     
     }
     
+    @Override
     public void speak(){
         
         super.speak();

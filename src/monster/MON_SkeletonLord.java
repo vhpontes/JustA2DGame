@@ -51,24 +51,40 @@ public class MON_SkeletonLord extends Entity {
     public void getImage() {
         
         if(inRage == false) {
-            up1 =    setup("monster/skeletonlord_up_1",    gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
-            up2 =    setup("monster/skeletonlord_up_2",    gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
             down1 =  setup("monster/skeletonlord_down_1",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
             down2 =  setup("monster/skeletonlord_down_2",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            down3 =  setup("monster/skeletonlord_down_1",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            down4 =  setup("monster/skeletonlord_down_2",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            up1 =    setup("monster/skeletonlord_up_1",    gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            up2 =    setup("monster/skeletonlord_up_2",    gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            up3 =    setup("monster/skeletonlord_up_1",    gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            up4 =    setup("monster/skeletonlord_up_2",    gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
             left1 =  setup("monster/skeletonlord_left_1",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
             left2 =  setup("monster/skeletonlord_left_2",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            left3 =  setup("monster/skeletonlord_left_1",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            left4 =  setup("monster/skeletonlord_left_2",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
             right1 = setup("monster/skeletonlord_right_1", gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
             right2 = setup("monster/skeletonlord_right_2", gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            right3 = setup("monster/skeletonlord_right_1", gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            right4 = setup("monster/skeletonlord_right_2", gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
         }
         if(inRage == true) {
-            up1 =    setup("monster/skeletonlord_phase2_up_1",    gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
-            up2 =    setup("monster/skeletonlord_phase2_up_2",    gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
             down1 =  setup("monster/skeletonlord_phase2_down_1",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
             down2 =  setup("monster/skeletonlord_phase2_down_2",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            down3 =  setup("monster/skeletonlord_phase2_down_1",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            down4 =  setup("monster/skeletonlord_phase2_down_2",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            up1 =    setup("monster/skeletonlord_phase2_up_1",    gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            up2 =    setup("monster/skeletonlord_phase2_up_2",    gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            up3 =    setup("monster/skeletonlord_phase2_up_1",    gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            up4 =    setup("monster/skeletonlord_phase2_up_2",    gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
             left1 =  setup("monster/skeletonlord_phase2_left_1",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
             left2 =  setup("monster/skeletonlord_phase2_left_2",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            left3 =  setup("monster/skeletonlord_phase2_left_1",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            left4 =  setup("monster/skeletonlord_phase2_left_2",  gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
             right1 = setup("monster/skeletonlord_phase2_right_1", gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
             right2 = setup("monster/skeletonlord_phase2_right_2", gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            right3 = setup("monster/skeletonlord_phase2_right_1", gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
+            right4 = setup("monster/skeletonlord_phase2_right_2", gp.tileSize * bossMultiplier, gp.tileSize * bossMultiplier);
         }
     }
     
