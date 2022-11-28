@@ -16,7 +16,7 @@ import objects.OBJ_Chest;
 import objects.OBJ_Door;
 import objects.OBJ_Door_Iron;
 import objects.OBJ_Heart;
-import objects.OBJ_Key;
+import objects.OBJ_Key_Silver;
 import objects.OBJ_Lantern;
 import objects.OBJ_ManaCrystal;
 import objects.OBJ_Pickaxe;
@@ -70,7 +70,7 @@ public class AssetSettler {
         gp.obj[mapNum][i].worldY = gp.tileSize*43;
         i++;
         gp.obj[mapNum][i] = new OBJ_Chest(gp);
-        gp.obj[mapNum][i].setLootItem(new OBJ_Key(gp));
+        gp.obj[mapNum][i].setLootItem(new OBJ_Key_Silver(gp));
         gp.obj[mapNum][i].setLootItem(new OBJ_Lantern(gp));
         gp.obj[mapNum][i].setLootItem(new OBJ_Tent(gp));
         gp.obj[mapNum][i].setLootItem(new OBJ_Arrow(gp), 10);

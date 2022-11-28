@@ -23,10 +23,27 @@ public final class NPC_Twitch extends Entity{
 
         getImage();
     }
+    
+    public String RandomNPCImage() {
+        String npcIMGName = "twitch001";
+        Random random = new Random();
+         int i = random.nextInt(100) + 1;
+
+         if(i <= 5)            {npcIMGName = "twitch001";}
+         if(i > 5 && i <= 15)   {npcIMGName = "twitch002";}
+         if(i > 15 && i <= 30)   {npcIMGName = "twitch003";}
+         if(i > 30 && i <= 45)   {npcIMGName = "twitch004";}
+         if(i > 45 && i <= 60)  {npcIMGName = "twitch005";}
+         if(i > 60 && i <= 75)  {npcIMGName = "twitch006";}
+         if(i > 75 && i <= 90)  {npcIMGName = "twitch007";}
+         if(i > 90 && i <= 100)  {npcIMGName = "twitch008";}
+         
+         return npcIMGName;
+    }
 
     public void getImage() {
         
-        String imageNPC = "twitch003";
+        String imageNPC = RandomNPCImage();
         
         up1 =    setup("npctwitch/"+imageNPC+"_up_1",    gp.tileSize, gp.tileSize);
         up2 =    setup("npctwitch/"+imageNPC+"_up_2",    gp.tileSize, gp.tileSize);

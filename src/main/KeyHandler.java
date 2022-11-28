@@ -207,6 +207,7 @@ public class KeyHandler implements KeyListener{
         }
         if(code == KeyEvent.VK_F) {
             gp.player.generateFirework(gp.player.projectile, gp.player);
+            gp.addNPCTwitch(4, null, 16, 39);
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException ex) {

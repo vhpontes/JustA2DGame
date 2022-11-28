@@ -8,7 +8,8 @@ import main.GamePanel;
 import main.KeyHandler;
 import objects.OBJ_Arrow;
 import objects.OBJ_Fireball;
-import objects.OBJ_Key;
+import objects.OBJ_Key_Silver;
+import objects.OBJ_Lantern;
 import objects.OBJ_Shield_Wood;
 import objects.OBJ_Sword_Normal;
 
@@ -43,7 +44,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 4;
+        gp.currentMap = 0;
         switch(gp.currentMap){
             case 0:
                 worldX = gp.tileSize * 23;
@@ -139,7 +140,8 @@ public class Player extends Entity{
         inventory.clear();
         inventory.add(currentWeapon);
         inventory.add(currentShield);
-        inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Key_Silver(gp));
+        inventory.add(new OBJ_Lantern(gp));
     }
     
     public int getAttack() {
