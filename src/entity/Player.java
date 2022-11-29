@@ -44,7 +44,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 0;
+        gp.currentMap = 4;
         switch(gp.currentMap){
             case 0:
                 worldX = gp.tileSize * 23;

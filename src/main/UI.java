@@ -13,14 +13,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import objects.OBJ_Heart;
 import entity.Entity;
+import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import objects.OBJ_Coin_Bronze;
 import objects.OBJ_ManaCrystal;
 
 public class UI {
     GamePanel gp;
     Graphics2D g2;
+    private JComponent uiSnow = null;
+    
+    
     public Font maruMonica, purisaB, AdventureRequest, Britannian, Anglorunic,
             malveryFreeItalic, malveryFreeOutline, malveryFreeOutlineItalic, malveryFreeRegular;
     
@@ -1220,4 +1227,5 @@ public class UI {
             g2.drawLine(x1,y1, x2, y2);  
         }        
     }
+
 }

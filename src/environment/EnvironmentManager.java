@@ -7,6 +7,7 @@ public class EnvironmentManager {
     
     GamePanel gp;
     public Lighting lighting;
+    public SnowFall snow;
     
     public EnvironmentManager(GamePanel gp) {
         this.gp = gp;
@@ -14,6 +15,7 @@ public class EnvironmentManager {
     
     public void setup() {
         lighting = new Lighting(gp);
+        snow = new SnowFall(gp);
     }
     
     public void update() {
@@ -22,6 +24,7 @@ public class EnvironmentManager {
     
     public void draw(Graphics2D g2) {
 //        if(gp.currentMap!=2) {
+            snow.draw(g2);
             lighting.draw(g2);
 //        }
     }
