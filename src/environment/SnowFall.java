@@ -15,7 +15,6 @@ public class SnowFall {
     Color closeColor = new Color(255,255,255);
     int snowFlakeSize = 2;
     int snowFlakeSpeed = 1;
-    //int heightDivision = (gp.screenHeight/SnowFlake.count);
 
     public SnowFall(GamePanel gp) {
         this.gp = gp;

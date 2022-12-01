@@ -65,8 +65,8 @@ public class Player extends Entity{
                 worldY = gp.tileSize * 30;
             break;
             case 4:
-                worldX = gp.tileSize * 28;
-                worldY = gp.tileSize * 44;
+                worldX = gp.tileSize * 20;
+                worldY = gp.tileSize * 38;
             break;
         }        
     }
