@@ -141,13 +141,16 @@ public class Lighting {
         String situation = "";
         switch(dayState){
             case day: situation = "Day"; break;
-            case dusk: situation = "Dusk"; break;
+            case dusk: situation = "Sunset"; break;
             case night: situation = "Night"; break;
             case dawn: situation = "Dawn"; break;
         }
+        g2.setColor(Color.black);
+        g2.setFont(g2.getFont().deriveFont(40f));
+        g2.drawString(situation, (gp.screenWidth/2)+2, (120)+2);
         g2.setColor(Color.white);
-        g2.setFont(g2.getFont().deriveFont(50f));
-        g2.drawString(situation, gp.screenWidth-100, gp.screenHeight-50);
+        g2.setFont(g2.getFont().deriveFont(40f));
+        g2.drawString(situation, gp.screenWidth/2, 120);
     }
 
         
