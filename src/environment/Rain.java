@@ -1,3 +1,8 @@
+/*
+Code based in RyiSnow youtube channel:
+https://www.youtube.com/c/RyiSnow
+*/
+
 package environment;
 
 import java.awt.BasicStroke;
@@ -23,7 +28,8 @@ public class Rain {
     public boolean onState = false;
     
     static float map(float value, float in_min, float in_max, float out_min, float out_max) {
-      return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+        
+        return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }    
     
     public Rain(GamePanel gp){
@@ -65,12 +71,6 @@ public class Rain {
             g2.setStroke(new BasicStroke(strokeSize));
 
             g2.draw(new Line2D.Float(x, y, x, y + dropHSize));
-
-            // DEBUG SNOW
-            String situation = "Rain";
-            g2.setColor(Color.cyan);
-            g2.setFont(g2.getFont().deriveFont(30f));
-            g2.drawString(situation, gp.screenWidth/2, 80);  
         }
     }
 }

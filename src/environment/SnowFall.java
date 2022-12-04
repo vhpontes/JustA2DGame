@@ -1,3 +1,8 @@
+/*
+Code based in RyiSnow youtube channel:
+https://www.youtube.com/c/RyiSnow
+*/
+
 package environment;
 
 import java.awt.Color;
@@ -61,10 +66,6 @@ public class SnowFall {
             onState = true;
         }
         
-        // DEBUG SNOW
-        String situation = "SnowFall";
-        g2.setColor(Color.cyan);
-        g2.setFont(g2.getFont().deriveFont(30f));
-        g2.drawString(situation, gp.screenWidth/2, 80);        
+      
     }
 }

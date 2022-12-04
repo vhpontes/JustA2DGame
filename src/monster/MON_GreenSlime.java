@@ -21,6 +21,7 @@ public class MON_GreenSlime extends Entity {
         
         type = type_monster;
         name = monName;
+        boss = false;
         defaultSpeed = 1;
         speed = defaultSpeed;
         maxLife = 4;

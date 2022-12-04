@@ -1,3 +1,8 @@
+/*
+Code based in RyiSnow youtube channel:
+https://www.youtube.com/c/RyiSnow
+*/
+
 package entity;
 
 import java.awt.AlphaComposite;
@@ -6,6 +11,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import main.GamePanel;
 import main.KeyHandler;
+import main.MouseHandler;
 import objects.OBJ_Arrow;
 import objects.OBJ_Fireball;
 import objects.OBJ_Key_Silver;
@@ -16,6 +22,7 @@ import objects.OBJ_Sword_Normal;
 public class Player extends Entity{
     
     KeyHandler keyH;
+    MouseHandler mouseH;
     public final int screenX;
     public final int screenY;
     int standCounter = 0;
@@ -23,10 +30,11 @@ public class Player extends Entity{
     public boolean lightUpdated = false;
     public String imageHeroPlayer = "hero001";
 
-    public Player(GamePanel gp, KeyHandler keyH) {
+    public Player(GamePanel gp, KeyHandler keyH, MouseHandler mouseH) {
 
         super(gp);
         this.keyH = keyH;
+        this.mouseH = mouseH;
         
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
@@ -44,29 +52,35 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 4;
+        gp.currentMap = 3;
+        
         switch(gp.currentMap){
             case 0:
                 worldX = gp.tileSize * 23;
                 worldY = gp.tileSize * 21;
+                gp.currentArea = gp.outside;
             break;
             case 1: // HUT INTERIOR
                 worldX = gp.tileSize * 12; 
                 worldY = gp.tileSize * 12;
+                gp.currentArea = gp.indoor;
             break;
             case 2:
                 //worldX = gp.tileSize * 8;
                 //worldY = gp.tileSize * 48;
                 worldX = gp.tileSize * 10;
                 worldY = gp.tileSize * 41;
+                gp.currentArea = gp.dungeon;
             break;
             case 3:
                 worldX = gp.tileSize * 25;
                 worldY = gp.tileSize * 30;
+                gp.currentArea = gp.dungeon;
             break;
             case 4:
                 worldX = gp.tileSize * 20;
                 worldY = gp.tileSize * 38;
+                gp.currentArea = gp.outside;
             break;
         }        
     }
@@ -82,7 +96,7 @@ public class Player extends Entity{
         level = 1;
         maxLife = 6;
         life = maxLife;
-        maxMana = 4;
+        maxMana = 8;
         mana = maxMana;
         maxArrow = 0;
         arrow = maxArrow;
@@ -550,10 +564,13 @@ public class Player extends Entity{
     public void contactMonster(int i) {
 
         if(i != 999) {
-            if(invincible == false && gp.monster[gp.currentMap][i].dying == false) {
+            
+            Entity mob = gp.monster[gp.currentMap][i];
+            
+            if(invincible == false && mob.dying == false) {
                 gp.playSE(6);
 
-                int damage = attack - gp.monster[gp.currentMap][i].defense;
+                int damage = attack - mob.defense;
                 if(damage < 1){
                     damage = 1;
                 }
@@ -567,35 +584,37 @@ public class Player extends Entity{
     public void damageMonster(int i, Entity attacker, int attack, int knockBackPower) {
         
         if(i != 999) {
-             
-            if(gp.monster[gp.currentMap][i].invincible == false) {
+            
+            Entity mob = gp.monster[gp.currentMap][i]; 
+            
+            if(mob.invincible == false) {
                  
                 gp.playSE(5);
                 
                 if(knockBackPower > 0) {
-                    setKnockBack(gp.monster[gp.currentMap][i], attacker, knockBackPower);
+                    setKnockBack(mob, attacker, knockBackPower);
                 }
                 
-                if(gp.monster[gp.currentMap][i].offBalance == true) {
+                if(mob.offBalance == true) {
                     attack *= 5;
                 }
                 
-                int damage = attack - gp.monster[gp.currentMap][i].defense;
+                int damage = attack - mob.defense;
                 
                 if(damage < 0){
                     damage = 0;
                 }
                 
-                gp.monster[gp.currentMap][i].life -= damage;
+                mob.life -= damage;
                 gp.ui.addMessage(damage + " damage !");
-                gp.monster[gp.currentMap][i].invincible = true;
-                gp.monster[gp.currentMap][i].damageReaction();
+                mob.invincible = true;
+                mob.damageReaction();
 
-                if(gp.monster[gp.currentMap][i].life <= 0) {
-                    gp.monster[gp.currentMap][i].dying = true;
-                    gp.ui.addMessage("killed the "+gp.monster[gp.currentMap][i].name);
-                    gp.ui.addMessage("Exp + "+gp.monster[gp.currentMap][i].exp);
-                    exp += gp.monster[gp.currentMap][i].exp;
+                if(mob.life <= 0) {
+                    mob.dying = true;
+                    gp.ui.addMessage("killed the " + mob.name);
+                    gp.ui.addMessage("Exp + " + mob.exp);
+                    exp += mob.exp;
                     checkLevelUp();
                 }
              }

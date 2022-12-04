@@ -20,6 +20,7 @@ public class MON_Orc extends Entity {
         
         type = type_monster;
         name = monName;
+        boss = false;
         defaultSpeed = 2;
         speed = defaultSpeed;
         maxLife = 10;

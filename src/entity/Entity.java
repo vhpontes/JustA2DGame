@@ -50,7 +50,7 @@ public class Entity {
     public int worldX, worldY;
     public int spriteNum = 1;
     public String knockBackDirection;
-    boolean hpBarOn = false;
+    public boolean hpBarOn = false;
     public boolean collision = false;
     public boolean collisionOn = false;
     public boolean invincible = false;
@@ -67,6 +67,7 @@ public class Entity {
     public boolean opened = false;
     public boolean inRage = false;
     public boolean canMove = true;
+    public boolean boss = false;
 
     // VARs COUNTER
     public int spriteCounter = 0;
@@ -75,7 +76,7 @@ public class Entity {
     public int shotAvailableCounter = 0;
     public int guardCounter = 0;
     int dyingCounter = 0;
-    int hpBarCounter = 0;
+    public int hpBarCounter = 0;
     int knockBackCounter = 0;
     int offBalanceCounter = 0;
     
@@ -142,6 +143,16 @@ public class Entity {
     
     public Entity(GamePanel gp) {
         this.gp = gp;
+    }
+    
+    public int getScreenX() {
+        int screenX = worldX - gp.player.worldX + gp.player.screenX;
+        return screenX;
+    }
+
+    public int getScreenY() {
+        int screenY = worldY - gp.player.worldY + gp.player.screenY;
+        return screenY;
     }
     
     public int getLextX() {
@@ -761,19 +772,28 @@ public class Entity {
         target.knockBack = true;
     }    
     
-    public void draw(Graphics2D g2){
-        
-        BufferedImage image = null;
-        int screenX = worldX - gp.player.worldX + gp.player.screenX;
-        int screenY = worldY - gp.player.worldY + gp.player.screenY;
+    public boolean inCamera() {
+        boolean inCamera = false;
 
         if(worldX + gp.tileSize * 5 > gp.player.worldX - gp.player.screenX &&
             worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
             worldY + gp.tileSize * 5 > gp.player.worldY - gp.player.screenY &&
             worldY - gp.tileSize < gp.player.worldY + gp.player.screenY){
+        
+            inCamera = true;
+        }
+        return inCamera;
+    }
+    
+    public void draw(Graphics2D g2){
+        
+        BufferedImage image = null;
+
+        // CHECK CAMERA IN
+        if(inCamera() == true) {
             
-            int tempScreenX = screenX;
-            int tempScreenY = screenY;
+            int tempScreenX = getScreenX();
+            int tempScreenY = getScreenY();
 
             switch(direction) {
                 case "up": {
@@ -784,7 +804,7 @@ public class Entity {
                         if(spriteNum == 4){ image = up4; break;}
                     }
                     else {
-                        tempScreenY = screenY - up1.getHeight();
+                        tempScreenY = getScreenY() - up1.getHeight();
                         if(spriteNum == 1){ image = attackUp1; break;}
                         if(spriteNum == 2){ image = attackUp2; break;}
                     }
@@ -809,7 +829,7 @@ public class Entity {
                         if(spriteNum == 4){ image = left4; break;}
                     }
                     else {
-                        tempScreenX = screenX - left1.getWidth();
+                        tempScreenX = getScreenX() - left1.getWidth();
                         if(spriteNum == 1){ image = attackLeft1; break;}
                         if(spriteNum == 2){ image = attackLeft2; break;}
                     }
@@ -828,33 +848,13 @@ public class Entity {
                 }
             }
             
-            // MOB HP BAR
-            if(type == 2 && hpBarOn == true) {
-                // referencia do tile 48
-                double oneScale = (double)gp.tileSize/maxLife;
-                double hpBarValue = oneScale * life;
-
-                if(hpBarValue < 0 ){ hpBarValue = 0; } // evita que a barra ultrapasse o limite negativo;
-                
-                g2.setColor(new Color(35, 35, 35));
-                g2.fillRect(screenX-1, screenY - 16, gp.tileSize + 2, 12);
-                g2.setColor(new Color(255, 0, 30));
-                g2.fillRect(screenX, screenY - 15, (int)hpBarValue, 10);
-                
-                hpBarCounter++;
-                if(hpBarCounter > 600) {
-                    hpBarCounter = 0;
-                    hpBarOn = false;
-                }
-            }
-            
             // DRAW NPC TWITCH NICK
             if(this.npcTwitchNick != null) {
                 g2.setFont(g2.getFont().deriveFont(20f));
                 g2.setColor(Color.black);
-                g2.drawString(this.npcTwitchNick, screenX-25, screenY);
+                g2.drawString(this.npcTwitchNick, getScreenX()-25, getScreenY());
                 g2.setColor(Color.white);
-                g2.drawString(this.npcTwitchNick, screenX-27, screenY-2);
+                g2.drawString(this.npcTwitchNick, getScreenX()-27, getScreenY()-2);
             }
             
             // DRAW NPC TWITCH MESSAGE ABOVE NPC IN GAME
@@ -863,7 +863,7 @@ public class Entity {
                 if(System.currentTimeMillis() > (this.messageTwitchTimeStamp + TWITCH_MESSAGE_MAXSCREEN_TIME * 1000)) {
                     this.npcTwitchMessage = null;
                 }
-                drawTwitcChatDialogue(g2, screenX, screenY);
+                drawTwitcChatDialogue(g2, getScreenX(), getScreenY());
             }
 
             // VISUAL EFFECT TO INVINCIBLE MODE

@@ -1,12 +1,12 @@
-package entity;
-
 /*
 Pixel Art Credits:
-    Twitch NPC: 
+    Twitch NPC 1: 
         riquecamargo 
          - https://itch.io/queue/c/2008591/npc?game_id=1777552
          - https://www.youtube.com/riquecamargo
 */
+
+package entity;
 
 import java.util.Random;
 import main.GamePanel;

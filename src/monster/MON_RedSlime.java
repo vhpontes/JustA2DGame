@@ -21,6 +21,7 @@ public class MON_RedSlime extends Entity {
         
         type = type_monster;
         name = monName;
+        boss = false;
         defaultSpeed = 2;
         speed = defaultSpeed;
         maxLife = 8;

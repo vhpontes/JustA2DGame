@@ -83,6 +83,8 @@ public class GamePanel extends JPanel implements Runnable{
     // SYSTEM
     public TileManager tileM = new TileManager(this);
     public KeyHandler keyH = new KeyHandler(this);
+    public MouseHandler mouseH;
+    
     Sound music = new Sound();
     Sound se = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
@@ -98,7 +100,7 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread;
 
     // ENTITY AND OBJECT
-    public Player player = new Player(this, keyH);
+    public Player player = new Player(this, keyH, mouseH);
     public Entity obj[][] = new Entity[maxMap][40]; 
     public Entity npc[][] = new Entity[maxMap][20];
     public Entity npcTwitch[][] = new Entity[maxMap][20];
@@ -140,11 +142,13 @@ public class GamePanel extends JPanel implements Runnable{
     
    
     public GamePanel() {
+        this.mouseH = new MouseHandler(this, player);
         
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
+        this.addMouseListener (mouseH);
         this.setFocusable(true);
     }
 
@@ -160,7 +164,7 @@ public class GamePanel extends JPanel implements Runnable{
         gameState = titleState;
         currentArea = outside;
 
-        tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+        tempScreen = new BufferedImage(screenWidth2, screenHeight2, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D)tempScreen.getGraphics();
         
         if(fullScreenOn == true) {

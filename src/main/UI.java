@@ -27,7 +27,6 @@ public class UI {
     Graphics2D g2;
     private JComponent uiSnow = null;
     
-    
     public Font maruMonica, purisaB, AdventureRequest, Britannian, Anglorunic,
             malveryFreeItalic, malveryFreeOutline, malveryFreeOutlineItalic, malveryFreeRegular;
     
@@ -105,7 +104,7 @@ public class UI {
         
         this.g2 = g2;
         
-        g2.setFont(purisaB);
+        g2.setFont(maruMonica);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.setColor(Color.white);
         
@@ -117,6 +116,7 @@ public class UI {
         if(gp.gameState == gp.playState) {
             drawPlayerLife();
             drawPlayerMana();
+            drawMonsterLife();
             drawMessage();
         }
         // PAUSE STATE
@@ -218,6 +218,58 @@ public class UI {
             g2.drawImage(crystal_full, x, y, null);
             i++;
             x += 35;
+        }
+    }
+    
+    public void drawMonsterLife() {
+
+        for (int i = 0; i < gp.monster[1].length; i++) {
+            
+            Entity mob = gp.monster[gp.currentMap][i];
+            
+            if(mob != null && mob.inCamera()) {
+                
+                // MOB HP BAR
+                if(mob.hpBarOn == true && mob.boss == false) {
+                    // references of tile 48
+                    double oneScale = (double)gp.tileSize / mob.maxLife;
+                    double hpBarValue = oneScale * mob.life;
+
+                    if(hpBarValue < 0 ){ hpBarValue = 0; } // evita que a barra ultrapasse o limite negativo;
+
+                    g2.setColor(new Color(35, 35, 35));
+                    g2.fillRect(mob.getScreenX()-1, mob.getScreenY() - 16, gp.tileSize + 2, 12);
+                    g2.setColor(new Color(255, 0, 30));
+                    g2.fillRect(mob.getScreenX(), mob.getScreenY() - 15, (int)hpBarValue, 10);
+
+                    mob.hpBarCounter++;
+                    if(mob.hpBarCounter > 600) {
+                        mob.hpBarCounter = 0;
+                        mob.hpBarOn = false;
+                    }
+                }
+                else if(mob.hpBarOn == true && mob.boss == true) {
+                    // references of tile 48
+                    double oneScale = (double)gp.tileSize * 8 / mob.maxLife;
+                    double hpBarValue = oneScale * mob.life;
+                    
+                    int x = gp.screenWidth / 2 - gp.tileSize * 4;
+                    int y = gp.screenHeight - gp.tileSize;
+
+                    g2.setColor(new Color(35, 35, 35));
+                    g2.fillRect(x - 1, y - 1, gp.tileSize * 8 + 2, 22);
+
+                    g2.setColor(new Color(255, 0, 30));
+                    g2.fillRect(mob.getScreenX(), y, (int)hpBarValue, 20);
+
+                    g2.setFont(maruMonica);
+                    g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
+                    g2.setColor(Color.black);
+                    g2.drawString(mob.name, x + 5, y - 11);
+                    g2.setColor(Color.white);
+                    g2.drawString(mob.name, x + 4, y - 10);                    
+                }
+            }
         }
     }
 

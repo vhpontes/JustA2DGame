@@ -1,3 +1,8 @@
+/*
+Code based in RyiSnow youtube channel:
+https://www.youtube.com/c/RyiSnow
+*/
+ 
 package entity;
 
 import main.GamePanel;
@@ -23,6 +28,9 @@ public class Projectile extends Entity{
     
     public void update() {
         
+        int attackPower = attack * (gp.player.level/2); // for fireball
+        
+        // ARROW PROJECTILE DAMAGE
         if(user == gp.player && gp.player.currentWeapon.type == type_bow) {
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             if (monsterIndex != 999) {
@@ -31,14 +39,16 @@ public class Projectile extends Entity{
                 alive = false;
             }
         }
+        // FIREBALL PROJECTILE DAMAGE
         if(user == gp.player && gp.player.currentWeapon.type != type_bow) {
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             if (monsterIndex != 999) {
-                gp.player.damageMonster(monsterIndex, this, attack, user.projectile.knockBackPower);
+                gp.player.damageMonster(monsterIndex, this, attackPower, user.projectile.knockBackPower);
                 generateParticle(user.projectile, gp.monster[gp.currentMap][monsterIndex]);
                 alive = false;
             }
         }
+        // MONSTER PROJECTILE DAMAGE
         if(user != gp.player) {
             boolean contactPlayer = gp.cChecker.checkPlayer(this);
             if(gp.player.invincible == false && contactPlayer == true) {
