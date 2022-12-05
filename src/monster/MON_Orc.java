@@ -3,7 +3,6 @@ package monster;
 import entity.Entity;
 import java.util.Random;
 import main.GamePanel;
-import objects.OBJ_Coin_Bronze;
 import objects.OBJ_Coin_Gold;
 import objects.OBJ_Heart;
 import objects.OBJ_ManaCrystal;

@@ -7,7 +7,6 @@ package entity;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Random;
 import main.GamePanel;
 import objects.OBJ_Door_Iron;
 import tile_interactive.IT_MetalPlate;

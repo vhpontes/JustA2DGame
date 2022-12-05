@@ -1,8 +1,12 @@
+/*
+Code based in RyiSnow youtube channel:
+https://www.youtube.com/c/RyiSnow
+*/
+ 
 package main;
 
 import entity.NPC_BigRock;
 import entity.NPC_Merchant;
-import entity.NPC_OldMan;
 import monster.MON_Bat;
 import monster.MON_GreenSlime;
 import monster.MON_Orc;
@@ -18,7 +22,6 @@ import objects.OBJ_Door_Iron;
 import objects.OBJ_Heart;
 import objects.OBJ_Key_Silver;
 import objects.OBJ_Lantern;
-import objects.OBJ_ManaCrystal;
 import objects.OBJ_Pickaxe;
 import objects.OBJ_Potion_Red;
 import objects.OBJ_Shield_Blue;

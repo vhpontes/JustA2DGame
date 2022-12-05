@@ -1,3 +1,8 @@
+/*
+Code based in RyiSnow youtube channel:
+https://www.youtube.com/c/RyiSnow
+*/
+ 
 package monster;
 
 import entity.Entity;

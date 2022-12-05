@@ -1,3 +1,10 @@
+/*
+Class code: Victor Hugo Manata Pontes 
+https://www.twitch.tv/lechuck311
+https://www.youtube.com/@victorhugomanatapontes
+https://www.youtube.com/@dtudoumporco
+*/
+
 package objects;
 
 import entity.Entity;
@@ -11,9 +18,9 @@ public class OBJ_Arrow extends Projectile{
     public static final String objName = "Arrow";
     
     /* IDEAS TO-DO
-     - wldomiciano: Quando vc atira uma flecha contra uma parede próxima, há uma
-            chance de ela ficar cravada na parede. Se ficar cravada, 
-            vc pode ir e coletá-la novamente.
+     - wldomiciano: When you shoot an arrow at a nearby wall, there is a 
+        chance that it will become embedded in the wall. If it gets stuck, 
+        you can go and collect it again.
     */
         
     public OBJ_Arrow(GamePanel gp){

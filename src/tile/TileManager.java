@@ -1,3 +1,8 @@
+/*
+Code based in RyiSnow youtube channel:
+https://www.youtube.com/c/RyiSnow
+*/
+ 
 package tile;
 
 import java.awt.Color;
@@ -16,7 +21,7 @@ public class TileManager {
     GamePanel gp;
     public Tile[] tile;
     public int mapTileNum[][][];
-    boolean drawPath = false; // Draw a red path in tiles 
+    boolean drawPath = true; // Draw a red path in tiles 
     ArrayList<String> fileNames = new ArrayList<>();
     ArrayList<String> collisionStatus = new ArrayList<>();
     
@@ -169,10 +174,15 @@ public class TileManager {
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY){
                 
                 g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-
-//                    g2.setColor(Color.yellow);
-//                    g2.setFont(g2.getFont().deriveFont(16F));
-//                    g2.drawString(worldCol+"/"+worldRow, screenX, screenY);
+                
+                // DRAW A RED RECTANCLE FOR EACH TILE
+                g2.setColor(Color.red);
+                g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
+                
+                // DRAW A COODS x y IN EACH TILE
+                g2.setColor(Color.white);
+                g2.setFont(g2.getFont().deriveFont(16F));
+                g2.drawString(worldCol + " / " + worldRow, screenX, screenY);
             }
             worldCol++;
             

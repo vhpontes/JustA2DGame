@@ -1,3 +1,8 @@
+/*
+Code based in RyiSnow youtube channel:
+https://www.youtube.com/c/RyiSnow
+*/
+ 
 package main;
 
 import ai.PathFinder;
@@ -45,12 +50,14 @@ public class GamePanel extends JPanel implements Runnable{
     public final int tileSize = originalTileSize * scale; // 48x48 tile size
     
     // 768 x 576 resolution
-//    public final int maxScreenCol = 16; // Width 768 pixels
+    public final int maxScreenCol = 16; // Width 768 pixels
 //    public final int maxScreenCol = 20; // Width 960 pixels
-//    public final int maxScreenRow = 12; // Height 576 pixels
+    public final int maxScreenRow = 12; // Height 576 pixels
+
     // 1280 x 1024 resolution
-    public final int maxScreenCol = 26; // Width 1280 pixels
-    public final int maxScreenRow = 21; // Height 1024 pixels
+//    public final int maxScreenCol = 26; // Width 1280 pixels
+//    public final int maxScreenRow = 21; // Height 1024 pixels
+
     // 1920x1080 resolution
 //    public final int maxScreenCol = 40; // Width 1920 pixels
 //    public final int maxScreenRow = 22; // Height 1080 pixels

@@ -5,7 +5,6 @@ https://www.youtube.com/c/RyiSnow
 
 package ai;
 
-import entity.Entity;
 import java.util.ArrayList;
 import main.GamePanel;
 

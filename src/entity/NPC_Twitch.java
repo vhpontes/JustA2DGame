@@ -1,4 +1,9 @@
 /*
+Class code: Victor Hugo Manata Pontes 
+https://www.twitch.tv/lechuck311
+https://www.youtube.com/@victorhugomanatapontes
+https://www.youtube.com/@dtudoumporco
+
 Pixel Art Credits:
     Twitch NPC 1: 
         riquecamargo 

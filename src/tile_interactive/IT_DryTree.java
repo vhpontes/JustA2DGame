@@ -1,3 +1,8 @@
+/*
+Code based in RyiSnow youtube channel:
+https://www.youtube.com/c/RyiSnow
+*/
+ 
 package tile_interactive;
 
 import entity.Entity;

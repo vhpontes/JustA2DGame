@@ -52,7 +52,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 3;
+        gp.currentMap = 4;
         
         switch(gp.currentMap){
             case 0:
@@ -74,7 +74,7 @@ public class Player extends Entity{
             break;
             case 3:
                 worldX = gp.tileSize * 25;
-                worldY = gp.tileSize * 30;
+                worldY = gp.tileSize * 35;
                 gp.currentArea = gp.dungeon;
             break;
             case 4:
@@ -227,7 +227,7 @@ public class Player extends Entity{
 
     public void getAttackImage() {
         
-        int imgDouble = gp.tileSize*2;
+        int imgDouble = gp.tileSize * 2;
         
         if(currentWeapon.type == type_sword) {
             attackUp1    = setup("player/"+imageHeroPlayer+"_attack_up_1",   gp.tileSize, imgDouble);
@@ -512,6 +512,20 @@ public class Player extends Entity{
                 gp.playSE(12);
             }            
         }
+        // IF COLLISION IS FALSE, PLAYER CAN MOVE
+        if(gp.mouseH.mouseLeftPressed && collisionOn == false) {
+            gp.mouseH.setAction();
+            this.checkPlayerCollision();
+            System.out.println("gp.pFinder.search():"+gp.pFinder.search());
+            //gp.cChecker.checkTile(this);
+            //gp.cChecker.checkObject(this, false);
+            switch(direction) {
+                case "up": worldY -= speed; break;
+                case "down": worldY += speed; break;
+                case "left": worldX -= speed; break;
+                case "right": worldX += speed; break;
+            }
+        }        
     }
     
     public void pickUpObject(int i) {

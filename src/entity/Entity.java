@@ -1,3 +1,8 @@
+/*
+Code based in RyiSnow youtube channel:
+https://www.youtube.com/c/RyiSnow
+*/
+ 
 package entity;
 
 import java.awt.AlphaComposite;
@@ -155,7 +160,7 @@ public class Entity {
         return screenY;
     }
     
-    public int getLextX() {
+    public int getLeftX() {
         return worldX + solidArea.x;
     }
     
@@ -428,6 +433,16 @@ public class Entity {
             damagePlayer(attack);
         }        
     }
+
+    public void checkPlayerCollision() {
+        // CHECK TILE NPC COLLISION
+        collisionOn = false;
+        gp.cChecker.checkTile(this);
+        gp.cChecker.checkObject(this, false);
+        gp.cChecker.checkEntity(this, gp.npc);
+        gp.cChecker.checkEntity(this, gp.monster);
+        gp.cChecker.checkEntity(this, gp.iTile);
+    }
     
     public void update(){
         
@@ -474,22 +489,22 @@ public class Entity {
             }
             
             if(this.canMove) {
-            spriteCounter++;
-            if(spriteCounter > 10) {
-                if(spriteNum == 1) {
-                    spriteNum = 2;
+                spriteCounter++;
+                if(spriteCounter > 10) {
+                    if(spriteNum == 1) {
+                        spriteNum = 2;
+                    }
+                    else if(spriteNum == 2) {
+                        spriteNum = 3;
+                    }
+                    else if(spriteNum == 3) {
+                        spriteNum = 4;
+                    }
+                    else if(spriteNum == 4) {
+                        spriteNum = 1;
+                    }
+                    spriteCounter = 0;
                 }
-                else if(spriteNum == 2) {
-                    spriteNum = 3;
-                }
-                else if(spriteNum == 3) {
-                    spriteNum = 4;
-                }
-                else if(spriteNum == 4) {
-                    spriteNum = 1;
-                }
-                spriteCounter = 0;
-            }
             } else {spriteNum = 1;}
             // Old loop with 2 frames in move of sprite
 //            spriteCounter++;
@@ -932,7 +947,7 @@ public class Entity {
         gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow);
         
         if(gp.pFinder.search() == true) {
-            //System.out.println("Entrou searchPath");
+            System.out.println("Entrou searchPath:"+goalCol+"-"+goalRow);
 
             // Next worldX and worldY
             int nextX = gp.pFinder.pathList.get(0).col * gp.tileSize;
@@ -1007,13 +1022,13 @@ public class Entity {
         int index = 999;
         
         // Check object arround
-        int nextWorldX = user.getLextX();
+        int nextWorldX = user.getLeftX();
         int nextWorldY = user.getTopY();
         
         switch(user.direction) {
             case "up":    nextWorldY = user.getTopY()    - gp.player.speed; break;
             case "down":  nextWorldY = user.getBottomY() + gp.player.speed; break;
-            case "left":  nextWorldX = user.getLextX()   - gp.player.speed; break;
+            case "left":  nextWorldX = user.getLeftX()   - gp.player.speed; break;
             case "right": nextWorldX = user.getRightX()  + gp.player.speed; break;
         }
         
