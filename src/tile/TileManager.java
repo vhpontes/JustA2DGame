@@ -175,14 +175,14 @@ public class TileManager {
                 
                 g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
                 
-                // DRAW A RED RECTANCLE FOR EACH TILE
-                g2.setColor(Color.red);
-                g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
-                
-                // DRAW A COODS x y IN EACH TILE
-                g2.setColor(Color.white);
-                g2.setFont(g2.getFont().deriveFont(16F));
-                g2.drawString(worldCol + " / " + worldRow, screenX, screenY);
+//                // DRAW A RED RECTANCLE FOR EACH TILE
+//                g2.setColor(Color.red);
+//                g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
+//                
+//                // DRAW A COODS x y IN EACH TILE
+//                g2.setColor(Color.white);
+//                g2.setFont(g2.getFont().deriveFont(16F));
+//                g2.drawString(worldCol + " / " + worldRow, screenX, screenY);
             }
             worldCol++;
             

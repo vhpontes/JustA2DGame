@@ -18,12 +18,14 @@ public class Lighting {
     BufferedImage darknessFilter;
     public int dayCounter;
     public float filterAlpha = 0f;
+    public static int oneMinuteMills = 3600;
     
     public final int day = 0;
     public final int dusk = 1;
     public final int night = 2;
     public final int dawn = 3;
     public int dayState = day;
+    public int dayTimeMinutes = 5 * oneMinuteMills;
     
     public Lighting(GamePanel gp) {
         this.gp = gp;
@@ -98,7 +100,7 @@ public class Lighting {
         if(dayState == day) {
             dayCounter++;
             
-            if(dayCounter > 360) { // 1min = 3600, 10min = 36000
+            if(dayCounter > dayTimeMinutes) { // 1min = 3600, 10min = 36000
                 dayState = dusk;
                 dayCounter = 0;
             }

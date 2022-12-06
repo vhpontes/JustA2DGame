@@ -83,7 +83,7 @@ public class NPC_OldMan extends Entity{
             int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
             int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
             
-            searchPath(goalCol, goalRow);
+            searchPath(goalCol, goalRow, this.worldX, this.worldY);
         }
         else {
             //System.out.println("Entrou SetAction random NPC move");

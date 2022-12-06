@@ -84,7 +84,7 @@ public class MON_Orc extends Entity {
         if(onPath == true){
 
             checkStopChasingOrNot(gp.player, 10, 100);
-            searchPath(getGoalCol(gp.player), getGoalRow(gp.player));
+            searchPath(getGoalCol(gp.player), getGoalRow(gp.player), this.worldX, this.worldY);
         }
         else {
 

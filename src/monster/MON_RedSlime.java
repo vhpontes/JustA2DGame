@@ -71,7 +71,7 @@ public class MON_RedSlime extends Entity {
         if(onPath == true){
 
             checkStopChasingOrNot(gp.player, 10, 100);
-            searchPath(getGoalCol(gp.player), getGoalRow(gp.player));
+            searchPath(getGoalCol(gp.player), getGoalRow(gp.player), this.worldX, this.worldY);
             checkShootOrNot(200, 30);
         }
         else {

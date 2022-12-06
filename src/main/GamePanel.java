@@ -50,13 +50,13 @@ public class GamePanel extends JPanel implements Runnable{
     public final int tileSize = originalTileSize * scale; // 48x48 tile size
     
     // 768 x 576 resolution
-    public final int maxScreenCol = 16; // Width 768 pixels
+//    public final int maxScreenCol = 16; // Width 768 pixels
 //    public final int maxScreenCol = 20; // Width 960 pixels
-    public final int maxScreenRow = 12; // Height 576 pixels
+//    public final int maxScreenRow = 12; // Height 576 pixels
 
     // 1280 x 1024 resolution
-//    public final int maxScreenCol = 26; // Width 1280 pixels
-//    public final int maxScreenRow = 21; // Height 1024 pixels
+    public final int maxScreenCol = 22; // Width 1280 pixels
+    public final int maxScreenRow = 14; // Height 1024 pixels
 
     // 1920x1080 resolution
 //    public final int maxScreenCol = 40; // Width 1920 pixels
@@ -559,8 +559,10 @@ public class GamePanel extends JPanel implements Runnable{
     
         npcTwitch[mapNum][npcTwitchIndex] = new NPC_Twitch(this);
         
-        npcTwitch[mapNum][npcTwitchIndex].worldX = tileSize*pX;
-        npcTwitch[mapNum][npcTwitchIndex].worldY = tileSize*pY;
+//        npcTwitch[mapNum][npcTwitchIndex].worldX = tileSize*pX;
+//        npcTwitch[mapNum][npcTwitchIndex].worldY = tileSize*pY;
+        npcTwitch[mapNum][npcTwitchIndex].worldX = player.worldX + tileSize;
+        npcTwitch[mapNum][npcTwitchIndex].worldY = player.worldY;
         if (event != null) {
             npcTwitch[mapNum][npcTwitchIndex].npcHashCode = event.getUser().hashCode();
             npcTwitch[mapNum][npcTwitchIndex].npcTwitchNick = event.getUser().getNick();

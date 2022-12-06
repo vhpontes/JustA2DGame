@@ -18,12 +18,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import objects.OBJ_Heart;
 import entity.Entity;
-import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import objects.OBJ_Coin_Bronze;
 import objects.OBJ_ManaCrystal;
 
@@ -511,9 +508,7 @@ public class UI {
     }
     
     public void drawCharacterScreen() {
-        
 
-        
         // CREATE A FRAME
         final int frameX = gp.tileSize*2;
         final int frameY = gp.tileSize;
@@ -605,13 +600,13 @@ public class UI {
         g2.drawImage(gp.player.currentShield.down1, tailX - gp.tileSize, textY-24, null);
 
         // IMAGE
-        int posX = gp.screenWidth / 2 - (gp.tileSize*5);
+        int posX = tailX + gp.tileSize;
         int posY = gp.tileSize * 2;
         drawSubWindow(posX, posY-gp.tileSize, gp.tileSize * 4, gp.tileSize * 6);
         g2.drawImage(gp.player.down1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
-        g2.drawImage(gp.player.left1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
-        g2.drawImage(gp.player.up1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
-        g2.drawImage(gp.player.right1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
+//        g2.drawImage(gp.player.left1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
+//        g2.drawImage(gp.player.up1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
+//        g2.drawImage(gp.player.right1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
     }
     
     public void drawGameOverScreen() {

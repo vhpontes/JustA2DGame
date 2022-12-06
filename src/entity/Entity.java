@@ -939,7 +939,7 @@ public class Entity {
         return image;
     }
     
-    public void searchPath(int goalCol, int goalRow) {
+    public void searchPath(int goalCol, int goalRow, int currentCol, int currentRow) {
 
         int startCol = (worldX + solidArea.x) / gp.tileSize;
         int startRow = (worldY + solidArea.y) / gp.tileSize;
@@ -947,7 +947,7 @@ public class Entity {
         gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow);
         
         if(gp.pFinder.search() == true) {
-            System.out.println("Entrou searchPath:"+goalCol+"-"+goalRow);
+            //System.out.println("Entrou searchPath:"+goalCol+"-"+goalRow);
 
             // Next worldX and worldY
             int nextX = gp.pFinder.pathList.get(0).col * gp.tileSize;
@@ -977,15 +977,16 @@ public class Entity {
                 }
             }
             // GO up or left
-            else if(enTopY < nextY && enLeftX > nextX) {
+            else if(enTopY < nextY && enLeftX > nextX + gp.tileSize) {
                 direction = "up";
                 checkCollision();
                 if(collisionOn == true) {
                     direction = "left";
                 }
             }
-            // GO up or right
-            else if(enTopY > nextY && enLeftX < nextX) {
+            // GO up or right - NOT MORE HAVE A PROBLEM HERE, i´m think !
+            else if(enTopY > nextY + gp.tileSize && enLeftX < nextX) { 
+//            else if(enTopY > nextY && enRightX > nextX) { // original line
                 direction = "up";
                 checkCollision();
                 if(collisionOn == true) {
@@ -1001,7 +1002,7 @@ public class Entity {
                 }
             }
             // GO down or right
-            else if(enTopY < nextY && enLeftX < nextX) {
+            else if(enTopY < nextY && enLeftX < nextX + gp.tileSize ) {
                 direction = "down";
                 checkCollision();
                 if(collisionOn == true) {
@@ -1011,8 +1012,15 @@ public class Entity {
             
             int nextCol = gp.pFinder.pathList.get(0).col;
             int nextRow = gp.pFinder.pathList.get(0).row;
-            if(nextCol == goalCol && nextRow == goalRow) {
+
+            if(nextCol == goalCol && nextRow == goalRow && this.type != 0) {
                 onPath = false;
+            }
+            // FOR PLAYER PATH FINDER MOVEMENT
+            if(nextCol == goalCol && nextRow == goalRow && this.type == this.type_player) {
+                canMove = false;
+                onPath = false;
+                collisionOn = false; // VERIFY ON MOB movement 
             }
         }
     }

@@ -417,22 +417,22 @@ public class Player extends Entity{
             guardCounter = 0;
             
             if(canMove) {
-            spriteCounter++;
-            if(spriteCounter > 10) {
-                if(spriteNum == 1) {
-                    spriteNum = 2;
+                spriteCounter++;
+                if(spriteCounter > 10) {
+                    if(spriteNum == 1) {
+                        spriteNum = 2;
+                    }
+                    else if(spriteNum == 2) {
+                        spriteNum = 3;
+                    }
+                    else if(spriteNum == 3) {
+                        spriteNum = 4;
+                    }
+                    else if(spriteNum == 4) {
+                        spriteNum = 1;
+                    }
+                    spriteCounter = 0;
                 }
-                else if(spriteNum == 2) {
-                    spriteNum = 3;
-                }
-                else if(spriteNum == 3) {
-                    spriteNum = 4;
-                }
-                else if(spriteNum == 4) {
-                    spriteNum = 1;
-                }
-                spriteCounter = 0;
-            }
             } else {spriteNum = 1;}
 
 //            spriteCounter++;
@@ -512,19 +512,36 @@ public class Player extends Entity{
                 gp.playSE(12);
             }            
         }
-        // IF COLLISION IS FALSE, PLAYER CAN MOVE
-        if(gp.mouseH.mouseLeftPressed && collisionOn == false) {
+        // PLAYER AUTO MOVE FOR MOUSE CLICK EVENT
+        if(gp.mouseH.mouseLeftPressed && collisionOn == false && onPath == true) {
             gp.mouseH.setAction();
             this.checkPlayerCollision();
-            System.out.println("gp.pFinder.search():"+gp.pFinder.search());
-            //gp.cChecker.checkTile(this);
-            //gp.cChecker.checkObject(this, false);
+//            System.out.println("onPath:"+onPath);
             switch(direction) {
                 case "up": worldY -= speed; break;
                 case "down": worldY += speed; break;
                 case "left": worldX -= speed; break;
                 case "right": worldX += speed; break;
             }
+            
+            if(canMove) {
+                spriteCounter++;
+                if(spriteCounter > 10) {
+                    if(spriteNum == 1) {
+                        spriteNum = 2;
+                    }
+                    else if(spriteNum == 2) {
+                        spriteNum = 3;
+                    }
+                    else if(spriteNum == 3) {
+                        spriteNum = 4;
+                    }
+                    else if(spriteNum == 4) {
+                        spriteNum = 1;
+                    }
+                    spriteCounter = 0;
+                }
+            } else {spriteNum = 1;}            
         }        
     }
     

@@ -26,31 +26,47 @@ public class MouseHandler implements MouseListener {
     }
     
     public void mouseClicked(MouseEvent e) { 
-        mouseLeftPressed = true;
-        pl.onPath = true;
-
-        //int mouseX = (int) (MouseInfo.getPointerInfo().getLocation().getX() + pl.worldX - 27);
-        //int mouseY = (int) (MouseInfo.getPointerInfo().getLocation().getY() + pl.worldY - 12);
-        int camOffSetX = (int)(pl.worldX / gp.tileSize) - 7;
-        int camOffSetY = (int)(pl.worldY / gp.tileSize) - 4;
-
-        //camOffSetX = camOffSetX * gp.tileSize;
-
-        int mouseX = (int)(e.getPoint().x / gp.tileSize);//+ pl.worldX;
-        int mouseY = (int)(e.getPoint().y / gp.tileSize);//+ pl.worldY;
-
-        mouseCol = mouseX + camOffSetX;
-        mouseRow = mouseY + camOffSetY;
-
-        System.out.println(e.getPoint().x + "   " + e.getPoint().y);
-        System.out.println(pl.worldX + "   " + pl.worldY);
-        System.out.println(mouseCol + "   " + mouseRow);
-        System.out.println("---------------");
-        System.out.println("mouseLeftPressed:"+mouseLeftPressed + "   onPath:" + pl.onPath);
-        System.out.println("collisionOn:"+pl.collisionOn);
-        System.out.println("---------------");
-
         
+        if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+            mouseLeftPressed = true;
+            pl.collisionOn = false;
+            pl.onPath = true;
+            pl.canMove = true;
+
+            int screenX = pl.screenX / gp.tileSize;
+            int screenY = pl.screenY / gp.tileSize;
+
+            int camOffSetX = (int)(pl.worldX / gp.tileSize) - screenX;
+            int camOffSetY = (int)(pl.worldY / gp.tileSize) - screenY;
+            
+            //camOffSetX = camOffSetX * gp.tileSize;
+
+            int mouseX = (int)(e.getPoint().x / gp.tileSize);
+            int mouseY = (int)(e.getPoint().y / gp.tileSize);
+
+            mouseCol = mouseX + camOffSetX;
+            mouseRow = mouseY + camOffSetY;
+
+            System.out.println(e.getPoint().x + "   " + e.getPoint().y);
+            System.out.println(pl.worldX + "   " + pl.worldY);
+            System.out.println(mouseCol + "   " + mouseRow);
+            System.out.println("---------------");
+            System.out.println("mouseLeftPressed:"+mouseLeftPressed + "   onPath:" + pl.onPath);
+            System.out.println("collisionOn:"+pl.collisionOn);
+            System.out.println("---------------");
+        }
+        if (e.getButton() == MouseEvent.BUTTON2) {
+            //gp.gameState = gp.characterState;
+            System.out.println("------BUTTON2-------");
+        }
+        if (e.getButton() == MouseEvent.BUTTON3) {
+            if(gp.gameState == gp.playState) {
+                gp.gameState = gp.characterState;
+            }
+            else if(gp.gameState == gp.characterState) {
+                gp.gameState = gp.playState;
+            }
+        }
     }
     
     @Override
@@ -67,7 +83,7 @@ public class MouseHandler implements MouseListener {
     
     public void setAction() {
         if(pl.onPath == true){
-            pl.searchPath(mouseCol, mouseRow);
+            pl.searchPath(mouseCol, mouseRow, pl.worldX, pl.worldY);
         }
     }
 }
