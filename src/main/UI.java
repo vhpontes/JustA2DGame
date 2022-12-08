@@ -18,9 +18,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import objects.OBJ_Heart;
 import entity.Entity;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.net.URL;
 import java.util.ArrayList;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import static main.Main.gamePanel;
+import static main.Main.window;
 import objects.OBJ_Coin_Bronze;
 import objects.OBJ_ManaCrystal;
 
@@ -603,10 +611,8 @@ public class UI {
         int posX = tailX + gp.tileSize;
         int posY = gp.tileSize * 2;
         drawSubWindow(posX, posY-gp.tileSize, gp.tileSize * 4, gp.tileSize * 6);
-        g2.drawImage(gp.player.down1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
-//        g2.drawImage(gp.player.left1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
-//        g2.drawImage(gp.player.up1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
-//        g2.drawImage(gp.player.right1, posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
+
+        g2.drawImage(gp.player.anim.getImage(), posX, posY, gp.tileSize * 4, gp.tileSize * 4, null);
     }
     
     public void drawGameOverScreen() {

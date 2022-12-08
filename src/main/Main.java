@@ -22,7 +22,7 @@ public class Main {
         System.setProperty("sun.java2d.opengl","True");
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setResizable(false);
+        window.setResizable(true);
         window.setAlwaysOnTop(false);
         window.setTitle("Just a 2D Game");
         

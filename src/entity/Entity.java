@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import main.GamePanel;
 import main.UtilityTool;
 
@@ -34,6 +35,8 @@ public class Entity {
     public BufferedImage 
             guardUp, guardDown, 
             guardLeft, guardRight;
+    public ImageIcon 
+            anim;
     public BufferedImage image, image2, image3;
     public Rectangle solidArea = new Rectangle(0,0,48,48);
     public Rectangle attackArea = new Rectangle(0,0,0,0);
@@ -939,14 +942,22 @@ public class Entity {
         return image;
     }
     
+    public ImageIcon setupGIF(String imagePath, int width, int height){
+
+        ImageIcon icon = new ImageIcon(this.getClass().getResource("/res/"+imagePath+".gif"));
+        
+        return icon;
+    }    
+    
     public void searchPath(int goalCol, int goalRow, int currentCol, int currentRow) {
 
         int startCol = (worldX + solidArea.x) / gp.tileSize;
         int startRow = (worldY + solidArea.y) / gp.tileSize;
         
         gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow);
-        
+    
         if(gp.pFinder.search() == true) {
+            System.out.println("searchPath:["+startCol+"]["+startRow+"] -> ["+goalCol+"]["+goalRow+"]");
             //System.out.println("Entrou searchPath:"+goalCol+"-"+goalRow);
 
             // Next worldX and worldY
@@ -1013,14 +1024,19 @@ public class Entity {
             int nextCol = gp.pFinder.pathList.get(0).col;
             int nextRow = gp.pFinder.pathList.get(0).row;
 
-            if(nextCol == goalCol && nextRow == goalRow && this.type != 0) {
+            int ppX = this.worldX / gp.tileSize;
+            int ppY = this.worldY / gp.tileSize;
+            
+            if(nextCol == goalCol && nextRow == goalRow && this.type != this.type_player) {
                 onPath = false;
             }
             // FOR PLAYER PATH FINDER MOVEMENT
-            if(nextCol == goalCol && nextRow == goalRow && this.type == this.type_player) {
+            //else if(nextCol == goalCol && nextRow == goalRow && this.type == this.type_player) {
+            else if(ppX == goalCol && ppY == goalRow && this.type == this.type_player) {
+                
                 canMove = false;
                 onPath = false;
-                collisionOn = false; // VERIFY ON MOB movement 
+                collisionOn = false;
             }
         }
     }

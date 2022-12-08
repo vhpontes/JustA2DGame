@@ -62,8 +62,8 @@ public class GamePanel extends JPanel implements Runnable{
 //    public final int maxScreenCol = 40; // Width 1920 pixels
 //    public final int maxScreenRow = 22; // Height 1080 pixels
 
-    public final int screenWidth = tileSize * maxScreenCol;  
-    public final int screenHeight = tileSize * maxScreenRow; 
+//    public final int screenWidth = tileSize * maxScreenCol;  
+//    public final int screenHeight = tileSize * maxScreenRow; 
     
     // WORLD SETTINGS
     public int maxWorldCol = 50;
@@ -78,8 +78,12 @@ public class GamePanel extends JPanel implements Runnable{
     int monitorWidth = gd.getDisplayMode().getWidth();
     int monitorHeight = gd.getDisplayMode().getHeight();
 
-    int screenWidth2 = monitorWidth;
-    int screenHeight2 = monitorHeight;
+    public final int screenWidth = gd.getDisplayMode().getWidth(); 
+    public final int screenHeight = gd.getDisplayMode().getHeight();
+
+    public int screenWidth2 = monitorWidth;
+    public int screenHeight2 = monitorHeight;
+    
     public boolean fullScreenOn;
     BufferedImage tempScreen;
     Graphics2D g2;
@@ -171,7 +175,7 @@ public class GamePanel extends JPanel implements Runnable{
         gameState = titleState;
         currentArea = outside;
 
-        tempScreen = new BufferedImage(screenWidth2, screenHeight2, BufferedImage.TYPE_INT_ARGB);
+        tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D)tempScreen.getGraphics();
         
         if(fullScreenOn == true) {
@@ -377,134 +381,134 @@ public class GamePanel extends JPanel implements Runnable{
     
     public void drawToTempScreen() throws IOException {
         
+
+        
+        switch (gameState) {
+            // TITLE SCREEN
+            case titleState:
+                ui.draw(g2);
+                break;
+            // FULL MAP
+            case mapState:
+                map.drawFullMapScreen(g2);
+                break;
+            default:
+                // TILE
+                tileM.draw(g2);
+                // INTERACTIVE TILE
+                for(int i = 0; i < iTile[1].length; i++) {
+                        if(iTile[currentMap][i] != null) {
+                                iTile[currentMap][i].draw(g2);
+                                }
+                        }   
+                // ADD ENTITIES TO THE LIST
+                entityList.add(player);
+                // NPC LIST
+                for(int i = 0; i < npc[1].length; i++) {
+                        if(npc[currentMap][i] != null) {
+                                entityList.add(npc[currentMap][i]);
+                                }
+                        }   
+                // OBJ LIST
+                for(int i = 0; i < obj[1].length; i++) {
+                        if(obj[currentMap][i] != null) {
+                                entityList.add(obj[currentMap][i]);
+                                }
+                        }   
+                // MONSTER LIST
+                for(int i = 0; i < monster[1].length; i++) {
+                        if(monster[currentMap][i] != null) {
+                                entityList.add(monster[currentMap][i]);
+                                }
+                        }   
+                // NPC TWITCH LIST
+                for(int i = 0; i < npcTwitchList.size(); i++) {
+                        if(npcTwitchList.get(i) != null) {
+                                entityList.add(npcTwitchList.get(i));
+                                }
+                        }   
+                // PARTICLE LIST
+                for(int i = 0; i < particleList.size(); i++) {
+                        if(particleList.get(i) != null) {
+                                entityList.add(particleList.get(i));
+                                }
+                        }   
+                // FIREWORK LIST
+                for(int i = 0; i < fireworkList.size(); i++) {
+                        if(fireworkList.get(i) != null) {
+                                entityList.add(fireworkList.get(i));
+                                }
+                        }   
+                // PROJECTILE WEAPOW LIST
+                for(int i = 0; i < projectileWeapow[1].length; i++) {
+                        if(projectileWeapow[currentMap][i] != null) {
+                                entityList.add(projectileWeapow[currentMap][i]);
+                                }
+                        }   
+                // PROJECTILE LIST
+                for(int i = 0; i < projectile[1].length; i++) {
+                        if(projectile[currentMap][i] != null) {
+                                entityList.add(projectile[currentMap][i]);
+                                }
+                        }   
+                // SORT
+                Collections.sort(entityList, new Comparator<Entity>() {
+                        
+                        @Override
+                        public int compare(Entity e1, Entity e2) {
+                                
+                                int result = Integer.compare(e1.worldY, e2.worldY);
+                                return result;
+                                }
+                        }); 
+                // DRAW ENTITIES
+                for(int i = 0; i < entityList.size(); i++) {
+                        entityList.get(i).draw(g2);
+                        }   
+                // EMPTY ENTITIES LIST
+                entityList.clear();
+                // ENVIRONMENT
+                eManager.draw(g2);
+                // MINI MAP
+                map.drawMiniMap(g2);
+                // UI
+                ui.draw(g2);
+                break;
+        }
         // DEBUG START
-        long drawStart = 0;
         if(keyH.showDebugText == true){
-            drawStart = System.nanoTime();
+            drawDebugInfos();
         }
+    }
+    
+    public void drawDebugInfos(){
         
-        // TITLE SCREEN
-        if (gameState == titleState) {
-            ui.draw(g2);
-        }
-        // MAP SCREEN
-        else if(gameState == mapState) {
-            map.drawFullMapScreen(g2);
-        }
-        // OTHERS
-        else {
-            // TILE
-            tileM.draw(g2);
-            
-            // INTERACTIVE TILE
-            for(int i = 0; i < iTile[1].length; i++) {
-                if(iTile[currentMap][i] != null) {
-                    iTile[currentMap][i].draw(g2);
-                }
-            }
+        long drawStart = System.nanoTime();
+        long drawEnd = System.nanoTime();
+        long passed = drawEnd - drawStart;
 
-            // ADD ENTITIES TO THE LIST
-            entityList.add(player);
-            
-            // NPC LIST
-            for(int i = 0; i < npc[1].length; i++) {
-                if(npc[currentMap][i] != null) {
-                    entityList.add(npc[currentMap][i]);
-                }
-            }
-            // OBJ LIST
-            for(int i = 0; i < obj[1].length; i++) {
-                if(obj[currentMap][i] != null) {
-                    entityList.add(obj[currentMap][i]);
-                }
-            }
-            // MONSTER LIST
-            for(int i = 0; i < monster[1].length; i++) {
-                if(monster[currentMap][i] != null) {
-                    entityList.add(monster[currentMap][i]);
-                }
-            }
-            // NPC TWITCH LIST
-            for(int i = 0; i < npcTwitchList.size(); i++) {
-                if(npcTwitchList.get(i) != null) {
-                    entityList.add(npcTwitchList.get(i));
-                }
-            }            
-            // PARTICLE LIST
-            for(int i = 0; i < particleList.size(); i++) {
-                if(particleList.get(i) != null) {
-                    entityList.add(particleList.get(i));
-                }
-            }            
-            // FIREWORK LIST
-            for(int i = 0; i < fireworkList.size(); i++) {
-                if(fireworkList.get(i) != null) {
-                    entityList.add(fireworkList.get(i));
-                }
-            }            
-            // PROJECTILE WEAPOW LIST
-            for(int i = 0; i < projectileWeapow[1].length; i++) {
-                if(projectileWeapow[currentMap][i] != null) {
-                    entityList.add(projectileWeapow[currentMap][i]);
-                }
-            }            
-            // PROJECTILE LIST
-            for(int i = 0; i < projectile[1].length; i++) {
-                if(projectile[currentMap][i] != null) {
-                    entityList.add(projectile[currentMap][i]);
-                }
-            }            
-            // SORT
-            Collections.sort(entityList, new Comparator<Entity>() {
-                
-                @Override
-                public int compare(Entity e1, Entity e2) {
-                    
-                    int result = Integer.compare(e1.worldY, e2.worldY);
-                    return result;
-                }
-            });
-            
-            // DRAW ENTITIES
-            for(int i = 0; i < entityList.size(); i++) {
-                entityList.get(i).draw(g2);
-            }
+        int x = this.tileSize / 4;
+        int y = this.screenHeight / 2;
+        int lineHeight = 20;
 
-            // EMPTY ENTITIES LIST
-            entityList.clear();
-            
-            // ENVIRONMENT
-            eManager.draw(g2);
-            
-            // MINI MAP
-            map.drawMiniMap(g2);
-            
-            // UI
-            ui.draw(g2);
-        }
+        ui.drawSubWindow(x-10, y-30, this.tileSize * 4, lineHeight * 9);
         
-        if(keyH.showDebugText == true) {
-            long drawEnd = System.nanoTime();
-            long passed = drawEnd - drawStart;
-            
-            g2.setFont(new Font("Arial", Font.PLAIN, 20));
-            g2.setColor(Color.white);
-            
-            int x = 10;
-            int y = 400;
-            
-            int lineHeight = 20;
-            
-            g2.drawString("World X: "+ player.worldX, x, y); y += lineHeight;
-            g2.drawString("World Y: "+ player.worldY, x, y); y += lineHeight;
-            g2.drawString("Col: "+ (player.worldX * player.solidArea.x) / tileSize, x, y); y += lineHeight;
-            g2.drawString("Row: "+ (player.worldY * player.solidArea.y) / tileSize, x, y); y += lineHeight;
-            g2.drawString("Draw Time: " + passed, x, y); y += lineHeight;
-            g2.setColor(Color.red);
-            g2.drawString("FPS: " + currentFPS, x, y); y += lineHeight; 
-            g2.setColor(Color.white);
-            g2.drawString("God Mode: " + keyH.godModeOn, x, y);
-        }
+        g2.setFont(new Font("Arial", Font.PLAIN, 20));
+        g2.setColor(Color.green);
+
+        g2.drawString("Debug Infos", x, y); y += lineHeight;
+        g2.setColor(Color.white);
+        g2.drawString("World X: "+ player.worldX, x, y); y += lineHeight;
+        g2.drawString("World Y: "+ player.worldY, x, y); y += lineHeight;
+        g2.drawString("Col: "+ (player.worldX) / tileSize, x, y); y += lineHeight;
+        g2.drawString("Row: "+ (player.worldY) / tileSize, x, y); y += lineHeight;
+//            g2.drawString("Col: "+ (player.worldX * player.solidArea.x) / tileSize, x, y); y += lineHeight;
+//            g2.drawString("Row: "+ (player.worldY * player.solidArea.y) / tileSize, x, y); y += lineHeight;
+        g2.drawString("Draw Time: " + passed, x, y); y += lineHeight;
+        g2.setColor(Color.red);
+        g2.drawString("FPS: " + currentFPS, x, y); y += lineHeight; 
+        g2.setColor(Color.white);
+        g2.drawString("God Mode: " + keyH.godModeOn, x, y);        
     }
     
     public void drawToScreen() {

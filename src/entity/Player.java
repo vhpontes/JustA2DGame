@@ -193,6 +193,8 @@ public class Player extends Entity{
     public void getImage() {
         imageHeroPlayer = "man48";
         
+        anim = setupGIF("player/"+imageHeroPlayer+"_anim",    gp.tileSize, gp.tileSize);
+        
         up1    = setup("player/"+imageHeroPlayer+"_up_1",    gp.tileSize, gp.tileSize);
         up2    = setup("player/"+imageHeroPlayer+"_up_2",    gp.tileSize, gp.tileSize);
         up3    = setup("player/"+imageHeroPlayer+"_up_3",    gp.tileSize, gp.tileSize);
@@ -305,10 +307,10 @@ public class Player extends Entity{
             }
             else if(collisionOn == false) {
                 switch(knockBackDirection) {
-                    case "up": worldY -= speed; break;
-                    case "down": worldY += speed; break;
-                    case "left": worldX -= speed; break;
-                    case "right": worldX += speed; break;                    
+                    case "up" -> worldY -= speed;
+                    case "down" -> worldY += speed;
+                    case "left" -> worldX -= speed;
+                    case "right" -> worldX += speed;                    
                 }
             }
             
@@ -392,10 +394,10 @@ public class Player extends Entity{
             if(collisionOn == false && gp.keyH.enterPressed == false) {
                 
                 switch(direction) {
-                    case "up": worldY -= speed; break;
-                    case "down": worldY += speed; break;
-                    case "left": worldX -= speed; break;
-                    case "right": worldX += speed; break;
+                    case "up" -> worldY -= speed;
+                    case "down" -> worldY += speed;
+                    case "left" -> worldX -= speed;
+                    case "right" -> worldX += speed;
                 }
             }
             
@@ -419,17 +421,13 @@ public class Player extends Entity{
             if(canMove) {
                 spriteCounter++;
                 if(spriteCounter > 10) {
-                    if(spriteNum == 1) {
-                        spriteNum = 2;
-                    }
-                    else if(spriteNum == 2) {
-                        spriteNum = 3;
-                    }
-                    else if(spriteNum == 3) {
-                        spriteNum = 4;
-                    }
-                    else if(spriteNum == 4) {
-                        spriteNum = 1;
+                    switch (spriteNum) {
+                        case 1 -> spriteNum = 2;
+                        case 2 -> spriteNum = 3;
+                        case 3 -> spriteNum = 4;
+                        case 4 -> spriteNum = 1;
+                        default -> {
+                        }
                     }
                     spriteCounter = 0;
                 }
@@ -512,11 +510,21 @@ public class Player extends Entity{
                 gp.playSE(12);
             }            
         }
+        //---------------------------------------------------------------------------
+        // MOUSE CLICKED
         // PLAYER AUTO MOVE FOR MOUSE CLICK EVENT
         if(gp.mouseH.mouseLeftPressed && collisionOn == false && onPath == true) {
             gp.mouseH.setAction();
             this.checkPlayerCollision();
 //            System.out.println("onPath:"+onPath);
+
+            // CHECK OBJECT COLLISION
+            int objIndex = gp.cChecker.checkObject(this, true);
+            pickUpObject(objIndex);
+            
+            // CHECK EVENT
+            gp.eHandler.checkEvent();            
+            
             switch(direction) {
                 case "up": worldY -= speed; break;
                 case "down": worldY += speed; break;
@@ -527,17 +535,13 @@ public class Player extends Entity{
             if(canMove) {
                 spriteCounter++;
                 if(spriteCounter > 10) {
-                    if(spriteNum == 1) {
-                        spriteNum = 2;
-                    }
-                    else if(spriteNum == 2) {
-                        spriteNum = 3;
-                    }
-                    else if(spriteNum == 3) {
-                        spriteNum = 4;
-                    }
-                    else if(spriteNum == 4) {
-                        spriteNum = 1;
+                    switch (spriteNum) {
+                        case 1 -> spriteNum = 2;
+                        case 2 -> spriteNum = 3;
+                        case 3 -> spriteNum = 4;
+                        case 4 -> spriteNum = 1;
+                        default -> {
+                        }
                     }
                     spriteCounter = 0;
                 }

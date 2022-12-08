@@ -26,7 +26,8 @@ public class MouseHandler implements MouseListener {
     }
     
     public void mouseClicked(MouseEvent e) { 
-        
+        gp.player.onPath = false;
+
         if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
             mouseLeftPressed = true;
             pl.collisionOn = false;
@@ -39,21 +40,19 @@ public class MouseHandler implements MouseListener {
             int camOffSetX = (int)(pl.worldX / gp.tileSize) - screenX;
             int camOffSetY = (int)(pl.worldY / gp.tileSize) - screenY;
             
-            //camOffSetX = camOffSetX * gp.tileSize;
-
             int mouseX = (int)(e.getPoint().x / gp.tileSize);
             int mouseY = (int)(e.getPoint().y / gp.tileSize);
 
             mouseCol = mouseX + camOffSetX;
             mouseRow = mouseY + camOffSetY;
 
-            System.out.println(e.getPoint().x + "   " + e.getPoint().y);
-            System.out.println(pl.worldX + "   " + pl.worldY);
-            System.out.println(mouseCol + "   " + mouseRow);
-            System.out.println("---------------");
-            System.out.println("mouseLeftPressed:"+mouseLeftPressed + "   onPath:" + pl.onPath);
-            System.out.println("collisionOn:"+pl.collisionOn);
-            System.out.println("---------------");
+//            System.out.println(e.getPoint().x + "   " + e.getPoint().y);
+//            System.out.println(pl.worldX + "   " + pl.worldY);
+//            System.out.println(mouseCol + "   " + mouseRow);
+//            System.out.println("---------------");
+//            System.out.println("mouseLeftPressed:"+mouseLeftPressed + "   onPath:" + pl.onPath);
+//            System.out.println("collisionOn:"+pl.collisionOn);
+//            System.out.println("---------------");
         }
         if (e.getButton() == MouseEvent.BUTTON2) {
             //gp.gameState = gp.characterState;
@@ -83,6 +82,7 @@ public class MouseHandler implements MouseListener {
     
     public void setAction() {
         if(pl.onPath == true){
+            
             pl.searchPath(mouseCol, mouseRow, pl.worldX, pl.worldY);
         }
     }

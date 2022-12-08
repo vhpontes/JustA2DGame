@@ -140,15 +140,19 @@ public class KeyHandler implements KeyListener{
         }
         if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
             upPressed = true;
+            gp.player.onPath = false;
         }
         if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
             downPressed = true;         
+            gp.player.onPath = false;
         }
         if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
             leftPressed = true;            
+            gp.player.onPath = false;
         }
         if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
             rightPressed = true;            
+            gp.player.onPath = false;
         }
         if(code == KeyEvent.VK_P) {
             gp.gameState = gp.pauseState;
@@ -195,9 +199,9 @@ public class KeyHandler implements KeyListener{
         if(code == KeyEvent.VK_R) {
             //gp.currentMap = 1;
             switch(gp.currentMap) {
-                case 0: gp.tileM.loadMap("/maps/worldV2.txt", 0); break;
-                case 1: gp.tileM.loadMap("/maps/interior01.txt", 1); break;
-                case 2: gp.tileM.loadMap("/maps/dg_twitch01.txt", 2); break;
+                case 0 -> gp.tileM.loadMap("/maps/worldV2.txt", 0);
+                case 1 -> gp.tileM.loadMap("/maps/interior01.txt", 1);
+                case 2 -> gp.tileM.loadMap("/maps/dg_twitch01.txt", 2);
             }
         }
         if(code == KeyEvent.VK_G) {
@@ -210,9 +214,16 @@ public class KeyHandler implements KeyListener{
         }
         if(code == KeyEvent.VK_F) {
             gp.player.generateFirework(gp.player.projectile, gp.player);
-            gp.addNPCTwitch(4, null, 16, 39);
             try {
                 TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException ex) {
+                System.out.println(ex);
+            }
+        }
+        if(code == KeyEvent.VK_N) {
+            gp.addNPCTwitch(gp.currentMap, null, gp.player.screenX + gp.tileSize, gp.player.screenY);
+            try {
+                TimeUnit.SECONDS.sleep(1000);
             } catch (InterruptedException ex) {
                 System.out.println(ex);
             }

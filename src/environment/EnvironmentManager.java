@@ -6,6 +6,7 @@ https://www.youtube.com/c/RyiSnow
 package environment;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
@@ -92,7 +93,8 @@ public class EnvironmentManager {
             // Screen DEBUG
             String debugTXT1 = Integer.toString(environmentRandomNumber);
             g2.setColor(Color.white);
-            g2.setFont(g2.getFont().deriveFont(30f));
+            //g2.setFont(g2.getFont().deriveFont(30f));
+            g2.setFont(new Font("Arial", Font.PLAIN, 20));
 
             int length = (int)g2.getFontMetrics().getStringBounds(debugTXT1, g2).getWidth();
             int x = gp.screenWidth/2 - length/2;

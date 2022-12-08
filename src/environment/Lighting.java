@@ -7,6 +7,7 @@ package environment;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RadialGradientPaint;
 import java.awt.image.BufferedImage;
@@ -152,11 +153,13 @@ public class Lighting {
             case night: situation = "Night"; break;
             case dawn: situation = "Dawn"; break;
         }
+        
+        g2.setFont(new Font("Arial", Font.PLAIN, 40));
         g2.setColor(Color.black);
-        g2.setFont(g2.getFont().deriveFont(40f));
+        //g2.setFont(g2.getFont().deriveFont(40f));
         g2.drawString(situation, (gp.screenWidth/2)+2, (gp.tileSize/2 * 3)+2);
         g2.setColor(Color.yellow);
-        g2.setFont(g2.getFont().deriveFont(40f));
+        //g2.setFont(g2.getFont().deriveFont(40f));
         g2.drawString(situation, gp.screenWidth/2, (gp.tileSize/2) * 3);
     }
 

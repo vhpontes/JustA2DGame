@@ -14,8 +14,8 @@ public class PathFinder {
     Node[][] node;
     ArrayList<Node> openList = new ArrayList<>();
     public ArrayList<Node> pathList = new ArrayList<>();
-    Node startNode, goalNode, currentNode;
-    boolean goalReached = false;
+    public Node startNode, goalNode, currentNode;
+    public boolean goalReached = false;
     int step = 0;
     
     public PathFinder(GamePanel gp) {
@@ -88,6 +88,15 @@ public class PathFinder {
                 if(gp.iTile[gp.currentMap][i] != null && gp.iTile[gp.currentMap][i].destructible == true) {
                     int iCol = gp.iTile[gp.currentMap][i].worldX/gp.tileSize;
                     int iRow = gp.iTile[gp.currentMap][i].worldY/gp.tileSize;
+                    node[iCol][iRow].solid = true;
+                }
+            }
+            // SET obstacles OBJECTS TILES
+            for(int i = 0; i < gp.obj[1].length; i++) {
+                if(gp.obj[gp.currentMap][i] != null 
+                        && gp.obj[gp.currentMap][i].type == gp.obj[gp.currentMap][i].type_obstacle) {
+                    int iCol = gp.obj[gp.currentMap][i].worldX/gp.tileSize;
+                    int iRow = gp.obj[gp.currentMap][i].worldY/gp.tileSize;
                     node[iCol][iRow].solid = true;
                 }
             }
