@@ -8,6 +8,7 @@ https://www.youtube.com/@dtudoumporco
 package twitch;
 
 import entity.NPC_Twitch;
+import java.awt.Color;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
@@ -58,12 +59,12 @@ public class TwitchChatListener extends ListenerAdapter {
         
         DateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         
-        if(event.getMessage().contains("framework")) {
-            event.respondChannel("Java puro amigão! RAIZ");
-        }
-        if(event.getMessage().contains("linguagem")) {
-            event.respondChannel("Programando em Java.. e contando os erros!");
-        }
+//        if(event.getMessage().contains("framework")) {
+//            event.respondChannel("Java puro amigão! RAIZ");
+//        }
+//        if(event.getMessage().contains("linguagem")) {
+//            event.respondChannel("Programando em Java.. e contando os erros!");
+//        }
                 
         if(!event.getUser().getNick().equals("nightbot")) {
 
@@ -93,39 +94,28 @@ public class TwitchChatListener extends ListenerAdapter {
                 }
             }
 
-            if (event.getUser().getNick().equalsIgnoreCase("twitchnotify")){
+            if (event.getUser().getNick().equalsIgnoreCase("own3d")){
+                if (twitchMessage.contains(" is now following!") 
+                        || twitchMessage.contains(" has gifted ") 
+                        || twitchMessage.contains(" donated ")
+                        || twitchMessage.contains(" just subscribed!")
+                        || twitchMessage.contains(" raiding with ")
+                        || twitchMessage.contains(" hosting with ")
+                        || twitchMessage.contains(" just resubbed ")
+                        || twitchMessage.contains(" cheered!")
+                        ) {
+                    
+                    gp.playSE(14);
+                    gp.player.makeFireworkShow(60);
+                }
     //            gp.gameState = gp.subState;
     //            System.out.println(twitchMessage);
     //            gp.gameState = gp.playState;
-                gp.player.generateFirework(gp.player.projectile, gp.player);
-                TimeUnit.SECONDS.sleep(1);
-                gp.player.generateFirework(gp.player.projectile, gp.player);
-                TimeUnit.SECONDS.sleep(1);
-                gp.player.generateFirework(gp.player.projectile, gp.player);
-                TimeUnit.SECONDS.sleep(2);
-                gp.player.generateFirework(gp.player.projectile, gp.player);
-                TimeUnit.SECONDS.sleep(1);
-                gp.player.generateFirework(gp.player.projectile, gp.player);
-                TimeUnit.SECONDS.sleep(1);
-                gp.player.generateFirework(gp.player.projectile, gp.player);
-                TimeUnit.SECONDS.sleep(1);
-                gp.player.generateFirework(gp.player.projectile, gp.player);
-                TimeUnit.SECONDS.sleep(3);
-                gp.player.generateFirework(gp.player.projectile, gp.player);
-                TimeUnit.SECONDS.sleep(3);
-                gp.player.generateFirework(gp.player.projectile, gp.player);
             }
 
             if(twitchMessage.equals("!firework")) {
                 gp.playSE(14);
-                gp.player.generateFirework(gp.player.projectile, gp.player);
-                TimeUnit.SECONDS.sleep(1);
-                gp.player.generateFirework(gp.player.projectile, gp.player);
-                TimeUnit.SECONDS.sleep(1);
-                gp.player.generateFirework(gp.player.projectile, gp.player);
-                TimeUnit.SECONDS.sleep(1);
-                //gp.projectileList.add(new OBJ_Fireball(gp));
-                //keyH.shotKeyPressed = true;
+                gp.player.makeFireworkShow(30);
             }
         }
     }

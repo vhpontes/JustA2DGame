@@ -3,9 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/MouseHandler.java</file>
-            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/main/GamePanel.java</file>
-            <file>file:/C:/Users/vhmpo/OneDrive/Documentos/NetBeansProjects/JustA2Dgame/src/tile/TileManager.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/entity/Entity.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/GamePanel.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/tile/TileManager.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/entity/Player.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/UI.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/MouseHandler.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/KeyHandler.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/ai/PathFinder.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/ai/Node.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/entity/Firework.java</file>
         </group>
     </open-files>
 </project-private>

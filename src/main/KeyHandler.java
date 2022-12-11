@@ -5,6 +5,7 @@ https://www.youtube.com/c/RyiSnow
 
 package main;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.TimeUnit;
@@ -213,17 +214,14 @@ public class KeyHandler implements KeyListener{
             }
         }
         if(code == KeyEvent.VK_F) {
-            gp.player.generateFirework(gp.player.projectile, gp.player);
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException ex) {
-                System.out.println(ex);
-            }
+            //gp.player.generateFirework(gp.player.projectile, gp.player, 0, 0);
+            
+            gp.player.makeFireworkShow(30);
         }
         if(code == KeyEvent.VK_N) {
             gp.addNPCTwitch(gp.currentMap, null, gp.player.screenX + gp.tileSize, gp.player.screenY);
             try {
-                TimeUnit.SECONDS.sleep(1000);
+                TimeUnit.SECONDS.sleep(60);
             } catch (InterruptedException ex) {
                 System.out.println(ex);
             }

@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import main.GamePanel;
@@ -376,13 +377,13 @@ public class Entity {
         gp.particleList.add(p4);
     }
     
-    public void generateFirework(Entity generator, Entity target) {
+    public void generateFirework(Entity generator, Entity target, int pX, int pY, Color c1, Color c2, Color c3) {
         
 //        int size = generator.getParticleSize();
 //        int speed = generator.getParticleSpeed();
-        int size = 4;
+        int size = 6;
         int speed = 2;
-        int maxLife = 40; //15
+        int maxLife = 80; //15
         
 //        Firework f1 = new Firework(gp, target, size, speed, maxLife, -2, -1);
 //        Firework f2 = new Firework(gp, target, size, speed, maxLife, 2, -1);
@@ -394,33 +395,84 @@ public class Entity {
 //        gp.fireworkList.add(f3);
 //        gp.fireworkList.add(f4);
 
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed, maxLife, 0, 2, c1));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed, maxLife, 0, -2, c1));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed, maxLife, 2, 0, c1));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed, maxLife, -2, 0, c1));
 
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife, 0, 2, c2));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife, 0, -2, c2));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife, 2, 0, c2));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife, -2, 0, c2));
 
-        gp.fireworkList.add(new Firework(gp, target, size, speed, maxLife, 0, 2, Color.white));
-        gp.fireworkList.add(new Firework(gp, target, size, speed, maxLife, 0, -2, Color.white));
-        gp.fireworkList.add(new Firework(gp, target, size, speed, maxLife, 2, 0, Color.white));
-        gp.fireworkList.add(new Firework(gp, target, size, speed, maxLife, -2, 0, Color.white));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed/2, maxLife/2, 2, 2, c1));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed/2, maxLife/2, 2, -2, c1));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed/2, maxLife/2, -2, 2, c1));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed/2, maxLife/2, -2, -2, c1));
 
-        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife, 0, 2, Color.cyan));
-        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife, 0, -2, Color.cyan));
-        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife, 2, 0, Color.cyan));
-        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife, -2, 0, Color.cyan));
-
-        gp.fireworkList.add(new Firework(gp, target, size, speed/2, maxLife/2, 2, 2, Color.white));
-        gp.fireworkList.add(new Firework(gp, target, size, speed/2, maxLife/2, 2, -2, Color.white));
-        gp.fireworkList.add(new Firework(gp, target, size, speed/2, maxLife/2, -2, 2, Color.white));
-        gp.fireworkList.add(new Firework(gp, target, size, speed/2, maxLife/2, -2, -2, Color.white));
-
-        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, 2, 1, Color.yellow));
-        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, 2, -1, Color.yellow));
-        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, -2, 1, Color.yellow));
-        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, -2, -1, Color.yellow));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, 2, 1, c3));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, 2, -1, c3));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, -2, 1, c3));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, -2, -1, c3));
         
-        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, 1, 2, Color.yellow));
-        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, 1, -2, Color.yellow));
-        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, -1, 2, Color.yellow));
-        gp.fireworkList.add(new Firework(gp, target, size/2, speed/2, maxLife/2, -1, -2, Color.yellow));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, 1, 2, c3));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, 1, -2, c3));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, -1, 2, c3));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, -1, -2, c3));
     }
+
+    public void makeFireworkShow(int fireworksQuantity) {
+        Random rX = new Random();
+        Random rY = new Random();
+        Random timeBetween = new Random();
+        Random colorPatern = new Random();
+
+        Color c1 = Color.WHITE;
+        Color c2 = Color.WHITE;
+        Color c3 = Color.WHITE;
+
+        for(int i=0; i < fireworksQuantity; i++) {
+            int fX = rX.nextInt(600, 1200);
+            int fY = rY.nextInt(1400, 1600);
+
+            switch(colorPatern.nextInt(0, 4)){
+                case 0 -> { 
+                    c1 = Color.decode("#DE5BF8");
+                    c2 = Color.decode("#1738B7");
+                    c3 = Color.decode("#EFE8FF");
+                }
+                case 1 -> {
+                    c1 = Color.decode("#b7171f");
+                    c2 = Color.decode("#ce5072");
+                    c3 = Color.decode("#f4bac9");
+                }
+                case 2 -> {
+                    c1 = Color.decode("#0B2D6A");
+                    c2 = Color.decode("#C99C9F");
+                    c3 = Color.decode("#C11E4B");
+                }
+                case 3 -> {
+                    c1 = Color.decode("#5981B1");
+                    c2 = Color.decode("#15273C");
+                    c3 = Color.decode("#98BAE3");
+                }
+                case 4 -> {
+                    c1 = Color.decode("#008631");
+                    c2 = Color.decode("#5CED73");
+                    c3 = Color.decode("#CEFAD0");
+                }
+            }
+
+            this.generateFirework(this.projectile, null, fX, fY, c1, c2, c3);
+            //System.out.println(fX+"-"+fY);
+            try {
+                //TimeUnit.SECONDS.sleep(1);
+                TimeUnit.MILLISECONDS.sleep(timeBetween.nextInt(300, 700));
+            } catch (InterruptedException ex) {
+                System.out.println(ex);
+            }
+        }
+    }    
     
     public void checkCollision() {
         // CHECK TILE NPC COLLISION

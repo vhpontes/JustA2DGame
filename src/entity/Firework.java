@@ -1,8 +1,9 @@
 /*
-Class code: Victor Hugo Manata Pontes 
-https://www.twitch.tv/lechuck311
-https://www.youtube.com/@victorhugomanatapontes
-https://www.youtube.com/@dtudoumporco
+* Class code: Victor Hugo Manata Pontes 
+* https://www.twitch.tv/lechuck311
+* https://www.youtube.com/@victorhugomanatapontes
+* https://www.youtube.com/@dtudoumporco
+* @github https://github.com/vhpontes
 */
 
 package entity;
@@ -31,9 +32,8 @@ public class Firework extends Entity {
     int rand = (int) ((groundHeight - fwY - 140) * r.nextGaussian());
     int colorIndex = 0; //Starting color index
 
-    
-    public Firework(GamePanel gp, Entity generator, int size, int speed, int maxLife, int xd, int yd, Color color) {
-    //public Firework(GamePanel gp, int pX, int pY, int size, int speed, int maxLife, int xd, int yd, Color color) {
+    //public Firework(GamePanel gp, Entity generator, int size, int speed, int maxLife, int xd, int yd, Color color) {
+    public Firework(GamePanel gp, Entity generator, int pX, int pY, int size, int speed, int maxLife, int xd, int yd, Color color) {
         super(gp);
         
         this.generator = generator;
@@ -45,18 +45,23 @@ public class Firework extends Entity {
         this.color = color;
         
         life = maxLife;
-        int offset = (gp.tileSize/2) - (size/2); // to center particles start pos into tile
-        worldX = generator.worldX + offset;
-        worldY = generator.worldY + offset;
-        //worldX = pX + offset;
-        //worldY = pY + offset;
+        int offset = (gp.tileSize / 2) - (size / 2); // to center particles start pos into tile
+        
+        if (generator != null) {
+            worldX = generator.worldX + offset;
+            worldY = generator.worldY + offset;
+        }
+        else if (generator == null){
+            worldX = pX + offset;
+            worldY = pY + offset;
+        }
     }
     
     public void bloodDropAnim() {
          
         life--;
         
-        if(life < maxLife/2) { // simulate gravity in particles
+        if(life < maxLife / 3) { // simulate gravity in particles
             yd++;
         }
         
@@ -85,7 +90,7 @@ public class Firework extends Entity {
     }
     
     public void update() {
-        //bloodDropAnim();
+        bloodDropAnim();
         starAnim();
     }
     
@@ -100,8 +105,10 @@ public class Firework extends Entity {
         g2.setColor(color);
         //g2.fillRect(screenX, screenY, size, size); // particle is a rectangle
         g2.fillRect((int)(screenX + 3*r.nextGaussian()), (int)(screenY + 3*r.nextGaussian()), size, size); // particle is a rectangle
+        
         colorIndex++;
-        if(colorIndex >= COLORS.length) colorIndex = 0;
+        if(colorIndex >= COLORS.length) 
+            colorIndex = 0;
 
         // "Radial"
 //        g2.setColor(COLORS[colorIndex]);
