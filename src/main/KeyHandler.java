@@ -216,7 +216,7 @@ public class KeyHandler implements KeyListener{
         if(code == KeyEvent.VK_F) {
             //gp.player.generateFirework(gp.player.projectile, gp.player, 0, 0);
             
-            gp.player.makeFireworkShow(30);
+            gp.player.makeFireworkShow(20);
         }
         if(code == KeyEvent.VK_N) {
             gp.addNPCTwitch(gp.currentMap, null, gp.player.screenX + gp.tileSize, gp.player.screenY);

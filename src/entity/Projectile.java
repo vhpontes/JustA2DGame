@@ -59,6 +59,10 @@ public class Projectile extends Entity{
                 else {
                     generateParticle(user.projectile, user.projectile);
                 }
+                
+                if(user.type == type_npcTwitch) {
+                    gp.npcTW.damageNpcTwitch(attack);
+                }
                 alive = false;
             }
         }

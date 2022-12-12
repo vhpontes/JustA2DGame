@@ -112,9 +112,10 @@ public class GamePanel extends JPanel implements Runnable{
 
     // ENTITY AND OBJECT
     public Player player = new Player(this, keyH, mouseH);
+    public NPC_Twitch npcTW = new NPC_Twitch(this);
     public Entity obj[][] = new Entity[maxMap][40]; 
     public Entity npc[][] = new Entity[maxMap][20];
-    public Entity npcTwitch[][] = new Entity[maxMap][20];
+    public Entity npcTwitch[][] = new Entity[maxMap][50];
     public Entity monster[][] = new Entity[maxMap][30];
     public InteractiveTile iTile[][] = new InteractiveTile[maxMap][60];
 //    public ArrayList<Entity> projectileList = new ArrayList();
@@ -585,4 +586,5 @@ public class GamePanel extends JPanel implements Runnable{
         }
         return null;
     }
+    
 }

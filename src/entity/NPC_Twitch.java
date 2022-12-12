@@ -15,17 +15,24 @@ package entity;
 
 import java.util.Random;
 import main.GamePanel;
+import objects.OBJ_Fireball;
 
 public final class NPC_Twitch extends Entity{
-    
+
     public NPC_Twitch(GamePanel gp){
         super(gp);
         
+        type = type_npcTwitch;
         direction = "down";
+        maxLife = 3;
+        life = maxLife;
         speed = 1;
         alive = true;
         canMove = true;
+        npcFireballLaunched = false;
 
+        projectile = new OBJ_Fireball(gp, "twitch_fireball");
+        
         getImage();
     }
     
@@ -98,4 +105,90 @@ public final class NPC_Twitch extends Entity{
         
         super.speak();
     }  
+    
+    public void damageProjectile(int i) {
+        System.out.println(
+            i + ":" + 
+            projectile.alive + " - " + 
+            gp.projectile[gp.currentMap]);
+        
+        if(i != 999) {
+            Entity projectile = gp.projectile[gp.currentMap][i];
+            projectile.alive = false;
+            generateParticle(projectile, projectile);
+        }
+    }    
+/*    public void update() {
+
+        setAction();
+        checkCollision();
+
+        // IF COLLISION IS FALSE, NPC CAN MOVE
+        if(collisionOn == false) {
+            switch(direction) {
+                case "up": worldY -= speed; break;
+                case "down": worldY += speed; break;
+                case "left": worldX -= speed; break;
+                case "right": worldX += speed; break;
+            }
+        }
+
+        if(this.canMove) {
+            spriteCounter++;
+            if(spriteCounter > 10) {
+                if(spriteNum == 1) {
+                    spriteNum = 2;
+                }
+                else if(spriteNum == 2) {
+                    spriteNum = 3;
+                }
+                else if(spriteNum == 3) {
+                    spriteNum = 4;
+                }
+                else if(spriteNum == 4) {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
+            }
+        } else {spriteNum = 1;}
+        
+        System.out.println(
+                this.npcTwitchNick + "  " + 
+                this.npcFireballLaunched + "  " + 
+                projectile.alive + "  " + 
+                shotAvailableCounter);
+        
+        if(this.npcFireballLaunched == true && projectile.alive == false && shotAvailableCounter == 30) {
+
+            System.out.println("Fireball launched by " + this.npcTwitchNick);
+            //SET DEFAULT COORDINATES, DIRECTION AND USER
+            projectile.set(worldX, worldY, direction, true, this);  
+
+            System.out.println(
+                    worldX + ":" + 
+                    worldY + " - " + 
+                    direction);
+
+            for(int i=0; i < gp.projectile[1].length; i++) {
+                if(gp.projectile[gp.currentMap][i] == null) {
+                    gp.projectile[gp.currentMap][i] = projectile;
+                    break;
+                }
+            }
+            
+            shotAvailableCounter = 0;
+            
+            gp.playSE(10);
+        }
+        
+        // prevent two fireball if close attack
+        if(shotAvailableCounter < 30) {
+            shotAvailableCounter++;
+        }
+        else {
+            this.npcFireballLaunched = false;
+        }
+        
+    }
+*/
 }

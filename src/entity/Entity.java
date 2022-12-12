@@ -52,6 +52,7 @@ public class Entity {
     public String npcTwitchMessage = null;
     public int npcHashCode = 0;
     public long messageTwitchTimeStamp = 0;
+    public boolean npcFireballLaunched = false;
 
     // VARs STATE
     public int dialogueSet = 0;
@@ -149,6 +150,7 @@ public class Entity {
     public final int type_light = 9;
     public final int type_pickaxe = 10;
     public final int type_bow = 11;
+    public final int type_npcTwitch = 12;
     
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -385,6 +387,8 @@ public class Entity {
         int speed = 2;
         int maxLife = 80; //15
         
+        gp.playSE(14);
+        
 //        Firework f1 = new Firework(gp, target, size, speed, maxLife, -2, -1);
 //        Firework f2 = new Firework(gp, target, size, speed, maxLife, 2, -1);
 //        Firework f3 = new Firework(gp, target, size, speed, maxLife, -2, 1);
@@ -467,7 +471,7 @@ public class Entity {
             //System.out.println(fX+"-"+fY);
             try {
                 //TimeUnit.SECONDS.sleep(1);
-                TimeUnit.MILLISECONDS.sleep(timeBetween.nextInt(300, 700));
+                TimeUnit.MILLISECONDS.sleep(timeBetween.nextInt(100, 700));
             } catch (InterruptedException ex) {
                 System.out.println(ex);
             }
@@ -561,19 +565,33 @@ public class Entity {
                     spriteCounter = 0;
                 }
             } else {spriteNum = 1;}
-            // Old loop with 2 frames in move of sprite
-//            spriteCounter++;
-//            if(spriteCounter > 24) {
-//                if(spriteNum == 1) {
-//                    spriteNum = 2;
-//                }
-//                else if(spriteNum == 2) {
-//                    spriteNum = 1;
-//                }
-//                spriteCounter = 0;
-//            }
         }
 
+
+        // NPC TWITCH FIREBALL
+        if(this.npcFireballLaunched == true && projectile.alive == false && shotAvailableCounter == 30) {
+
+            System.out.println("Fireball launched by " + this.npcTwitchNick);
+            //SET DEFAULT COORDINATES, DIRECTION AND USER
+            projectile.set(worldX, worldY, direction, true, this);  
+
+            System.out.println(
+                    worldX + ":" + 
+                    worldY + " - " + 
+                    direction);
+
+            for(int i=0; i < gp.projectile[1].length; i++) {
+                if(gp.projectile[gp.currentMap][i] == null) {
+                    gp.projectile[gp.currentMap][i] = projectile;
+                    break;
+                }
+            }
+            
+            shotAvailableCounter = 0;
+            
+            gp.playSE(10);
+        }
+        
         if(invincible == true) {
             invincibleCounter++;
             if(invincibleCounter > 40) {
@@ -581,10 +599,16 @@ public class Entity {
                 invincibleCounter = 0;
             }
         }
+        
         // prevent two fireball if close attack
         if(shotAvailableCounter < 30) {
             shotAvailableCounter++;
         }
+        else {
+            this.npcFireballLaunched = false;
+            attacking = false;
+        }
+        
         if(offBalance == true) {
             offBalanceCounter++;
             if(offBalanceCounter > 60) {
@@ -764,6 +788,10 @@ public class Entity {
                 if(gp.cChecker.checkPlayer(this) == true) {
                     damagePlayer(attack);
                 }
+            }            
+            if(type == type_npcTwitch) { // NPC TWITCH ATTACKING
+                int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
+                gp.npcTW.damageProjectile(projectileIndex);
             }
             else { // PLAYER ATTACKING MOB
                 // Check monster collision with update worldX/Y and solidArea
@@ -832,6 +860,23 @@ public class Entity {
             gp.player.life -= damage;                
             gp.player.invincible = true;
         }        
+    }
+
+    public void damageNpcTwitch(int attack) {
+
+        int damage = attack - gp.npcTW.defense;
+
+        gp.playSE(6);
+
+        if(damage < 1){
+            damage = 1;
+        }
+
+        if(damage != 0) {
+            gp.npcTW.transparent = true;
+            setKnockBack(gp.npcTW, this , knockBackPower);
+        }
+        gp.npcTW.life -= damage;                
     }
     
     public void setKnockBack(Entity target, Entity attacker, int knockBackPower) {

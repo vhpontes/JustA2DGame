@@ -108,7 +108,7 @@ public class Player extends Entity{
         coin = 500;
         currentWeapon    = new OBJ_Sword_Normal(gp);
         currentShield    = new OBJ_Shield_Wood(gp);
-        projectile       = new OBJ_Fireball(gp);
+        projectile       = new OBJ_Fireball(gp, "fireball");
         projectileWeapow = new OBJ_Arrow(gp);
         currentLight = null;
         attack = getAttack();  // total attack value is decided by strength and weapon.

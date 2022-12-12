@@ -85,7 +85,16 @@ public class TwitchChatListener extends ListenerAdapter {
                 gp.ui.addMessage(event.getUser().getNick()+" now have an NPC in game!");
                 //System.out.println("ID: " +event.getUser().getUserId());
             }
-            else if(!twitchMessage.startsWith("!")){
+            else if(twitchMessage.equals("!fireball")) {
+
+                NPC_Twitch npcT = gp.getNPCTwitch(userHashCode);
+                if(npcT != null){
+                    
+                    npcT.npcFireballLaunched = true;
+                    npcT.attacking = true;
+                }
+            }
+            else if(!twitchMessage.startsWith("!")) {
 
                 NPC_Twitch npcT = gp.getNPCTwitch(userHashCode);
                 if(npcT!=null){

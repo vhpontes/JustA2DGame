@@ -113,6 +113,7 @@ public class CollisionChecker {
                 if(entity.solidArea.intersects(gp.obj[gp.currentMap][i].solidArea)){
                     if(gp.obj[gp.currentMap][i].collision == true) {
                         entity.collisionOn = true;
+                        entity.canMove = false;
                     }
                     if(player == true){
                         index = i;
@@ -159,6 +160,7 @@ public class CollisionChecker {
                 if(entity.solidArea.intersects(target[gp.currentMap][i].solidArea)){
                     if(target[gp.currentMap][i] != entity) {
                         entity.collisionOn = true;
+                        entity.canMove = false;
                         index = i;
                     }
                 }
@@ -194,6 +196,7 @@ public class CollisionChecker {
         
         if(entity.solidArea.intersects(gp.player.solidArea)) {
             entity.collisionOn = true;
+            entity.canMove = false;
             contactPlayer = true;
         }
         
