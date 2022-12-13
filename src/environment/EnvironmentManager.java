@@ -54,7 +54,8 @@ public class EnvironmentManager {
     
     public void draw(Graphics2D g2) throws IOException {
         
-        if(gp.currentArea == gp.outside || gp.currentArea == gp.dungeon) {
+//        if(gp.currentArea == gp.outside || gp.currentArea == gp.dungeon) {
+        if(gp.currentArea == gp.outside) {
 
             if((timeToCheckEnvironment+60000) < System.currentTimeMillis()) {
 
@@ -109,4 +110,5 @@ public class EnvironmentManager {
             g2.drawString(environmentState, gp.screenWidth / 2, gp.tileSize * 2);  
         }
     }
+    
 }

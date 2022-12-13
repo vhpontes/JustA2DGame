@@ -52,37 +52,43 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 4;
+        gp.currentMap = 0;
+        gp.gameState = gp.transitionState;
         
         switch(gp.currentMap){
             case 0:
                 worldX = gp.tileSize * 23;
                 worldY = gp.tileSize * 21;
-                gp.currentArea = gp.outside;
+                gp.nextArea = gp.outside;
+                gp.currentArea = gp.nextArea;
             break;
             case 1: // HUT INTERIOR
                 worldX = gp.tileSize * 12; 
                 worldY = gp.tileSize * 12;
-                gp.currentArea = gp.indoor;
+                gp.nextArea = gp.indoor;
+                gp.currentArea = gp.nextArea;
             break;
             case 2:
                 //worldX = gp.tileSize * 8;
                 //worldY = gp.tileSize * 48;
                 worldX = gp.tileSize * 10;
                 worldY = gp.tileSize * 41;
-                gp.currentArea = gp.dungeon;
+                gp.nextArea = gp.dungeon;
+                gp.currentArea = gp.nextArea;
             break;
             case 3:
-                worldX = gp.tileSize * 25;
-                worldY = gp.tileSize * 35;
-                gp.currentArea = gp.dungeon;
+                worldX = gp.tileSize * 26;
+                worldY = gp.tileSize * 40;
+                gp.nextArea = gp.dungeon;
+                gp.currentArea = gp.nextArea;
             break;
             case 4:
                 worldX = gp.tileSize * 20;
                 worldY = gp.tileSize * 38;
-                gp.currentArea = gp.outside;
+                gp.nextArea = gp.outside;
+                gp.currentArea = gp.nextArea;
             break;
-        }        
+        } 
     }
     
     public void setDefaultValues() {
@@ -234,8 +240,8 @@ public class Player extends Entity{
         if(currentWeapon.type == type_sword) {
             attackUp1    = setup("player/"+imageHeroPlayer+"_attack_up_1",   gp.tileSize, imgDouble);
             attackUp2    = setup("player/"+imageHeroPlayer+"_attack_up_2",   gp.tileSize, imgDouble);
-            attackDown1  = setup("player/"+imageHeroPlayer+"_attack_down_1", gp.tileSize, imgDouble);
-            attackDown2  = setup("player/"+imageHeroPlayer+"_attack_down_2", gp.tileSize, imgDouble);
+            attackDown1  = setup("player/man48_attack_down_1", gp.tileSize, imgDouble);
+            attackDown2  = setup("player/man48_attack_down_2", gp.tileSize, imgDouble);
             attackLeft1  = setup("player/"+imageHeroPlayer+"_attack_left_1", imgDouble, gp.tileSize);
             attackLeft2  = setup("player/"+imageHeroPlayer+"_attack_left_2", imgDouble, gp.tileSize);
             attackRight1 = setup("player/"+imageHeroPlayer+"_attack_right_1",imgDouble, gp.tileSize);
@@ -281,6 +287,7 @@ public class Player extends Entity{
             guardRight = setup("player/"+imageHeroPlayer+"_guard_right", gp.tileSize, gp.tileSize);
     }
        
+    @Override
     public void update() {
 //        System.out.println("attacking? "+attacking);
 //        System.out.println("attackCanceled? "+attackCanceled);
@@ -802,6 +809,7 @@ public class Player extends Entity{
         return canObtain;
     }
     
+    @Override
     public void draw(Graphics2D g2) {
 
         BufferedImage image = null;
@@ -876,8 +884,10 @@ public class Player extends Entity{
         if(transparent == true){
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
         }
-//        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(image, tempScreenX, tempScreenY, null);
+        if(drawing == true){
+    //        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(image, tempScreenX, tempScreenY, null);
+        }
         
         // Reset alpha
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));

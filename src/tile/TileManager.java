@@ -24,15 +24,27 @@ public class TileManager {
     boolean drawPath = true; // Draw a red path in tiles 
     ArrayList<String> fileNames = new ArrayList<>();
     ArrayList<String> collisionStatus = new ArrayList<>();
-    
+    String areaName = "outside";
+
     
     public TileManager(GamePanel gp) {
         
         this.gp = gp;
         
+        loadTileData();
+
+    }
+
+    public void loadTileData() {
+        
+        System.out.println("loadTileData getResourceAsStream: " + "/res/tiles/"+getCurrentArea()+"/tiledata.txt");
         // READ TILE DATA FILE
-        InputStream is = getClass().getResourceAsStream("/res/tiles/48/tiledata.txt");
+        InputStream is = getClass().getResourceAsStream("/res/tiles/"+getCurrentArea()+"/tiledata.txt");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        
+        // CLEAR Lists Informations
+        fileNames.clear();
+        collisionStatus.clear();
         
         // GETTING TILE NAMES AND COLLISION INFO FROM FILE
         String line;
@@ -44,12 +56,12 @@ public class TileManager {
             }
             br.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
         
         // INITIALIZE THE TITLE ARRAY BASED ON THE FileNames size
-        tile = new Tile[fileNames.size()];
-        getTileImage();
+        tile = new Tile[fileNames.size()];        
+        this.getTileImage();
         
         // GET THE maxWorldCol & Row
         is = getClass().getResourceAsStream("/res/maps/worldV2.txt");
@@ -83,8 +95,10 @@ public class TileManager {
 //        loadMap("/res/maps/dg_twitch01.txt", 2);
 //        loadMap("/res/maps/dungeon01.txt", 3);
     }
-
+    
     public void getTileImage() {
+System.out.println("getTileImage areaName: " + getCurrentArea());
+System.out.println("fileNames.size(): " + fileNames.size());
 
         for(int i = 0; i < fileNames.size(); i++) {
             
@@ -101,23 +115,35 @@ public class TileManager {
             else {
                 collision = false;
             }
-            setup(i,  fileName, collision);
+            
+            this.setup(i,  fileName, this.getCurrentArea(), collision);
         }
+        System.out.println("-------------------------------------------------");
+    }
+    
+    public String getCurrentArea() {
+
+        switch(gp.nextArea) {
+            case 50 -> areaName = "outside";
+            case 51 -> areaName = "indoor";
+            case 52 -> areaName = "dungeon";
+        }        
+        
+        return areaName;
     }
 
-    public void setup(int index, String imagePath, boolean collision) {
+    public void setup(int index, String imagePath, String areaName, boolean collision) {
         
         UtilityTool uTool = new UtilityTool();
         
         try {
-            //System.out.println("imagePath: " + imagePath);
+            System.out.println("setup: " + "/res/tiles/"+areaName+"/"+imagePath+" "+index+":"+collision);
             tile[index] = new Tile();
-            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/48/"+imagePath));
+            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/"+areaName+"/"+imagePath));
             tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
             tile[index].collision = collision;
             
         }catch(IOException e) {
-            e.printStackTrace();
             System.out.println("ERROR: " + e);
         }
     }
@@ -156,53 +182,56 @@ public class TileManager {
     
     public void draw(Graphics2D g2) {
         
-        int worldCol = 0;
-        int worldRow = 0;
+        if(gp.gameState != gp.transitionState) {
         
-        while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
-    
-            int tileNum = mapTileNum[gp.currentMap][worldCol][worldRow];
-            
-            int worldX = worldCol * gp.tileSize;
-            int worldY = worldRow * gp.tileSize;
-            int screenX = worldX - gp.player.worldX + gp.player.screenX;
-            int screenY = worldY - gp.player.worldY + gp.player.screenY;
-            
-            if(worldX + gp.tileSize> gp.player.worldX - gp.player.screenX &&
-                worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
-                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-                worldY - gp.tileSize < gp.player.worldY + gp.player.screenY){
-                
-                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                
-//                // DRAW A RED RECTANCLE FOR EACH TILE
-//                g2.setColor(Color.red);
-//                g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
-//                
-                // DRAW A COODS x y IN EACH TILE
-//                g2.setColor(Color.white);
-//                g2.setFont(g2.getFont().deriveFont(16F));
-//                g2.drawString("["+worldCol + ":" + worldRow +"]", screenX, screenY);
-            }
-            worldCol++;
-            
-            if(worldCol == gp.maxWorldCol) {
-                worldCol = 0;
-                worldRow++;
-            }
-        }
-        
-        if(drawPath == true) {
-            g2.setColor(new Color(255, 0, 0, 70));
-            
-            for(int i = 0; i < gp.pFinder.pathList.size(); i++){
-                int worldX = gp.pFinder.pathList.get(i).col * gp.tileSize;
-                int worldY = gp.pFinder.pathList.get(i).row * gp.tileSize;
+            int worldCol = 0;
+            int worldRow = 0;
+
+            while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
+
+                int tileNum = mapTileNum[gp.currentMap][worldCol][worldRow];
+
+                int worldX = worldCol * gp.tileSize;
+                int worldY = worldRow * gp.tileSize;
                 int screenX = worldX - gp.player.worldX + gp.player.screenX;
                 int screenY = worldY - gp.player.worldY + gp.player.screenY;
-                
-                g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
-                
+
+                if(worldX + gp.tileSize> gp.player.worldX - gp.player.screenX &&
+                    worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+                    worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
+                    worldY - gp.tileSize < gp.player.worldY + gp.player.screenY){
+
+                    g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+    //                // DRAW A RED RECTANCLE FOR EACH TILE
+    //                g2.setColor(Color.red);
+    //                g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
+    //                
+                    // DRAW A COODS x y IN EACH TILE
+    //                g2.setColor(Color.white);
+    //                g2.setFont(g2.getFont().deriveFont(16F));
+    //                g2.drawString("["+worldCol + ":" + worldRow +"]", screenX, screenY);
+                }
+                worldCol++;
+
+                if(worldCol == gp.maxWorldCol) {
+                    worldCol = 0;
+                    worldRow++;
+                }
+            }
+
+            if(drawPath == true) {
+                g2.setColor(new Color(255, 0, 0, 70));
+
+                for(int i = 0; i < gp.pFinder.pathList.size(); i++){
+                    int worldX = gp.pFinder.pathList.get(i).col * gp.tileSize;
+                    int worldY = gp.pFinder.pathList.get(i).row * gp.tileSize;
+                    int screenX = worldX - gp.player.worldX + gp.player.screenX;
+                    int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+                    g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
+
+                }
             }
         }
     }

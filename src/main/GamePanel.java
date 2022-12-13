@@ -92,7 +92,6 @@ public class GamePanel extends JPanel implements Runnable{
     int FPS = 60;
     
     // SYSTEM
-    public TileManager tileM = new TileManager(this);
     public KeyHandler keyH = new KeyHandler(this);
     public MouseHandler mouseH;
     
@@ -108,6 +107,7 @@ public class GamePanel extends JPanel implements Runnable{
     Map map = new Map(this);
     SaveLoad saveLoad = new SaveLoad(this);
     public EntityGenerator eGenerator = new EntityGenerator(this);
+    public CutsceneManager csManager = new CutsceneManager(this);
     Thread gameThread;
 
     // ENTITY AND OBJECT
@@ -125,6 +125,8 @@ public class GamePanel extends JPanel implements Runnable{
     public ArrayList<Entity> fireworkList = new ArrayList();
     ArrayList<Entity> entityList = new ArrayList();
     public ArrayList<Entity> npcTwitchList = new ArrayList();
+
+    public TileManager tileM = new TileManager(this);
     
     // GAME STATE
     public int gameState;
@@ -141,6 +143,10 @@ public class GamePanel extends JPanel implements Runnable{
     public final int subState = 10;
     public final int sleepState = 11;
     public final int mapState = 12;
+    public final int cutsceneState = 13;
+    
+    // OTHERS
+    public boolean bossBattleOn = false;
     
     // GAME AREAS
     public int currentArea;
@@ -174,7 +180,7 @@ public class GamePanel extends JPanel implements Runnable{
         eManager.setup();
         
         gameState = titleState;
-        currentArea = outside;
+        //currentArea = outside;
 
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D)tempScreen.getGraphics();
@@ -186,7 +192,9 @@ public class GamePanel extends JPanel implements Runnable{
     
     public void resetGame(boolean restart) {
         
-        currentArea = outside;
+        //currentArea = outside;
+        removeTempEntity();
+        bossBattleOn = false;
         player.setDefaultPosition();
         player.restoreStatus();
         player.resetCounter();
@@ -382,8 +390,6 @@ public class GamePanel extends JPanel implements Runnable{
     
     public void drawToTempScreen() throws IOException {
         
-
-        
         switch (gameState) {
             // TITLE SCREEN
             case titleState:
@@ -448,30 +454,32 @@ public class GamePanel extends JPanel implements Runnable{
                         }   
                 // PROJECTILE LIST
                 for(int i = 0; i < projectile[1].length; i++) {
-                        if(projectile[currentMap][i] != null) {
-                                entityList.add(projectile[currentMap][i]);
-                                }
-                        }   
+                    if(projectile[currentMap][i] != null) {
+                        entityList.add(projectile[currentMap][i]);
+                    }
+                }   
                 // SORT
                 Collections.sort(entityList, new Comparator<Entity>() {
                         
-                        @Override
-                        public int compare(Entity e1, Entity e2) {
-                                
-                                int result = Integer.compare(e1.worldY, e2.worldY);
-                                return result;
-                                }
-                        }); 
+                    @Override
+                    public int compare(Entity e1, Entity e2) {
+
+                        int result = Integer.compare(e1.worldY, e2.worldY);
+                        return result;
+                    }
+                }); 
                 // DRAW ENTITIES
                 for(int i = 0; i < entityList.size(); i++) {
-                        entityList.get(i).draw(g2);
-                        }   
+                    entityList.get(i).draw(g2);
+                }   
                 // EMPTY ENTITIES LIST
                 entityList.clear();
                 // ENVIRONMENT
                 eManager.draw(g2);
                 // MINI MAP
                 map.drawMiniMap(g2);
+                // CUTSCENE
+                csManager.draw(g2);
                 // UI
                 ui.draw(g2);
                 break;
@@ -585,6 +593,20 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
         return null;
+    }
+    
+    public void removeTempEntity() {
+       
+        for(int mapNum = 0; mapNum < maxMap; mapNum++) {
+            
+            for(int i = 0; i < obj[1].length; i++) {
+                
+                if(obj[mapNum][i] != null && obj[mapNum][i].temp == true) {
+                    
+                    obj[mapNum][i] = null;
+                }
+            }
+        }
     }
     
 }

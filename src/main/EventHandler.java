@@ -5,6 +5,7 @@ https://www.youtube.com/c/RyiSnow
  
 package main;
 
+import data.Progress;
 import entity.Entity;
 
 public class EventHandler{
@@ -79,20 +80,21 @@ public class EventHandler{
         }
         
         if(canTouchEvent == true) {
-
-            if(hit(0,25,19,"any") == true) {damagePit(0,25,19,"buraco", 1 ,gp.dialogueState);}
-            else if(hit(0,23,12,"up") == true) {healingPool(23,12,gp.dialogueState);}
-            else if(hit(0, 30, 37,"up") == true) {teleport(2,8,47, gp.dungeon);} // teleport DG
-            else if(hit(2, 8, 48,"down") == true) {teleport(0,30,37, gp.outside);} // teleport out DG to world
-            //else if(hit(2,20,26,"any") == true) {damagePit(2,20,26, "poço de lava", 1 ,gp.dialogueState);}
-            else if(hit(1, 12, 9, "up") == true) {speak(gp.npc[1][0]);}
             
-            else if(hit(0,10,39,"any") == true) {teleport(1, 12, 12, gp.indoor);} // to the merchant's
-            else if(hit(1, 12, 13,"any") == true) {teleport(0,10,39, gp.outside);} // to outside
-            else if(hit(0, 12, 9,"any") == true) {teleport(2,9,41, gp.dungeon);} // to the dungeon
-            else if(hit(2, 9, 41,"any") == true) {teleport(0,12,9, gp.outside);} // to outside
-            else if(hit(2, 8, 7,"any") == true) {teleport(3,26,41, gp.dungeon);} // to B2
-            else if(hit(3, 26, 41,"any") == true) {teleport(2,8,7, gp.dungeon);} // to B1
+            if(hit(0, 25, 19, "any")        == true) {damagePit(0, 25, 19, "buraco", 1 ,gp.dialogueState);}
+            else if(hit(0, 23, 12, "up")    == true) {healingPool(23, 12, gp.dialogueState);}
+            else if(hit(0, 30, 37, "up")    == true) {teleport(2, 8, 47, gp.dungeon);} // teleport DG
+            else if(hit(2, 8, 48, "down")   == true) {teleport(0, 30, 37, gp.outside);} // teleport out DG to world
+            //else if(hit(2,20,26,"any") == true) {damagePit(2,20,26, "poço de lava", 1 ,gp.dialogueState);}
+            else if(hit(1, 12, 9, "up")     == true) {speak(gp.npc[1][0]);}
+            
+            else if(hit(0, 10, 39,"any")    == true) {teleport(1, 12, 12, gp.indoor);} // to the merchant's
+            else if(hit(1, 12, 13, "any")   == true) {teleport(0, 10, 39, gp.outside);} // to outside
+            else if(hit(0, 12, 9, "any")    == true) {teleport(2, 9, 41, gp.dungeon);} // to the dungeon
+            else if(hit(2, 9, 41, "any")    == true) {teleport(0, 12, 9, gp.outside);} // to outside
+            else if(hit(2, 8, 7, "any")     == true) {teleport(3, 26, 41, gp.dungeon);} // to B2
+            else if(hit(3, 26, 41, "any")   == true) {teleport(2, 8, 7, gp.dungeon);} // to B1
+            else if(hit(3, 25, 27, "any")   == true) {skeletonLord();} // skeletonLord
         }
     }
     
@@ -151,12 +153,16 @@ public class EventHandler{
         
         gp.gameState = gp.transitionState;
         gp.nextArea = area;
+
         tempMap = map;
         tempCol = col;
         tempRow = row;
         
         canTouchEvent = false;
         gp.playSE(13);
+
+        gp.tileM.loadTileData();
+        System.out.println("-- teleport --");
     }
     
     public void speak(Entity entity) {
@@ -165,6 +171,14 @@ public class EventHandler{
             gp.gameState = gp.dialogueState;
             gp.player.attackCanceled = true;
             entity.speak();
+        }
+    }
+    
+    public void skeletonLord() {
+        
+        if(gp.bossBattleOn == false && Progress.skeletonLordDefeated == false) {
+            gp.gameState = gp.cutsceneState;
+            gp.csManager.sceneNum = gp.csManager.skeletonLord;
         }
     }
 }

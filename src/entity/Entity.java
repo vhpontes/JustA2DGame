@@ -45,6 +45,7 @@ public class Entity {
     public String dialogues[][] = new String[20][20];
     public Entity attacker;
     public Entity linkedEntity;
+    public boolean temp = false;
     
     // VAR NPC TWITCH
     public static final int TWITCH_MESSAGE_MAXSCREEN_TIME = 6;
@@ -78,6 +79,8 @@ public class Entity {
     public boolean inRage = false;
     public boolean canMove = true;
     public boolean boss = false;
+    public boolean sleep = false;
+    public boolean drawing = true;
 
     // VARs COUNTER
     public int spriteCounter = 0;
@@ -379,7 +382,7 @@ public class Entity {
         gp.particleList.add(p4);
     }
     
-    public void generateFirework(Entity generator, Entity target, int pX, int pY, Color c1, Color c2, Color c3) {
+    public void generateFirework(Entity generator, Entity target, int pX, int pY, Color c1, Color c2, Color c3, Color c4, Color c5) {
         
 //        int size = generator.getParticleSize();
 //        int speed = generator.getParticleSpeed();
@@ -409,20 +412,20 @@ public class Entity {
         gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife, 2, 0, c2));
         gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife, -2, 0, c2));
 
-        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed/2, maxLife/2, 2, 2, c1));
-        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed/2, maxLife/2, 2, -2, c1));
-        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed/2, maxLife/2, -2, 2, c1));
-        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed/2, maxLife/2, -2, -2, c1));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed/2, maxLife/2, 2, 2, c3));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed/2, maxLife/2, 2, -2, c3));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed/2, maxLife/2, -2, 2, c3));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size, speed/2, maxLife/2, -2, -2, c3));
 
-        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, 2, 1, c3));
-        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, 2, -1, c3));
-        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, -2, 1, c3));
-        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, -2, -1, c3));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, 2, 1, c4));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, 2, -1, c4));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, -2, 1, c4));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, -2, -1, c4));
         
-        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, 1, 2, c3));
-        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, 1, -2, c3));
-        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, -1, 2, c3));
-        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, -1, -2, c3));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, 1, 2, c5));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, 1, -2, c5));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, -1, 2, c5));
+        gp.fireworkList.add(new Firework(gp, target, pX, pY, size/2, speed/2, maxLife/2, -1, -2, c5));
     }
 
     public void makeFireworkShow(int fireworksQuantity) {
@@ -434,40 +437,66 @@ public class Entity {
         Color c1 = Color.WHITE;
         Color c2 = Color.WHITE;
         Color c3 = Color.WHITE;
+        Color c4 = Color.WHITE;
+        Color c5 = Color.WHITE;
 
         for(int i=0; i < fireworksQuantity; i++) {
             int fX = rX.nextInt(600, 1200);
             int fY = rY.nextInt(1400, 1600);
 
-            switch(colorPatern.nextInt(0, 4)){
-                case 0 -> { 
+            switch(colorPatern.nextInt(0, 8)){
+                case 1 -> { 
                     c1 = Color.decode("#DE5BF8");
                     c2 = Color.decode("#1738B7");
                     c3 = Color.decode("#EFE8FF");
+                    c4 = Color.decode("#EFE8FF");
+                    c5 = Color.decode("#EFE8FF");
                 }
-                case 1 -> {
+                case 2 -> {
                     c1 = Color.decode("#b7171f");
                     c2 = Color.decode("#ce5072");
                     c3 = Color.decode("#f4bac9");
+                    c4 = Color.decode("#EFE8FF");
+                    c5 = Color.decode("#EFE8FF");
                 }
-                case 2 -> {
+                case 3 -> {
                     c1 = Color.decode("#0B2D6A");
                     c2 = Color.decode("#C99C9F");
                     c3 = Color.decode("#C11E4B");
+                    c4 = Color.decode("#EFE8FF");
+                    c5 = Color.decode("#EFE8FF");
                 }
-                case 3 -> {
+                case 4 -> {
                     c1 = Color.decode("#5981B1");
                     c2 = Color.decode("#15273C");
                     c3 = Color.decode("#98BAE3");
+                    c4 = Color.decode("#EFE8FF");
+                    c5 = Color.decode("#EFE8FF");
                 }
-                case 4 -> {
-                    c1 = Color.decode("#008631");
-                    c2 = Color.decode("#5CED73");
-                    c3 = Color.decode("#CEFAD0");
+                case 5 -> {
+                    c1 = Color.decode("#1321c5");
+                    c2 = Color.decode("#fade98");
+                    c3 = Color.decode("#1321c5");
+                    c4 = Color.decode("#997c84");
+                    c5 = Color.decode("#1321c5");
+                }
+                case 6 -> {
+                    c1 = Color.decode("#fade98");
+                    c2 = Color.decode("#bf7218");
+                    c3 = Color.decode("#f1a738");
+                    c4 = Color.decode("#180f1c");
+                    c5 = Color.decode("#514414");
+                }
+                case 7 -> {
+                    c1 = Color.decode("#e6b700");
+                    c2 = Color.decode("#ece6dd");
+                    c3 = Color.decode("#db5f4d");
+                    c4 = Color.decode("#530127");
+                    c5 = Color.decode("#530127");
                 }
             }
-
-            this.generateFirework(this.projectile, null, fX, fY, c1, c2, c3);
+            
+            this.generateFirework(this.projectile, null, fX, fY, c1, c2, c3, c4, c5);
             //System.out.println(fX+"-"+fY);
             try {
                 //TimeUnit.SECONDS.sleep(1);
@@ -505,117 +534,121 @@ public class Entity {
     
     public void update(){
         
-        if(knockBack == true) {
+        if(sleep == false) {
             
-            checkCollision();
-            
-            if(collisionOn == true) {
-                knockBackCounter = 0;
-                knockBack = false;
-                speed = defaultSpeed;
-            }
-            else if(collisionOn == false) {
-                switch(knockBackDirection) {
-                    case "up": worldY -= speed; break;
-                    case "down": worldY += speed; break;
-                    case "left": worldX -= speed; break;
-                    case "right": worldX += speed; break;                    
+            if(knockBack == true) {
+
+                checkCollision();
+
+                if(collisionOn == true) {
+                    knockBackCounter = 0;
+                    knockBack = false;
+                    speed = defaultSpeed;
+                }
+                else if(collisionOn == false) {
+                    switch(knockBackDirection) {
+                        case "up": worldY -= speed; break;
+                        case "down": worldY += speed; break;
+                        case "left": worldX -= speed; break;
+                        case "right": worldX += speed; break;                    
+                    }
+                }
+
+                knockBackCounter++;
+                if(knockBackCounter == 10) { // distance of knockback
+                    knockBackCounter = 0;
+                    knockBack = false;
+                    speed = defaultSpeed;
                 }
             }
-            
-            knockBackCounter++;
-            if(knockBackCounter == 10) { // distance of knockback
-                knockBackCounter = 0;
-                knockBack = false;
-                speed = defaultSpeed;
+            else if(attacking == true) {
+                attacking();
             }
-        }
-        else if(attacking == true) {
-            attacking();
-        }
-        else {
-            setAction();
-            checkCollision();
+            else {
+                setAction();
+                checkCollision();
 
-            // IF COLLISION IS FALSE, NPC CAN MOVE
-            if(collisionOn == false) {
-                switch(direction) {
-                    case "up": worldY -= speed; break;
-                    case "down": worldY += speed; break;
-                    case "left": worldX -= speed; break;
-                    case "right": worldX += speed; break;
+                // IF COLLISION IS FALSE, NPC CAN MOVE
+                if(collisionOn == false) {
+                    switch(direction) {
+                        case "up": worldY -= speed; break;
+                        case "down": worldY += speed; break;
+                        case "left": worldX -= speed; break;
+                        case "right": worldX += speed; break;
+                    }
+                }
+
+                if(this.canMove) {
+                    spriteCounter++;
+                    if(spriteCounter > 10) {
+                        if(spriteNum == 1) {
+                            spriteNum = 2;
+                        }
+                        else if(spriteNum == 2) {
+                            spriteNum = 3;
+                        }
+                        else if(spriteNum == 3) {
+                            spriteNum = 4;
+                        }
+                        else if(spriteNum == 4) {
+                            spriteNum = 1;
+                        }
+                        spriteCounter = 0;
+                    }
+                } else {spriteNum = 1;}
+            }
+
+
+            // NPC TWITCH FIREBALL
+            if(this.npcFireballLaunched == true && projectile.alive == false && shotAvailableCounter == 30) {
+
+                System.out.println("Fireball launched by " + this.npcTwitchNick);
+                //SET DEFAULT COORDINATES, DIRECTION AND USER
+                projectile.set(worldX, worldY, direction, true, this);  
+
+                System.out.println(
+                        worldX + ":" + 
+                        worldY + " - " + 
+                        direction);
+
+                for(int i=0; i < gp.projectile[1].length; i++) {
+                    if(gp.projectile[gp.currentMap][i] == null) {
+                        gp.projectile[gp.currentMap][i] = projectile;
+                        break;
+                    }
+                }
+
+                shotAvailableCounter = 0;
+
+                gp.playSE(10);
+            }
+
+            if(invincible == true) {
+                invincibleCounter++;
+                if(invincibleCounter > 40) {
+                    invincible = false;
+                    invincibleCounter = 0;
                 }
             }
-            
-            if(this.canMove) {
-                spriteCounter++;
-                if(spriteCounter > 10) {
-                    if(spriteNum == 1) {
-                        spriteNum = 2;
-                    }
-                    else if(spriteNum == 2) {
-                        spriteNum = 3;
-                    }
-                    else if(spriteNum == 3) {
-                        spriteNum = 4;
-                    }
-                    else if(spriteNum == 4) {
-                        spriteNum = 1;
-                    }
-                    spriteCounter = 0;
+
+            // prevent two fireball if close attack
+            if(shotAvailableCounter < 30) {
+                shotAvailableCounter++;
+            }
+            else {
+                this.npcFireballLaunched = false;
+                attacking = false;
+            }
+
+            if(offBalance == true) {
+                offBalanceCounter++;
+                if(offBalanceCounter > 60) {
+                    offBalance = false;
+                    offBalanceCounter = 0;
                 }
-            } else {spriteNum = 1;}
+            }            
         }
 
-
-        // NPC TWITCH FIREBALL
-        if(this.npcFireballLaunched == true && projectile.alive == false && shotAvailableCounter == 30) {
-
-            System.out.println("Fireball launched by " + this.npcTwitchNick);
-            //SET DEFAULT COORDINATES, DIRECTION AND USER
-            projectile.set(worldX, worldY, direction, true, this);  
-
-            System.out.println(
-                    worldX + ":" + 
-                    worldY + " - " + 
-                    direction);
-
-            for(int i=0; i < gp.projectile[1].length; i++) {
-                if(gp.projectile[gp.currentMap][i] == null) {
-                    gp.projectile[gp.currentMap][i] = projectile;
-                    break;
-                }
-            }
-            
-            shotAvailableCounter = 0;
-            
-            gp.playSE(10);
-        }
-        
-        if(invincible == true) {
-            invincibleCounter++;
-            if(invincibleCounter > 40) {
-                invincible = false;
-                invincibleCounter = 0;
-            }
-        }
-        
-        // prevent two fireball if close attack
-        if(shotAvailableCounter < 30) {
-            shotAvailableCounter++;
-        }
-        else {
-            this.npcFireballLaunched = false;
-            attacking = false;
-        }
-        
-        if(offBalance == true) {
-            offBalanceCounter++;
-            if(offBalanceCounter > 60) {
-                offBalance = false;
-                offBalanceCounter = 0;
-            }
-        }
     }
     
     public void checkAttackOrNot(int rate, int straight, int horizontal) {
@@ -789,7 +822,7 @@ public class Entity {
                     damagePlayer(attack);
                 }
             }            
-            if(type == type_npcTwitch) { // NPC TWITCH ATTACKING
+            else if(type == type_npcTwitch) { // NPC TWITCH ATTACKING
                 int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
                 gp.npcTW.damageProjectile(projectileIndex);
             }

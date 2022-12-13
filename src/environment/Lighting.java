@@ -148,10 +148,10 @@ public class Lighting {
         // DEBUG DAY CICLE
         String situation = "";
         switch(dayState){
-            case day: situation = "Day"; break;
-            case dusk: situation = "Sunset"; break;
-            case night: situation = "Night"; break;
-            case dawn: situation = "Dawn"; break;
+            case day -> situation = "Day";
+            case dusk -> situation = "Sunset";
+            case night -> situation = "Night";
+            case dawn -> situation = "Dawn";
         }
         
         g2.setFont(new Font("Arial", Font.PLAIN, 40));
