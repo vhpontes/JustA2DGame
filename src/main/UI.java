@@ -124,8 +124,8 @@ public class UI {
         }
         // PLAY STATE
         if(gp.gameState == gp.playState) {
-            drawPlayerLife();
-            drawPlayerMana();
+            //drawPlayerLife();
+            //drawPlayerMana();
             drawMonsterLife();
             drawMessage();
         }

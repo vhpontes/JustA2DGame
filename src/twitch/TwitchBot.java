@@ -63,5 +63,7 @@ public class TwitchBot {
 
         PircBotX bot = new PircBotX(configuration);
         bot.startBot();
+        
+        //^(?!.*pircbotx).*$
     }
 }

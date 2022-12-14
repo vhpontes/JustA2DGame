@@ -5,8 +5,11 @@ https://www.youtube.com/c/RyiSnow
  
 package tile;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +40,7 @@ public class TileManager {
 
     public void loadTileData() {
         
-        System.out.println("loadTileData getResourceAsStream: " + "/res/tiles/"+getCurrentArea()+"/tiledata.txt");
+        //System.out.println("loadTileData getResourceAsStream: " + "/res/tiles/"+getCurrentArea()+"/tiledata.txt");
         // READ TILE DATA FILE
         InputStream is = getClass().getResourceAsStream("/res/tiles/"+getCurrentArea()+"/tiledata.txt");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -137,7 +140,7 @@ public class TileManager {
         UtilityTool uTool = new UtilityTool();
         
         try {
-            System.out.println("setup: " + "/res/tiles/"+areaName+"/"+imagePath+" "+index+":"+collision);
+            //System.out.println("setup: " + "/res/tiles/"+areaName+"/"+imagePath+" "+index+":"+collision);
             tile[index] = new Tile();
             tile[index].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/"+areaName+"/"+imagePath));
             tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
@@ -179,6 +182,35 @@ public class TileManager {
             e.printStackTrace();
         }
     }
+
+    public boolean inBounds(int x, int y) {
+        int worldCol = 0;
+        int worldRow = 0;
+        
+        System.out.println("Mouse clicked at (" + x + ", " + y + ")");
+
+        int worldX = worldCol * gp.tileSize;
+        int worldY = worldRow * gp.tileSize;        
+//        int screenX = worldX - gp.player.worldX + gp.player.screenX;
+//        int screenY = worldY - gp.player.worldY + gp.player.screenY;        
+        
+        int oX = gp.player.worldX - (gp.player.screenX / 2);
+        int oY = gp.player.worldY - (gp.player.screenY / 2);
+
+
+        int screenX = (x + oX) / gp.tileSize;
+        int screenY = (y + oY) / gp.tileSize;        
+        
+        Rectangle bounds = new Rectangle();
+        bounds.setBounds(screenX, screenY, gp.tileSize, gp.tileSize);
+
+        System.out.println("World at (" + worldX + ", " + worldY + ")");
+        System.out.println("Screen at (" + screenX + ", " + screenY + ")");
+        System.out.println(gp.player.worldX + " "+ gp.player.worldY);
+        System.out.println("-------------------");
+        
+        return bounds.intersects(x, y, 1, 1);
+    }    
     
     public void drawRectPath(Graphics2D g2) {
         
@@ -211,11 +243,10 @@ public class TileManager {
     }
     
     public void draw(Graphics2D g2) {
+        int worldCol = 0;
+        int worldRow = 0;
         
         if(gp.gameState != gp.transitionState) {
-        
-            int worldCol = 0;
-            int worldRow = 0;
 
             while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
 
@@ -225,8 +256,8 @@ public class TileManager {
                 int worldY = worldRow * gp.tileSize;
                 int screenX = worldX - gp.player.worldX + gp.player.screenX;
                 int screenY = worldY - gp.player.worldY + gp.player.screenY;
-                
-                // Stop moving the camera at the edge
+
+//                 Stop moving the camera at the edge
                 if(gp.player.screenX > gp.player.worldX) {
                     screenX = worldX;
                 }
@@ -247,16 +278,23 @@ public class TileManager {
                     worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                     worldY - gp.tileSize < gp.player.worldY + gp.player.screenY){
 
+//                    System.out.println("drawImage:"+screenX + ","+screenY);
+                    System.out.println(gp.player.worldY + " " +gp.player.screenY);
+
+                    System.exit(0);
                     g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
-    //                // DRAW A RED RECTANCLE FOR EACH TILE
-    //                g2.setColor(Color.red);
-    //                g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
-    //                
+                    // DRAW A RED RECTANCLE FOR EACH TILE
+                    g2.setStroke(new BasicStroke(1));
+                    g2.setFont(new Font("Arial", Font.PLAIN, 18));
+                    g2.setColor(Color.red);
+                    g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
+                    
                     // DRAW A COODS x y IN EACH TILE
-    //                g2.setColor(Color.white);
-    //                g2.setFont(g2.getFont().deriveFont(16F));
-    //                g2.drawString("["+worldCol + ":" + worldRow +"]", screenX, screenY);
+                    g2.setColor(Color.white);
+                    g2.setFont(g2.getFont().deriveFont(16F));
+                    //g2.drawString("["+worldCol + ":" + worldRow +"]", screenX, screenY);
+                    g2.drawString("["+screenX + ":" + screenY +"]", screenX, screenY);
                 }
                 else if(gp.player.screenX > gp.player.worldX ||
                         gp.player.screenY > gp.player.worldY ||
@@ -281,7 +319,3 @@ public class TileManager {
         }
     }
 }
-
-
-
-

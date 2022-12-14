@@ -8,10 +8,8 @@ https://www.youtube.com/@dtudoumporco
 package twitch;
 
 import entity.NPC_Twitch;
-import java.awt.Color;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.concurrent.TimeUnit;
 import main.GamePanel;
 import main.KeyHandler;
 import org.pircbotx.hooks.ListenerAdapter;

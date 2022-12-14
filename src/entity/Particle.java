@@ -54,6 +54,22 @@ public class Particle extends Entity {
 
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+        // Stop moving the camera at the edge
+        if(gp.player.screenX > gp.player.worldX) {
+            screenX = worldX;
+        }
+        if(gp.player.screenY > gp.player.worldY) {
+            screenY = worldY;
+        }
+        int rightOffset = gp.screenWidth - gp.player.screenX;
+        if(rightOffset > gp.worldWidth - gp.player.worldX) {
+            screenX = gp.screenWidth - (gp.worldWidth - worldX);
+        }
+        int bottonOffset = gp.screenHeight - gp.player.screenY;
+        if(bottonOffset > gp.worldHeight - gp.player.worldY) {
+            screenY = gp.screenHeight - (gp.worldHeight - worldY);
+        }
         
         g2.setColor(color);
         g2.fillRect(screenX, screenY, size, size); // particle is a rectangle

@@ -9,6 +9,7 @@ package main;
 
 import entity.Player;
 import java.awt.MouseInfo;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -18,6 +19,8 @@ public class MouseHandler implements MouseListener {
     Player pl;
     int mouseCol = 0;
     int mouseRow = 0;
+    int x = 0;
+    int y = 0;
     public boolean mouseLeftPressed;
             
     public MouseHandler(GamePanel gp, Player pl) {
@@ -66,6 +69,9 @@ public class MouseHandler implements MouseListener {
                 gp.gameState = gp.playState;
             }
         }
+        
+        gp.tileM.inBounds(e.getPoint().x, e.getPoint().y);
+        
     }
     
     @Override
@@ -86,4 +92,5 @@ public class MouseHandler implements MouseListener {
             pl.searchPath(mouseCol, mouseRow, pl.worldX, pl.worldY);
         }
     }
+    
 }
