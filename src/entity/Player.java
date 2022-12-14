@@ -52,7 +52,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 0;
+        gp.currentMap = 2;
         gp.gameState = gp.transitionState;
         
         switch(gp.currentMap){
@@ -238,14 +238,14 @@ public class Player extends Entity{
         int imgDouble = gp.tileSize * 2;
         
         if(currentWeapon.type == type_sword) {
-            attackUp1    = setup("player/"+imageHeroPlayer+"_attack_up_1",   gp.tileSize, imgDouble);
-            attackUp2    = setup("player/"+imageHeroPlayer+"_attack_up_2",   gp.tileSize, imgDouble);
+            attackUp1    = setup("player/man48_attack_up_1",   gp.tileSize, imgDouble);
+            attackUp2    = setup("player/man48_attack_up_2",   gp.tileSize, imgDouble);
             attackDown1  = setup("player/man48_attack_down_1", gp.tileSize, imgDouble);
             attackDown2  = setup("player/man48_attack_down_2", gp.tileSize, imgDouble);
-            attackLeft1  = setup("player/"+imageHeroPlayer+"_attack_left_1", imgDouble, gp.tileSize);
-            attackLeft2  = setup("player/"+imageHeroPlayer+"_attack_left_2", imgDouble, gp.tileSize);
-            attackRight1 = setup("player/"+imageHeroPlayer+"_attack_right_1",imgDouble, gp.tileSize);
-            attackRight2 = setup("player/"+imageHeroPlayer+"_attack_right_2",imgDouble, gp.tileSize);
+            attackLeft1  = setup("player/man48_attack_left_1", imgDouble, gp.tileSize);
+            attackLeft2  = setup("player/man48_attack_left_2", imgDouble, gp.tileSize);
+            attackRight1 = setup("player/man48_attack_right_1",imgDouble, gp.tileSize);
+            attackRight2 = setup("player/man48_attack_right_2",imgDouble, gp.tileSize);
         }
         if(currentWeapon.type == type_axe) {
             attackUp1    = setup("player/"+imageHeroPlayer+"_axe_up_1",   gp.tileSize, imgDouble);
@@ -880,6 +880,22 @@ public class Player extends Entity{
                 }            
                 break;
         }
+        
+        if(tempScreenX > worldX) {
+            tempScreenX = worldX;
+        }
+        if(tempScreenY > worldY) {
+            tempScreenY = worldY;
+        }
+        int rightOffset = gp.screenWidth - screenX;
+        if(rightOffset > gp.worldWidth - worldX) {
+            tempScreenX = gp.screenWidth - (gp.worldWidth - worldX);
+        }
+        int bottonOffset = gp.screenHeight - screenY;
+        if(bottonOffset > gp.worldHeight - worldY) {
+            tempScreenY = gp.screenHeight - (gp.worldHeight - worldY);
+        }  
+        
         // Visual Effect to invencible mode
         if(transparent == true){
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));

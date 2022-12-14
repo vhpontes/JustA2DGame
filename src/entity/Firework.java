@@ -20,6 +20,21 @@ public class Firework extends Entity {
     int size;
     int xd;
     int yd;
+
+                                                // exemplo para GantaFight
+                                            public enum Vestuario{ 
+                                                SHORTS("Shorts"), //Bermudas 
+                                                SHOES("Shoes"), //Calçados 
+                                                TSHIRTS("Tshirts"),//Camisetas 
+                                                SUIT("Suit"),//Social 
+                                                ACESSORIES("Acessories");//Acessorio
+
+                                                private final String nome;
+
+                                                Vestuario(String s) {
+                                                    nome = s;
+                                                }
+                                            }
     
     private Random r = new Random();
 //    private static Color[] COLORS = new Color[] {Color.red, Color.green, Color.blue, Color.cyan, Color.magenta, Color.yellow};

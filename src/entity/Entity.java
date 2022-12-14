@@ -1023,6 +1023,21 @@ public class Entity {
             if(dying == true) {
                 dyingAnimation(g2);
             }
+
+            if(tempScreenX > worldX) {
+                tempScreenX = worldX;
+            }
+            if(tempScreenY > worldY) {
+                tempScreenY = worldY;
+            }
+            int rightOffset = gp.screenWidth - gp.player.screenX;
+            if(rightOffset > gp.worldWidth - gp.player.worldX) {
+                tempScreenX = gp.screenWidth - (gp.worldWidth - worldX);
+            }
+            int bottonOffset = gp.screenHeight - gp.player.screenY;
+            if(bottonOffset > gp.worldHeight - gp.player.worldY) {
+                tempScreenY = gp.screenHeight - (gp.worldHeight - worldY);
+            }  
             
             g2.drawImage(image, tempScreenX, tempScreenY, null);
             changeAlpha(g2, 1F);

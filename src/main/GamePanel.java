@@ -71,6 +71,8 @@ public class GamePanel extends JPanel implements Runnable{
     public int maxMap = 10;
     public int currentMap = 0;
     public final int maxUserTwitch = 10;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
     
     // FULL SCREEN
         // GET MONITOR DEVICE DIMENSIONS
