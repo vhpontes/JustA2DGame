@@ -52,15 +52,15 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 0;
+        gp.currentMap = 4;
         gp.gameState = gp.transitionState;
         
         switch(gp.currentMap){
             case 0:
-                worldX = gp.tileSize * 0;
-                worldY = gp.tileSize * 0;
-//                worldX = gp.tileSize * 23;
-//                worldY = gp.tileSize * 21;
+//                worldX = gp.tileSize * 0;
+//                worldY = gp.tileSize * 0;
+                worldX = gp.tileSize * 23;
+                worldY = gp.tileSize * 21;
                 gp.nextArea = gp.outside;
                 gp.currentArea = gp.nextArea;
             break;
@@ -96,7 +96,7 @@ public class Player extends Entity{
     public void setDefaultValues() {
 
         setInitialPosition();
-        defaultSpeed = 4 * 5; 
+        defaultSpeed = 4 * 1; 
         speed = defaultSpeed;
         direction = "down";
         

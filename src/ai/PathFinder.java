@@ -127,8 +127,8 @@ public class PathFinder {
     }
     
     public boolean search() {
-        System.out.println("------ search() ------");
-        System.out.println("goalNode    | "+goalNode.col+":"+goalNode.row);
+//        System.out.println("------ search() ------");
+//        System.out.println("goalNode    | "+goalNode.col+":"+goalNode.row);
 
         while(goalReached == false && step < 500) {
 
@@ -182,7 +182,7 @@ public class PathFinder {
             // After the loop, openList[bestNodeIndex] is the next step (= currentNode)
             currentNode = openList.get(bestNodeIndex);
             
-            System.out.println("currentNode | "+currentNode.col+":"+currentNode.row);
+            //System.out.println("currentNode | "+currentNode.col+":"+currentNode.row);
             if(currentNode == goalNode) {
                 goalReached = true;
                 trackThePath();

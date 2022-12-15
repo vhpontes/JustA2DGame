@@ -162,7 +162,10 @@ public class GamePanel extends JPanel implements Runnable{
     
    
     public GamePanel() {
-        this.mouseH = new MouseHandler(this, player);
+        tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+        g2 = (Graphics2D)tempScreen.getGraphics();
+
+        this.mouseH = new MouseHandler(this, player, g2);
         
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -184,9 +187,7 @@ public class GamePanel extends JPanel implements Runnable{
         gameState = titleState;
         //currentArea = outside;
 
-        tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
-        g2 = (Graphics2D)tempScreen.getGraphics();
-        
+
         if(fullScreenOn == true) {
             setFullScreen();
         }
@@ -487,7 +488,7 @@ public class GamePanel extends JPanel implements Runnable{
                 break;
         }
         // DEBUG START
-        if(keyH.showDebugText == true){
+        if(keyH.showDebugText == true || mouseH.showDebugText == true){
             drawDebugInfos();
         }
     }
@@ -502,22 +503,38 @@ public class GamePanel extends JPanel implements Runnable{
         int y = this.screenHeight / 2;
         int lineHeight = 20;
 
-        ui.drawSubWindow(x-10, y-30, this.tileSize * 4, lineHeight * 9);
+        ui.drawSubWindow(x-10, y-30, this.tileSize * 6, lineHeight * 23);
         
         g2.setFont(new Font("Arial", Font.PLAIN, 20));
         g2.setColor(Color.green);
 
         g2.drawString("Debug Infos", x, y); y += lineHeight;
+
         g2.setColor(Color.white);
         g2.drawString("World X: "+ player.worldX, x, y); y += lineHeight;
         g2.drawString("World Y: "+ player.worldY, x, y); y += lineHeight;
+        g2.drawString("Screen X: "+ player.screenX, x, y); y += lineHeight;
+        g2.drawString("Screen Y: "+ player.screenY, x, y); y += lineHeight;
+        g2.drawString("Mouse X: "+ mouseH.clickedX, x, y); y += lineHeight;
+        g2.drawString("Mouse Y: "+ mouseH.clickedY, x, y); y += lineHeight;
+        g2.drawString(" ", x, y); y += lineHeight;
+        
         g2.drawString("Col: "+ (player.worldX) / tileSize, x, y); y += lineHeight;
         g2.drawString("Row: "+ (player.worldY) / tileSize, x, y); y += lineHeight;
+        g2.drawString("MouseCol sem off: "+ mouseH.mouseX, x, y); y += lineHeight;
+        g2.drawString("MouseRow sem off: "+ mouseH.mouseY, x, y); y += lineHeight;
+        g2.drawString("OffX: "+ mouseH.camOffSetX, x, y); y += lineHeight;
+        g2.drawString("OffY: "+ mouseH.camOffSetY, x, y); y += lineHeight;
+        g2.drawString("MouseCol + OffX: "+ mouseH.mouseCol, x, y); y += lineHeight;
+        g2.drawString("MouseRow + OffY: "+ mouseH.mouseRow, x, y); y += lineHeight;
 //            g2.drawString("Col: "+ (player.worldX * player.solidArea.x) / tileSize, x, y); y += lineHeight;
 //            g2.drawString("Row: "+ (player.worldY * player.solidArea.y) / tileSize, x, y); y += lineHeight;
+        g2.drawString(" ", x, y); y += lineHeight;
         g2.drawString("Draw Time: " + passed, x, y); y += lineHeight;
+
         g2.setColor(Color.red);
         g2.drawString("FPS: " + currentFPS, x, y); y += lineHeight; 
+
         g2.setColor(Color.white);
         g2.drawString("God Mode: " + keyH.godModeOn, x, y);        
     }

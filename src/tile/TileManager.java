@@ -183,29 +183,37 @@ public class TileManager {
         }
     }
 
-    public boolean inBounds(int x, int y) {
+    public boolean inBounds(int x, int y, Graphics2D g2) {
         int worldCol = 0;
         int worldRow = 0;
         
-        System.out.println("Mouse clicked at (" + x + ", " + y + ")");
-
         int worldX = worldCol * gp.tileSize;
         int worldY = worldRow * gp.tileSize;        
+
 //        int screenX = worldX - gp.player.worldX + gp.player.screenX;
 //        int screenY = worldY - gp.player.worldY + gp.player.screenY;        
+        int screenX = gp.player.screenX;
+        int screenY = gp.player.screenY;        
         
-        int oX = gp.player.worldX - (gp.player.screenX / 2);
-        int oY = gp.player.worldY - (gp.player.screenY / 2);
+        //int oX = gp.player.worldX - (gp.player.screenX / 2);
+        int oX = (int)(gp.player.worldX / gp.tileSize) - (gp.player.screenX / gp.tileSize);
+        int oY = (int)(gp.player.worldY / gp.tileSize) - (gp.player.screenY / gp.tileSize);
 
-
-        int screenX = (x + oX) / gp.tileSize;
-        int screenY = (y + oY) / gp.tileSize;        
+        int mouseCol = (x / gp.tileSize) + oX;
+        int mouseRow = (y / gp.tileSize) + oY;        
         
         Rectangle bounds = new Rectangle();
         bounds.setBounds(screenX, screenY, gp.tileSize, gp.tileSize);
+        
+//        g2.setColor(new Color(0, 255, 0, 70));
+//        g2.setColor(Color.green);
+//        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
 
-        System.out.println("World at (" + worldX + ", " + worldY + ")");
-        System.out.println("Screen at (" + screenX + ", " + screenY + ")");
+        
+        //System.out.println("World at (" + worldX + ", " + worldY + ")");
+        System.out.println("Clicked at (" + x + ", " + y + ")");
+        System.out.println("Screen  at (" + screenX + ", " + screenY + ")");
+        System.out.println("Mouse at (R" + mouseCol + ", C" + mouseRow + ")");
         System.out.println(gp.player.worldX + " "+ gp.player.worldY);
         System.out.println("-------------------");
         
@@ -278,23 +286,24 @@ public class TileManager {
                     worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                     worldY - gp.tileSize < gp.player.worldY + gp.player.screenY){
 
-//                    System.out.println("drawImage:"+screenX + ","+screenY);
-                    System.out.println(gp.player.worldY + " " +gp.player.screenY);
-
-                    System.exit(0);
+//                    System.out.println("worldCol       :"+worldCol + ", "+worldRow);
+//                    System.out.println("drawImage      :"+screenX + ", "+screenY);
+//                    System.out.println("gp.player.world:"+gp.player.worldX + ", " +gp.player.worldY);
+//                    System.out.println(" ");
+                    
                     g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
                     // DRAW A RED RECTANCLE FOR EACH TILE
                     g2.setStroke(new BasicStroke(1));
-                    g2.setFont(new Font("Arial", Font.PLAIN, 18));
+                    g2.setFont(new Font("Arial", Font.BOLD, 17));
                     g2.setColor(Color.red);
                     g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
                     
                     // DRAW A COODS x y IN EACH TILE
                     g2.setColor(Color.white);
                     g2.setFont(g2.getFont().deriveFont(16F));
-                    //g2.drawString("["+worldCol + ":" + worldRow +"]", screenX, screenY);
-                    g2.drawString("["+screenX + ":" + screenY +"]", screenX, screenY);
+                    g2.drawString(""+worldCol + ":" + worldRow +"", screenX+5, screenY + gp.tileSize / 2);
+                    //g2.drawString("["+screenX + ":" + screenY +"]", screenX, screenY);
                 }
                 else if(gp.player.screenX > gp.player.worldX ||
                         gp.player.screenY > gp.player.worldY ||
@@ -310,11 +319,13 @@ public class TileManager {
                 if(worldCol == gp.maxWorldCol) {
                     worldCol = 0;
                     worldRow++;
+                    //System.exit(0);
                 }
             }
 
             if(drawPath == true) {
                 drawRectPath(g2);
+                //inBounds(0,0,g2);
             }
         }
     }
