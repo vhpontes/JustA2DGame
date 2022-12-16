@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.UtilityTool;
@@ -202,20 +204,24 @@ public class TileManager {
         int mouseCol = (x / gp.tileSize) + oX;
         int mouseRow = (y / gp.tileSize) + oY;        
         
+        int tileX = (int) (x - oX) / gp.tileSize;
+        int tileY = (int) (y - oY) / gp.tileSize;
+        
         Rectangle bounds = new Rectangle();
         bounds.setBounds(screenX, screenY, gp.tileSize, gp.tileSize);
         
 //        g2.setColor(new Color(0, 255, 0, 70));
 //        g2.setColor(Color.green);
 //        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
-
-        
-        //System.out.println("World at (" + worldX + ", " + worldY + ")");
-        System.out.println("Clicked at (" + x + ", " + y + ")");
-        System.out.println("Screen  at (" + screenX + ", " + screenY + ")");
-        System.out.println("Mouse at (R" + mouseCol + ", C" + mouseRow + ")");
-        System.out.println(gp.player.worldX + " "+ gp.player.worldY);
-        System.out.println("-------------------");
+//
+//        System.out.println("-------------------");
+//        System.out.println("Offset (X:" + oX + " Y:" + oY + ")");
+//        System.out.println("Tile POS (X:" + tileX + " Y:" + tileY + ")");
+//        System.out.println("Clicked at (" + x + ", " + y + ")");
+//        System.out.println("Screen  at (" + screenX + ", " + screenY + ")");
+//        System.out.println("Mouse at (R" + mouseCol + ", C" + mouseRow + ")");
+//        System.out.println(gp.player.worldX + " "+ gp.player.worldY);
+//        System.out.println("-------------------");
         
         return bounds.intersects(x, y, 1, 1);
     }    

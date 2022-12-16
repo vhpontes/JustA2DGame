@@ -36,8 +36,8 @@ public class Player extends Entity{
         this.keyH = keyH;
         this.mouseH = mouseH;
         
-        screenX = gp.screenWidth/2 - (gp.tileSize/2);
-        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+        screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
+        screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
         
         solidArea = new Rectangle();
         solidArea.x = 8;

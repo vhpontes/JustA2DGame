@@ -12,6 +12,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import static java.lang.Math.floor;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -1096,8 +1097,8 @@ public class Entity {
     
     public void searchPath(int goalCol, int goalRow, int currentCol, int currentRow) {
 
-        int startCol = (worldX + solidArea.x) / gp.tileSize;
-        int startRow = (worldY + solidArea.y) / gp.tileSize;
+        int startCol = (int) (floor(worldX + solidArea.x) / gp.tileSize);
+        int startRow = (int) (floor(worldY + solidArea.y) / gp.tileSize);
         
         gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow);
     

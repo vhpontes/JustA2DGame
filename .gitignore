@@ -1,2 +1,8 @@
 /dist/
 /twitch.properties
+/src/res/tiles/48/
+/src/res/tiles/new/
+/src/res/tiles/new-Copy/
+/src/res/tiles/files/
+
+*.log

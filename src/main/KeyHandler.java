@@ -218,6 +218,15 @@ public class KeyHandler implements KeyListener{
             
             gp.player.makeFireworkShow(20);
         }
+        if(code == KeyEvent.VK_ADD) {
+            gp.player.speed++;
+        }       
+        if(code == KeyEvent.VK_SUBTRACT) {
+            if(gp.player.speed > 0) {
+                gp.player.speed--;
+            }
+        }       
+                
         if(code == KeyEvent.VK_N) {
             gp.addNPCTwitch(gp.currentMap, null, gp.player.screenX + gp.tileSize, gp.player.screenY);
             try {

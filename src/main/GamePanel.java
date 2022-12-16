@@ -519,14 +519,12 @@ public class GamePanel extends JPanel implements Runnable{
         g2.drawString("Mouse Y: "+ mouseH.clickedY, x, y); y += lineHeight;
         g2.drawString(" ", x, y); y += lineHeight;
         
-        g2.drawString("Col: "+ (player.worldX) / tileSize, x, y); y += lineHeight;
-        g2.drawString("Row: "+ (player.worldY) / tileSize, x, y); y += lineHeight;
-        g2.drawString("MouseCol sem off: "+ mouseH.mouseX, x, y); y += lineHeight;
-        g2.drawString("MouseRow sem off: "+ mouseH.mouseY, x, y); y += lineHeight;
-        g2.drawString("OffX: "+ mouseH.camOffSetX, x, y); y += lineHeight;
-        g2.drawString("OffY: "+ mouseH.camOffSetY, x, y); y += lineHeight;
-        g2.drawString("MouseCol + OffX: "+ mouseH.mouseCol, x, y); y += lineHeight;
-        g2.drawString("MouseRow + OffY: "+ mouseH.mouseRow, x, y); y += lineHeight;
+        g2.drawString("World Col: "+ mouseH.worldCol, x, y); y += lineHeight;
+        g2.drawString("World Row: "+ mouseH.worldCol, x, y); y += lineHeight;
+        g2.drawString("Mouse Col: "+ mouseH.mouseCol, x, y); y += lineHeight;
+        g2.drawString("Mouse Row: "+ mouseH.mouseRow, x, y); y += lineHeight;
+        g2.drawString("Off Col: "+ mouseH.camOffSetCol, x, y); y += lineHeight;
+        g2.drawString("Off Row: "+ mouseH.camOffSetRow, x, y); y += lineHeight;
 //            g2.drawString("Col: "+ (player.worldX * player.solidArea.x) / tileSize, x, y); y += lineHeight;
 //            g2.drawString("Row: "+ (player.worldY * player.solidArea.y) / tileSize, x, y); y += lineHeight;
         g2.drawString(" ", x, y); y += lineHeight;

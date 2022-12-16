@@ -17,12 +17,20 @@ public class MouseHandler implements MouseListener {
 
     GamePanel gp;
     Player pl;
-    int mouseCol = 0;
-    int mouseRow = 0;
-    double mouseX = 0;
-    double mouseY = 0;
-    double camOffSetX = 0;
-    double camOffSetY = 0;
+    double worldCol = 0;
+    double worldRow = 0;
+    double screenCol = 0;
+    double screenRow = 0;
+    double mouseCol = 0;
+    double mouseRow = 0;
+    int camOffSetX = 0;
+    int camOffSetY = 0;
+    double camOffSetCol = 0;
+    double camOffSetRow = 0;
+    int mouseOffCol = 0;
+    int mouseOffRow = 0;
+    int mouseTileCol = 0;
+    int mouseTileRow = 0;
     public int clickedX = 0;
     public int clickedY = 0;
     public boolean mouseLeftPressed;
@@ -38,26 +46,82 @@ public class MouseHandler implements MouseListener {
     public void mouseClicked(MouseEvent e) { 
         gp.player.onPath = false;
 
-        double screenX = (double)floor(pl.screenX / gp.tileSize);
-        double screenY = (double)floor(pl.screenY / gp.tileSize);
+        // "Clear" output console
+        for(int clear = 0; clear < 1000; clear++) {
+            System.out.println("\b") ;
+        } 
+        
+        System.out.println(" -- mouseClicked(MouseEvent e) --");
+        
+        int screenX = pl.screenX;
+        int screenY = pl.screenY;
+        System.out.println("Screen XY: " + screenX + ", " + screenY);
+        
+        int worldX = pl.worldX;
+        int worldY = pl.worldY;
+        System.out.println("World XY: " + worldX + ", " + worldY);
+        
+        screenCol = (double)floor(screenX / gp.tileSize);
+        screenRow = (double)floor(screenY / gp.tileSize);
+        System.out.println("Screen Tile: [" + (int)screenCol + " " + (int)screenRow + "]");
 
-        mouseX = (double)floor(e.getPoint().x / gp.tileSize);
-        mouseY = (double)floor(e.getPoint().y / gp.tileSize);
-        System.out.println("floor mouseX: " + mouseX);
-        System.out.println("floor mouseY: " + mouseY);
+        worldCol = (double)floor(worldX / gp.tileSize);
+        worldRow = (double)floor(worldY / gp.tileSize);
+        System.out.println("World Tile: [" + (int)worldCol + " " + (int)worldRow + "]");
+        
+        int mouseX = e.getPoint().x;
+        int mouseY = e.getPoint().y;
+        System.out.println("Mouse XY: " + mouseX + ", " + mouseY);
+            
+        mouseCol = (double)floor(mouseX / gp.tileSize);
+        mouseRow = (double)floor(mouseY / gp.tileSize);
+        System.out.println("Mouse Tile: [" + (int)mouseCol + " " + (int)mouseRow + "]");
 
-        camOffSetX = (double)floor(pl.worldX / gp.tileSize) - screenX;
-        camOffSetY = (double)floor(pl.worldY / gp.tileSize) - screenY;
-        System.out.println("camOffSetX: " + camOffSetX);
-        System.out.println("camOffSetY: " + camOffSetY);
+        camOffSetX = worldX - screenX;
+        camOffSetY = worldY - screenY;
+        System.out.println("camOffSet XY: " + camOffSetX + ", " + camOffSetY);
+
+        camOffSetCol = worldCol - screenCol;
+        camOffSetRow = worldRow - screenRow;
+        System.out.println("camOffSet Tile: [" + (int)camOffSetCol + " " + (int)camOffSetRow + "]");
+        
+        mouseOffCol = (int)(mouseCol + camOffSetCol);
+        mouseOffRow = (int)(mouseRow + camOffSetRow);
+        System.out.println("Mouse Off Tile: [" + mouseOffCol + " " + mouseOffRow + "]");
+        
+        if(worldX > screenX) { 
+            mouseTileCol = (int)mouseOffCol; 
+        }
+        else { 
+            mouseTileCol = (int)mouseCol; 
+        }
+        if(worldY > screenY) { 
+            mouseTileRow = (int)mouseOffRow; 
+        }
+        else { 
+            mouseTileRow = (int)mouseRow; 
+        }
+        System.out.println("\b") ;
+        System.out.println("-> Mouse Tile: [" + mouseTileCol + " " + mouseTileRow + "]");
+        
+//        int tileOffsetX = screenX - (mouseTileCol * gp.tileSize) + 8;
+//        int tileOffsetY = screenY - (mouseTileRow * gp.tileSize) - 8;
+        int tileOffsetX = mouseX - screenX - 8;
+        int tileOffsetY = mouseY - screenY + 8;dasdada
+        System.out.println("-> Tile Off: " + tileOffsetX + "," + tileOffsetY);
+
+        int tileOffsetCol = (int) (floor(screenX - (mouseTileCol * gp.tileSize)) / gp.tileSize);
+        int tileOffsetRow = (int) (floor(screenY - (mouseTileRow * gp.tileSize)) / gp.tileSize);
+        System.out.println("-> Tile Off Tile: [" + tileOffsetCol + " " + tileOffsetRow + "]");
+        
 
         clickedX = e.getX();
         clickedY = e.getY();
 //        clickedX = e.getPoint().x + (pl.worldX - pl.screenX);
 //        clickedY = e.getPoint().y + (pl.worldY - pl.screenY);
 
-        mouseCol = (int) (mouseX + camOffSetX);
-        mouseRow = (int) (mouseY + camOffSetY);
+        //mouseCol = (int) (mouseX + camOffSetX);
+        //mouseRow = (int) (mouseY + camOffSetY);
 
         if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
             mouseLeftPressed = true;
@@ -65,7 +129,7 @@ public class MouseHandler implements MouseListener {
             pl.onPath = true;
             pl.canMove = true;
             
-            System.out.println(e.getPoint().x + "   " + e.getPoint().y);
+//            System.out.println(e.getPoint().x + "   " + e.getPoint().y);
 //            System.out.println(pl.worldX + "   " + pl.worldY);
 //            System.out.println(mouseCol + "   " + mouseRow);
 //            System.out.println("---------------");
@@ -94,12 +158,12 @@ public class MouseHandler implements MouseListener {
             }
         }
         
-        if(gp.tileM.inBounds(e.getPoint().x, e.getPoint().y, g2)){
-            System.out.println("INTERSECT");
-        }
-        else {
-            System.out.println("NO INTERSECT");
-        }
+//        if(gp.tileM.inBounds(e.getPoint().x, e.getPoint().y, g2)){
+//            System.out.println("INTERSECT");
+//        }
+//        else {
+//            System.out.println("NO INTERSECT");
+//        }
         
     }
     
@@ -118,7 +182,8 @@ public class MouseHandler implements MouseListener {
     public void setAction() {
         if(pl.onPath == true){
             
-            pl.searchPath(mouseCol, mouseRow, pl.worldX, pl.worldY);
+            //pl.searchPath((int)mouseCol, (int)mouseRow, pl.worldX, pl.worldY);
+            pl.searchPath((int)mouseTileCol, (int)mouseTileRow, pl.worldX, pl.worldY);
         }
     }
     
