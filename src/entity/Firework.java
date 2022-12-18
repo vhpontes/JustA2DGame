@@ -113,6 +113,8 @@ public class Firework extends Entity {
         
         //System.out.println("Firework!!! draw-> X:"+fwX/48+" Y:"+fwY/48);
 
+//        int screenX = worldX - gp.player.worldX + gp.player.screenX;
+//        int screenY = worldY - gp.player.worldY + gp.player.screenY;
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
 //      

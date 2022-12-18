@@ -5,6 +5,9 @@ https://www.youtube.com/c/RyiSnow
 
 package main;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +37,8 @@ public class Main {
         }
 
         window.pack();
-        window.setLocationRelativeTo(null);
+//        window.setLocationRelativeTo(null);
+        window.setLocation(0, 0);
         window.setVisible(true);
         
         gamePanel.setupGame();

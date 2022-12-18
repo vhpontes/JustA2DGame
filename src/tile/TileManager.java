@@ -91,6 +91,7 @@ public class TileManager {
         loadMap("/res/maps/dungeon01.txt", 2);
         loadMap("/res/maps/dungeon02.txt", 3);
         loadMap("/res/maps/islands.txt", 4);
+        loadMap("/res/maps/highlands01.txt", 5);
 //        tile = new Tile[70];
 //        mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
@@ -271,7 +272,7 @@ public class TileManager {
                 int screenX = worldX - gp.player.worldX + gp.player.screenX;
                 int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-//                 Stop moving the camera at the edge
+                // Stop moving the camera at the edge
                 if(gp.player.screenX > gp.player.worldX) {
                     screenX = worldX;
                 }
@@ -299,17 +300,18 @@ public class TileManager {
                     
                     g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
-                    // DRAW A RED RECTANCLE FOR EACH TILE
-                    g2.setStroke(new BasicStroke(1));
-                    g2.setFont(new Font("Arial", Font.BOLD, 17));
-                    g2.setColor(Color.red);
-                    g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
-                    
-                    // DRAW A COODS x y IN EACH TILE
-                    g2.setColor(Color.white);
-                    g2.setFont(g2.getFont().deriveFont(16F));
-                    g2.drawString(""+worldCol + ":" + worldRow +"", screenX+5, screenY + gp.tileSize / 2);
-                    //g2.drawString("["+screenX + ":" + screenY +"]", screenX, screenY);
+                    if(gp.keyH.showRedRectangleTile == true) {
+                        // DRAW A RED RECTANCLE FOR EACH TILE
+                        g2.setStroke(new BasicStroke(1));
+                        g2.setFont(new Font("Arial", Font.BOLD, 17));
+                        g2.setColor(Color.red);
+                        g2.drawRect(screenX, screenY, gp.tileSize, gp.tileSize);
+
+                        // DRAW A COODS x y IN EACH TILE
+                        g2.setColor(Color.white);
+                        g2.setFont(g2.getFont().deriveFont(16F));
+                        g2.drawString(""+worldCol + ":" + worldRow +"", screenX+5, screenY + gp.tileSize / 2);
+                    }
                 }
                 else if(gp.player.screenX > gp.player.worldX ||
                         gp.player.screenY > gp.player.worldY ||

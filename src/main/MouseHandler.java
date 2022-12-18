@@ -33,6 +33,9 @@ public class MouseHandler implements MouseListener {
     int mouseTileRow = 0;
     public int clickedX = 0;
     public int clickedY = 0;
+    int tileOffsetCol = 0;
+    int tileOffsetRow = 0;
+    
     public boolean mouseLeftPressed;
     private final Graphics2D g2;
     boolean showDebugText = false;
@@ -77,8 +80,10 @@ public class MouseHandler implements MouseListener {
         mouseRow = (double)floor(mouseY / gp.tileSize);
         System.out.println("Mouse Tile: [" + (int)mouseCol + " " + (int)mouseRow + "]");
 
-        camOffSetX = worldX - screenX;
-        camOffSetY = worldY - screenY;
+//        camOffSetX = worldX - screenX;
+//        camOffSetY = worldY - screenY;
+        camOffSetX = worldX - mouseX;
+        camOffSetY = worldY - mouseY;
         System.out.println("camOffSet XY: " + camOffSetX + ", " + camOffSetY);
 
         camOffSetCol = worldCol - screenCol;
@@ -107,11 +112,11 @@ public class MouseHandler implements MouseListener {
 //        int tileOffsetX = screenX - (mouseTileCol * gp.tileSize) + 8;
 //        int tileOffsetY = screenY - (mouseTileRow * gp.tileSize) - 8;
         int tileOffsetX = mouseX - screenX - 8;
-        int tileOffsetY = mouseY - screenY + 8;dasdada
+        int tileOffsetY = mouseY - screenY + 8;
         System.out.println("-> Tile Off: " + tileOffsetX + "," + tileOffsetY);
 
-        int tileOffsetCol = (int) (floor(screenX - (mouseTileCol * gp.tileSize)) / gp.tileSize);
-        int tileOffsetRow = (int) (floor(screenY - (mouseTileRow * gp.tileSize)) / gp.tileSize);
+        tileOffsetCol = (int) (floor(screenX - (mouseTileCol * gp.tileSize)) / gp.tileSize);
+        tileOffsetRow = (int) (floor(screenY - (mouseTileRow * gp.tileSize)) / gp.tileSize);
         System.out.println("-> Tile Off Tile: [" + tileOffsetCol + " " + tileOffsetRow + "]");
         
 

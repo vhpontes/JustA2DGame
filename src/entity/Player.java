@@ -36,57 +36,61 @@ public class Player extends Entity{
         this.keyH = keyH;
         this.mouseH = mouseH;
         
-        screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
-        screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
+        this.screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
+        this.screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
         
-        solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 16;
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
-        solidArea.width = 32;
-        solidArea.height = 32;
+        this.solidArea = new Rectangle();
+        this.solidArea.x = 8;
+        this.solidArea.y = 16;
+        this.solidAreaDefaultX = solidArea.x;
+        this.solidAreaDefaultY = solidArea.y;
+        this.solidArea.width = 32;
+        this.solidArea.height = 32;
                 
         setDefaultValues();
     }
     
     public void setInitialPosition() {
 
-        gp.currentMap = 4;
+        gp.currentMap = 2;
         gp.gameState = gp.transitionState;
         
         switch(gp.currentMap){
-            case 0:
-//                worldX = gp.tileSize * 0;
-//                worldY = gp.tileSize * 0;
-                worldX = gp.tileSize * 23;
-                worldY = gp.tileSize * 21;
+            case 0: // WORLD MAP 1
+                this.worldX = gp.tileSize * 23;
+                this.worldY = gp.tileSize * 21;
                 gp.nextArea = gp.outside;
                 gp.currentArea = gp.nextArea;
             break;
             case 1: // HUT INTERIOR
-                worldX = gp.tileSize * 12; 
-                worldY = gp.tileSize * 12;
+                this.worldX = gp.tileSize * 12; 
+                this.worldY = gp.tileSize * 12;
                 gp.nextArea = gp.indoor;
                 gp.currentArea = gp.nextArea;
             break;
-            case 2:
+            case 2: // DUNGEON 1
                 //worldX = gp.tileSize * 8;
                 //worldY = gp.tileSize * 48;
-                worldX = gp.tileSize * 10;
-                worldY = gp.tileSize * 41;
+                this.worldX = gp.tileSize * 10;
+                this.worldY = gp.tileSize * 41;
                 gp.nextArea = gp.dungeon;
                 gp.currentArea = gp.nextArea;
             break;
-            case 3:
-                worldX = gp.tileSize * 26;
-                worldY = gp.tileSize * 40;
+            case 3: // DUNGEON 2
+                this.worldX = gp.tileSize * 26;
+                this.worldY = gp.tileSize * 40;
                 gp.nextArea = gp.dungeon;
                 gp.currentArea = gp.nextArea;
             break;
-            case 4:
-                worldX = gp.tileSize * 20;
-                worldY = gp.tileSize * 38;
+            case 4: // ISLAND
+                this.worldX = gp.tileSize * 20;
+                this.worldY = gp.tileSize * 38;
+                gp.nextArea = gp.outside;
+                gp.currentArea = gp.nextArea;
+            break;
+            case 5: // HIGHLAND
+                this.worldX = gp.tileSize * 14;
+                this.worldY = gp.tileSize * 9;
                 gp.nextArea = gp.outside;
                 gp.currentArea = gp.nextArea;
             break;
@@ -96,31 +100,31 @@ public class Player extends Entity{
     public void setDefaultValues() {
 
         setInitialPosition();
-        defaultSpeed = 4 * 1; 
-        speed = defaultSpeed;
-        direction = "down";
+        this.defaultSpeed = 4 * 1; 
+        this.speed = defaultSpeed;
+        this.direction = "down";
         
         // PLAYER STATUS
-        level = 1;
-        maxLife = 6;
-        life = maxLife;
-        maxMana = 8;
-        mana = maxMana;
-        maxArrow = 0;
-        arrow = maxArrow;
-        ammo = 10;
-        strength = 1; // the more strength he has, the more damage he gives.
-        dexterty = 1; // the more dexterty he has, the less damage he receives.
-        exp = 0;
-        nextLevelExp = 5;
-        coin = 500;
-        currentWeapon    = new OBJ_Sword_Normal(gp);
-        currentShield    = new OBJ_Shield_Wood(gp);
-        projectile       = new OBJ_Fireball(gp, "fireball");
-        projectileWeapow = new OBJ_Arrow(gp);
-        currentLight = null;
-        attack = getAttack();  // total attack value is decided by strength and weapon.
-        defense = getDefense();// total defense value is decided by dexterty and shield.
+        this.level = 1;
+        this.maxLife = 6;
+        this.life = maxLife;
+        this.maxMana = 8;
+        this.mana = maxMana;
+        this.maxArrow = 0;
+        this.arrow = maxArrow;
+        this.ammo = 10;
+        this.strength = 1; // the more strength he has, the more damage he gives.
+        this.dexterty = 1; // the more dexterty he has, the less damage he receives.
+        this.exp = 0;
+        this.nextLevelExp = 5;
+        this.coin = 500;
+        this.currentWeapon    = new OBJ_Sword_Normal(gp);
+        this.currentShield    = new OBJ_Shield_Wood(gp);
+        this.projectile       = new OBJ_Fireball(gp, "fireball");
+        this.projectileWeapow = new OBJ_Arrow(gp);
+        this.currentLight = null;
+        this.attack = getAttack();  // total attack value is decided by strength and weapon.
+        this.defense = getDefense();// total defense value is decided by dexterty and shield.
         
         getGuardImage();
         getImage();
@@ -132,9 +136,9 @@ public class Player extends Entity{
     public void setDefaultPosition() {
         
         gp.currentMap = 0;
-        worldX = gp.tileSize * 23;
-        worldY = gp.tileSize * 21;
-        direction = "down";
+        this.worldX = gp.tileSize * 23;
+        this.worldY = gp.tileSize * 21;
+        this.direction = "down";
     }
     
     public void setDialogue() {
@@ -299,7 +303,7 @@ public class Player extends Entity{
 //        System.out.println("keyH.shiftPressed? "+keyH.shiftPressed);
 //        System.out.println("guarding? "+guarding);
 //        System.out.println("-------------------");
-        if(knockBack == true) {
+        if(this.knockBack == true) {
 
             // CHECK TILE COLLISION
             collisionOn = false;
@@ -309,76 +313,76 @@ public class Player extends Entity{
             gp.cChecker.checkEntity(this, gp.monster);
             gp.cChecker.checkEntity(this, gp.iTile);
             
-            if(collisionOn == true) {
-                knockBackCounter = 0;
-                knockBack = false;
-                speed = defaultSpeed;
+            if(this.collisionOn == true) {
+                this.knockBackCounter = 0;
+                this.knockBack = false;
+                this.speed = this.defaultSpeed;
             }
-            else if(collisionOn == false) {
-                switch(knockBackDirection) {
-                    case "up" -> worldY -= speed;
-                    case "down" -> worldY += speed;
-                    case "left" -> worldX -= speed;
-                    case "right" -> worldX += speed;                    
+            else if(this.collisionOn == false) {
+                switch(this.knockBackDirection) {
+                    case "up" -> this.worldY -= this.speed;
+                    case "down" -> this.worldY += this.speed;
+                    case "left" -> this.worldX -= this.speed;
+                    case "right" -> this.worldX += this.speed;                    
                 }
             }
             
-            knockBackCounter++;
-            if(knockBackCounter == 10) { // distance of knockback
-                knockBackCounter = 0;
-                knockBack = false;
-                speed = defaultSpeed;
+            this.knockBackCounter++;
+            if(this.knockBackCounter == 10) { // distance of knockback
+                this.knockBackCounter = 0;
+                this.knockBack = false;
+                this.speed = this.defaultSpeed;
             }
         }
         // MELEE ATACK
-        if (attacking == true && rangedweapon == false){
+        if (this.attacking == true && this.rangedweapon == false){
             attacking();
         }
         // RANGED ATACK
-        if (rangedweapon == true && gp.cChecker.checkObject(this, true) == 999) {
+        if (this.rangedweapon == true && gp.cChecker.checkObject(this, true) == 999) {
             // PROJECTILE WEAPOW
             if(gp.keyH.enterPressed == true && projectileWeapow.alive == false 
                     && shotAvailableCounter == 30 && projectileWeapow.haveResource(this) == true) {
 
                 //SET DEFAULT COORDINATES, DIRECTION AND USER
-                projectileWeapow.set(worldX, worldY, direction, true, this);
+                this.projectileWeapow.set(this.worldX, this.worldY, this.direction, true, this);
 
                 // SUBTRACT THE COST (MANA, AMMO, ETC.)
-                projectileWeapow.subtractResource(this);
+                this.projectileWeapow.subtractResource(this);
 
                 // CHECK EMPTY SLOT PROJECTILE
                 for(int i = 0; i < gp.projectileWeapow[1].length; i++) {
                     if(gp.projectileWeapow[gp.currentMap][i] == null) {
-                        gp.projectileWeapow[gp.currentMap][i] = projectileWeapow;
+                        gp.projectileWeapow[gp.currentMap][i] = this.projectileWeapow;
                         break;
                     }
                 }
 
-                shotAvailableCounter = 0;
+                this.shotAvailableCounter = 0;
 
                 gp.playSE(23);
             }
-            attacking = false;
+            this.attacking = false;
         }
         
         // DEFENSE MODE GUARDING (F PRESSED)
         if(keyH.shiftPressed == true) {
-            guarding = true;
-            guardCounter++;
+            this.guarding = true;
+            this.guardCounter++;
         }
         // ANOTHER ACTIONS MADE WITH ENTER PRESSED
         else if(keyH.upPressed == true || keyH.downPressed == true || 
                 keyH.leftPressed == true || keyH.rightPressed == true 
                 || keyH.enterPressed == true) {
 
-            if(keyH.upPressed == true) {direction = "up";}
-            else if(keyH.downPressed == true) {direction = "down";}
-            else if(keyH.leftPressed == true) {direction = "left";}
-            else if(keyH.rightPressed == true) {direction = "right";}        
+            if(keyH.upPressed == true) {this.direction = "up";}
+            else if(keyH.downPressed == true) {this.direction = "down";}
+            else if(keyH.leftPressed == true) {this.direction = "left";}
+            else if(keyH.rightPressed == true) {this.direction = "right";}        
 
             // CHECK TILE COLLISION
-            collisionOn = false;
-            //gp.cChecker.checkTile(this);
+            this.collisionOn = false;
+            gp.cChecker.checkTile(this);
 
             // CHECK OBJECT COLLISION
             int objIndex = gp.cChecker.checkObject(this, true);
@@ -403,44 +407,44 @@ public class Player extends Entity{
             if(collisionOn == false && gp.keyH.enterPressed == false) {
                 
                 switch(direction) {
-                    case "up" -> worldY -= speed;
-                    case "down" -> worldY += speed;
-                    case "left" -> worldX -= speed;
-                    case "right" -> worldX += speed;
+                    case "up" -> this.worldY -= this.speed;
+                    case "down" -> this.worldY += this.speed;
+                    case "left" -> this.worldX -= this.speed;
+                    case "right" -> this.worldX += this.speed;
                 }
             }
             
             // CHECK IF MELEE OR RANGED WEAPOW
-            if(keyH.enterPressed == true && attackCanceled == false){
+            if(keyH.enterPressed == true && this.attackCanceled == false){
                 gp.playSE(7);
-                attacking = true;
-                spriteCounter = 0;
+                this.attacking = true;
+                this.spriteCounter = 0;
             }
-            if(keyH.enterPressed == true && attackCanceled == false && rangedweapon == true) {
-                attacking = true;
-                spriteCounter = 0;
+            if(keyH.enterPressed == true && this.attackCanceled == false && this.rangedweapon == true) {
+                this.attacking = true;
+                this.spriteCounter = 0;
             }
     
             // RESET PLAYER STATES
             gp.keyH.enterPressed = false;
-            attackCanceled = false;
-            guarding = false;
-            guardCounter = 0;
+            this.attackCanceled = false;
+            this.guarding = false;
+            this.guardCounter = 0;
             
-            if(canMove) {
-                spriteCounter++;
-                if(spriteCounter > 10) {
-                    switch (spriteNum) {
-                        case 1 -> spriteNum = 2;
-                        case 2 -> spriteNum = 3;
-                        case 3 -> spriteNum = 4;
-                        case 4 -> spriteNum = 1;
+            if(this.canMove) {
+                this.spriteCounter++;
+                if(this.spriteCounter > 10) {
+                    switch (this.spriteNum) {
+                        case 1 -> this.spriteNum = 2;
+                        case 2 -> this.spriteNum = 3;
+                        case 3 -> this.spriteNum = 4;
+                        case 4 -> this.spriteNum = 1;
                         default -> {
                         }
                     }
-                    spriteCounter = 0;
+                    this.spriteCounter = 0;
                 }
-            } else {spriteNum = 1;}
+            } else {this.spriteNum = 1;}
 
 //            spriteCounter++;
 //            if(spriteCounter > 12) {
@@ -454,66 +458,66 @@ public class Player extends Entity{
 //            }
         }
         else {
-            standCounter++;
+            this.standCounter++;
 
-            if(standCounter == 20){
-                spriteNum = 1;
-                standCounter = 0;
+            if(this.standCounter == 20){
+                this.spriteNum = 1;
+                this.standCounter = 0;
             }
-            guarding = false;
-            guardCounter = 0;
+            this.guarding = false;
+            this.guardCounter = 0;
         }            
         
         // PROJECTILE FIREBALL
-        if(gp.keyH.shotKeyPressed == true && projectile.alive == false 
-                && shotAvailableCounter == 30 && projectile.haveResource(this) == true 
+        if(gp.keyH.shotKeyPressed == true && this.projectile.alive == false 
+                && this.shotAvailableCounter == 30 && this.projectile.haveResource(this) == true 
                 && gp.player.attacking == false) {
             
             //SET DEFAULT COORDINATES, DIRECTION AND USER
-            projectile.set(worldX, worldY, direction, true, this);
+            this.projectile.set(this.worldX, this.worldY, this.direction, true, this);
             
             // SUBTRACT THE COST (MANA, AMMO, ETC.)
-            projectile.subtractResource(this);
+            this.projectile.subtractResource(this);
             
             // ADD IT TO THE LIST
             //gp.projectileList.add(projectile);
             // CHECK EMPTY SLOT PROJECTILE
-            for(int i=0; i < gp.projectile[1].length; i++) {
+            for(int i = 0; i < gp.projectile[1].length; i++) {
                 if(gp.projectile[gp.currentMap][i] == null) {
-                    gp.projectile[gp.currentMap][i] = projectile;
+                    gp.projectile[gp.currentMap][i] = this.projectile;
                     break;
                 }
             }
             
-            shotAvailableCounter = 0;
+            this.shotAvailableCounter = 0;
             
             gp.playSE(10);
         }
         
         // This needs to be outside of key if statement
-        if(invincible == true) {
-            invincibleCounter++;
-            if(invincibleCounter > 60) {
-                invincible = false;
-                transparent = false;
-                invincibleCounter = 0;
+        if(this.invincible == true) {
+            this.invincibleCounter++;
+            if(this.invincibleCounter > 60) {
+                this.invincible = false;
+                this.transparent = false;
+                this.invincibleCounter = 0;
             }
         }
         
         // prevent two fireball if close attack
-        if(shotAvailableCounter < 30) {
-            shotAvailableCounter++;
+        if(this.shotAvailableCounter < 30) {
+            this.shotAvailableCounter++;
         }
-        if(life > maxLife) {
-            life = maxLife; 
+        if(this.life > this.maxLife) {
+            this.life = this.maxLife; 
         }
-        if(mana > maxMana) {
-            mana = maxMana; 
+        if(this.mana > this.maxMana) {
+            this.mana = this.maxMana; 
         }
         
         if(keyH.godModeOn == false) {
             // PLAYER GAME OVER
-            if(life <= 0){
+            if(this.life <= 0){
                 gp.gameState = gp.gameOverState;
                 gp.ui.commandNum = -1;
                 gp.playSE(12);
@@ -522,7 +526,7 @@ public class Player extends Entity{
         //---------------------------------------------------------------------------
         // MOUSE CLICKED
         // PLAYER AUTO MOVE FOR MOUSE CLICK EVENT
-        if(gp.mouseH.mouseLeftPressed && collisionOn == false && onPath == true) {
+        if(gp.mouseH.mouseLeftPressed && this.collisionOn == false && this.onPath == true) {
             gp.mouseH.setAction();
             this.checkPlayerCollision();
 //            System.out.println("onPath:"+onPath);
@@ -534,27 +538,27 @@ public class Player extends Entity{
             // CHECK EVENT
             gp.eHandler.checkEvent();            
             
-            switch(direction) {
-                case "up": worldY -= speed; break;
-                case "down": worldY += speed; break;
-                case "left": worldX -= speed; break;
-                case "right": worldX += speed; break;
+            switch(this.direction) {
+                case "up": this.worldY -= this.speed; break;
+                case "down": this.worldY += this.speed; break;
+                case "left": this.worldX -= this.speed; break;
+                case "right": this.worldX += this.speed; break;
             }
             
-            if(canMove) {
-                spriteCounter++;
-                if(spriteCounter > 10) {
-                    switch (spriteNum) {
-                        case 1 -> spriteNum = 2;
-                        case 2 -> spriteNum = 3;
-                        case 3 -> spriteNum = 4;
-                        case 4 -> spriteNum = 1;
+            if(this.canMove) {
+                this.spriteCounter++;
+                if(this.spriteCounter > 10) {
+                    switch (this.spriteNum) {
+                        case 1 -> this.spriteNum = 2;
+                        case 2 -> this.spriteNum = 3;
+                        case 3 -> this.spriteNum = 4;
+                        case 4 -> this.spriteNum = 1;
                         default -> {
                         }
                     }
-                    spriteCounter = 0;
+                    this.spriteCounter = 0;
                 }
-            } else {spriteNum = 1;}            
+            } else {this.spriteNum = 1;}            
         }        
     }
     

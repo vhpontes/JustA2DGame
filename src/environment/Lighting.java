@@ -11,9 +11,13 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RadialGradientPaint;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import main.GamePanel;
+import main.Main;
+import twitch.TwitchBot;
 
-public class Lighting {
+public class Lighting{
     
     GamePanel gp;
     BufferedImage darknessFilter;
@@ -43,10 +47,26 @@ public class Lighting {
             g2.setColor(new Color(0,0,0.1f, 0.96f));
         }
         else {
-        
-            int centerX = gp.player.screenX + (gp.tileSize)/2;
-            int centerY = gp.player.screenY + (gp.tileSize)/2;
+            int centerLightX = gp.player.screenX + (gp.tileSize) / 2;
+            int centerLightY = gp.player.screenY + (gp.tileSize) / 2;
+            int worldX = gp.player.worldX;
+            int worldY = gp.player.worldY;
+            if(gp.player.screenX > gp.player.worldX) {
+                centerLightX = worldX;
+            }
+            if(gp.player.screenY > gp.player.worldY) {
+                centerLightY = worldY;
+            }
+            int rightOffset = gp.screenWidth - gp.player.screenX;
+            if(rightOffset > gp.worldWidth - gp.player.worldX) {
+                centerLightX = gp.screenWidth - (gp.worldWidth - worldX);
+            }
+            int bottonOffset = gp.screenHeight - gp.player.screenY;
+            if(bottonOffset > gp.worldHeight - gp.player.worldY) {
+                centerLightY = gp.screenHeight - (gp.worldHeight - worldY);
+            }
 
+            
             Color color[] = new Color[12];
             float fraction[] = new float[12];
             color[0] = new Color(0, 0, 0.1f, 0.1f);
@@ -75,7 +95,7 @@ public class Lighting {
             fraction[10] = 0.95f;
             fraction[11] = 1f;
 
-            RadialGradientPaint gPaint = new RadialGradientPaint(centerX, centerY, gp.player.currentLight.lightRadius, fraction, color);
+            RadialGradientPaint gPaint = new RadialGradientPaint(centerLightX, centerLightY, gp.player.currentLight.lightRadius, fraction, color);
 
             g2.setPaint(gPaint);
         }
@@ -144,7 +164,19 @@ public class Lighting {
             g2.drawImage(darknessFilter, 0, 0, null);
         }
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-        
+
+        if(gp.player.screenX > gp.player.worldX) {
+            setLightSource();
+//            new Thread(new Runnable(){
+//                public void run(){
+//                    try {
+//                        setLightSource();
+//                    } catch (Exception ex) {
+//                        System.exit(0);
+//                    }
+//                }
+//            }).start();
+        }        
         // DEBUG DAY CICLE
         String situation = "";
         switch(dayState){
@@ -161,7 +193,5 @@ public class Lighting {
         g2.setColor(Color.yellow);
         //g2.setFont(g2.getFont().deriveFont(40f));
         g2.drawString(situation, gp.screenWidth/2, (gp.tileSize/2) * 3);
-    }
-
-        
+    }        
 }

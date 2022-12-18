@@ -68,7 +68,7 @@ public class Rain {
     public void draw(Graphics2D g2, GamePanel gp) {
         
         if(gp.currentArea == gp.outside) {
-            float strokeSize = map(z, 0, 20, 1, 3);
+            float strokeSize = map(z, 0, 15, 1, 3);
 
             g2.setColor(rainColor);
             g2.setStroke(new BasicStroke(strokeSize));

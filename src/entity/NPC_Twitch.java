@@ -22,16 +22,17 @@ public final class NPC_Twitch extends Entity{
     public NPC_Twitch(GamePanel gp){
         super(gp);
         
-        type = type_npcTwitch;
-        direction = "down";
-        maxLife = 3;
-        life = maxLife;
-        speed = 1;
-        alive = true;
-        canMove = true;
-        npcFireballLaunched = false;
+        this.type = this.type_npcTwitch;
+        this.name = "";
+        this.direction = "down";
+        this.maxLife = 3;
+        this.life = this.maxLife;
+        this.speed = 1;
+        this.alive = true;
+        this.canMove = true;
+        this.npcFireballLaunched = false;
 
-        projectile = new OBJ_Fireball(gp, "twitch_fireball");
+        this.projectile = new OBJ_Fireball(gp, "twitch_fireball");
         
         getImage();
     }

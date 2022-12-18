@@ -88,9 +88,9 @@ public class EnvironmentManager {
                     && environmentRandomNumber < 100 ) {
                 environmentState = "Clean";
             }
-
-            lighting.draw(g2);
-
+            
+//            lighting.draw(g2);
+            
             // Screen DEBUG
             String debugTXT1 = Integer.toString(environmentRandomNumber);
             g2.setColor(Color.white);
@@ -109,6 +109,7 @@ public class EnvironmentManager {
             g2.setFont(g2.getFont().deriveFont(30f));
             g2.drawString(environmentState, gp.screenWidth / 2, gp.tileSize * 2);  
         }
+        
+        lighting.draw(g2);
     }
-    
 }

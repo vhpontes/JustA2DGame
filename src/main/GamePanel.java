@@ -55,12 +55,12 @@ public class GamePanel extends JPanel implements Runnable{
 //    public final int maxScreenRow = 12; // Height 576 pixels
 
     // 1280 x 1024 resolution
-    public final int maxScreenCol = 22; // Width 1280 pixels
-    public final int maxScreenRow = 14; // Height 1024 pixels
+//    public final int maxScreenCol = 22; // Width 1280 pixels
+//    public final int maxScreenRow = 14; // Height 1024 pixels
 
     // 1920x1080 resolution
-//    public final int maxScreenCol = 40; // Width 1920 pixels
-//    public final int maxScreenRow = 22; // Height 1080 pixels
+    public final int maxScreenCol = 30; // 40*48 Width 1920 pixels
+    public final int maxScreenRow = 20; // 22*48 Height 1080 pixels
 
 //    public final int screenWidth = tileSize * maxScreenCol;  
 //    public final int screenHeight = tileSize * maxScreenRow; 
@@ -80,11 +80,11 @@ public class GamePanel extends JPanel implements Runnable{
     int monitorWidth = gd.getDisplayMode().getWidth();
     int monitorHeight = gd.getDisplayMode().getHeight();
 
-    public final int screenWidth = gd.getDisplayMode().getWidth(); 
-    public final int screenHeight = gd.getDisplayMode().getHeight();
+    public int screenWidth = tileSize * maxScreenCol; 
+    public int screenHeight = tileSize * maxScreenRow;
 
-    public int screenWidth2 = monitorWidth;
-    public int screenHeight2 = monitorHeight;
+    //public int screenWidth = monitorWidth;
+    //public int screenHeight = monitorHeight;
     
     public boolean fullScreenOn;
     BufferedImage tempScreen;
@@ -196,6 +196,8 @@ public class GamePanel extends JPanel implements Runnable{
     public void resetGame(boolean restart) {
         
         //currentArea = outside;
+        gameState = transitionState;
+        nextArea = currentArea;
         removeTempEntity();
         bossBattleOn = false;
         player.setDefaultPosition();
@@ -220,8 +222,10 @@ public class GamePanel extends JPanel implements Runnable{
         gd.setFullScreenWindow(Main.window);
         
         // GET FULL SCREEN WIDTH AND HEIGHT
-        screenWidth2 = Main.window.getWidth();
-        screenHeight2 = Main.window.getHeight();
+//        screenWidth2 = Main.window.getWidth();
+//        screenHeight2 = Main.window.getHeight();
+        screenWidth = Main.window.getWidth();
+        screenHeight = Main.window.getHeight();
     }
     
     public void starGameThread() {
@@ -500,16 +504,16 @@ public class GamePanel extends JPanel implements Runnable{
         long passed = drawEnd - drawStart;
 
         int x = this.tileSize / 4;
-        int y = this.screenHeight / 2;
+        int y = this.screenHeight / 4;
         int lineHeight = 20;
 
-        ui.drawSubWindow(x-10, y-30, this.tileSize * 6, lineHeight * 23);
+        ui.drawSubWindow(x-10, y-30, this.tileSize * 6, lineHeight * 27);
         
         g2.setFont(new Font("Arial", Font.PLAIN, 20));
         g2.setColor(Color.green);
-
         g2.drawString("Debug Infos", x, y); y += lineHeight;
 
+        g2.setFont(new Font("Arial", Font.PLAIN, 18));
         g2.setColor(Color.white);
         g2.drawString("World X: "+ player.worldX, x, y); y += lineHeight;
         g2.drawString("World Y: "+ player.worldY, x, y); y += lineHeight;
@@ -519,12 +523,32 @@ public class GamePanel extends JPanel implements Runnable{
         g2.drawString("Mouse Y: "+ mouseH.clickedY, x, y); y += lineHeight;
         g2.drawString(" ", x, y); y += lineHeight;
         
-        g2.drawString("World Col: "+ mouseH.worldCol, x, y); y += lineHeight;
-        g2.drawString("World Row: "+ mouseH.worldCol, x, y); y += lineHeight;
-        g2.drawString("Mouse Col: "+ mouseH.mouseCol, x, y); y += lineHeight;
-        g2.drawString("Mouse Row: "+ mouseH.mouseRow, x, y); y += lineHeight;
-        g2.drawString("Off Col: "+ mouseH.camOffSetCol, x, y); y += lineHeight;
-        g2.drawString("Off Row: "+ mouseH.camOffSetRow, x, y); y += lineHeight;
+        g2.drawString("Mouse Col: ", x, y);
+        g2.setColor(Color.green);
+        g2.drawString(""+ mouseH.mouseTileCol, x+120, y); y += lineHeight;
+        g2.setColor(Color.white);
+        g2.drawString("Mouse Row: ", x, y);
+        g2.setColor(Color.green);
+        g2.drawString(""+ mouseH.mouseTileRow, x+120, y); y += lineHeight;
+        g2.setColor(Color.white);
+        g2.drawString("World Col    : "+ mouseH.worldCol, x, y); y += lineHeight;
+        g2.drawString("World Row    : "+ mouseH.worldRow, x, y); y += lineHeight;
+        g2.drawString("CAM Off Col  : "+ mouseH.camOffSetCol, x, y); y += lineHeight;
+        g2.drawString("CAM Off Row  : "+ mouseH.camOffSetRow, x, y); y += lineHeight;
+        g2.drawString("Mouse Off Col: "+ mouseH.tileOffsetCol, x, y); y += lineHeight;
+        g2.drawString("Mouse Off Row: "+ mouseH.tileOffsetRow, x, y); y += lineHeight;
+        g2.drawString(" ", x, y); y += lineHeight;
+
+        g2.setFont(new Font("Arial", Font.PLAIN, 20));
+        g2.setColor(Color.green);
+        g2.drawString("Path Finder", x, y); y += lineHeight;
+        g2.setFont(new Font("Arial", Font.PLAIN, 18));
+        g2.setColor(Color.white);
+        g2.drawString("Start: "+ pFinder.startColVAR+":"+ pFinder.startRowVAR, x, y); y += lineHeight;
+        //g2.drawString("Start Row    : "+ pFinder.startRowVAR, x, y); y += lineHeight;
+        g2.drawString("Goal: "+ pFinder.goalColVAR+":"+ pFinder.goalRowVAR, x, y); y += lineHeight;
+        g2.drawString("Reached: "+ pFinder.goalReached, x, y); y += lineHeight;
+        
 //            g2.drawString("Col: "+ (player.worldX * player.solidArea.x) / tileSize, x, y); y += lineHeight;
 //            g2.drawString("Row: "+ (player.worldY * player.solidArea.y) / tileSize, x, y); y += lineHeight;
         g2.drawString(" ", x, y); y += lineHeight;
@@ -540,7 +564,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void drawToScreen() {
         
         Graphics g = getGraphics();
-        g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
+        g.drawImage(tempScreen, 0, 0, screenWidth, screenHeight, null);
         g.dispose();
     }
     
@@ -582,7 +606,7 @@ public class GamePanel extends JPanel implements Runnable{
         aSetter.setMonster();
     }
     
-    public void addNPCTwitch(int mapNum, MessageEvent event, int pX, int pY) {
+    public void addNPCTwitch(int mapNum, MessageEvent event, int pX, int pY, String name) {
 //        Random random = new Random();
 //        int X = random.nextInt(50)+1;
 //        int Y = random.nextInt(50)+1;
@@ -591,11 +615,11 @@ public class GamePanel extends JPanel implements Runnable{
         
 //        npcTwitch[mapNum][npcTwitchIndex].worldX = tileSize*pX;
 //        npcTwitch[mapNum][npcTwitchIndex].worldY = tileSize*pY;
-        npcTwitch[mapNum][npcTwitchIndex].worldX = player.worldX + tileSize;
-        npcTwitch[mapNum][npcTwitchIndex].worldY = player.worldY;
+        npcTwitch[mapNum][npcTwitchIndex].worldX = pX; 
+        npcTwitch[mapNum][npcTwitchIndex].worldY = pY;
+        npcTwitch[mapNum][npcTwitchIndex].npcTwitchNick = name;
         if (event != null) {
             npcTwitch[mapNum][npcTwitchIndex].npcHashCode = event.getUser().hashCode();
-            npcTwitch[mapNum][npcTwitchIndex].npcTwitchNick = event.getUser().getNick();
         }
         npcTwitchList.add(npcTwitch[mapNum][npcTwitchIndex]);
         

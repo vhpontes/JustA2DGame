@@ -17,6 +17,10 @@ public class PathFinder {
     public Node startNode, goalNode, currentNode;
     public boolean goalReached = false;
     int step = 0;
+    public int startColVAR = 0;
+    public int startRowVAR = 0;
+    public int goalColVAR = 0;
+    public int goalRowVAR = 0;
     
     public PathFinder(GamePanel gp) {
         this.gp = gp;
@@ -68,7 +72,11 @@ public class PathFinder {
     public void setNodes(int startCol, int startRow, int goalCol, int goalRow) {
         
         resetNodes();
-                
+        startColVAR = startCol;
+        startRowVAR = startRow;
+        goalColVAR = goalCol;
+        goalRowVAR = goalRow;       
+        
         startNode = node[startCol][startRow];
         currentNode = startNode;
         goalNode = node[goalCol][goalRow];

@@ -22,25 +22,37 @@ public class CollisionChecker {
         int entityTopWorldY = entity.worldY + entity.solidArea.y;
         int entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
         
-        int entityLeftCol = entityLeftWorldX/gp.tileSize;
-        int entityRightCol = entityRightWorldX/gp.tileSize;
-        int entityTopRow = entityTopWorldY/gp.tileSize;
-        int entityBottomRow = entityBottomWorldY/gp.tileSize;
+        int entityLeftCol = entityLeftWorldX  / gp.tileSize;
+        int entityRightCol = entityRightWorldX / gp.tileSize;
+        int entityTopRow = entityTopWorldY / gp.tileSize;
+        int entityBottomRow = entityBottomWorldY / gp.tileSize;
         
         int tileNum1, tileNum2;
         
         entity.canMove = true;
-
-
+        
         // Usando uma direção temporária quando começa o empurrão
         String direction = entity.direction;
         if(entity.knockBack == true) {
             direction = entity.knockBackDirection;
         }
+
+//        if(entityLeftCol < 0) {entityLeftCol = 0;}
+//        if(entityLeftCol >= gp.maxScreenCol) {entityLeftCol = gp.maxScreenCol-1;}
+//        if(entityRightCol < 0) {entityRightCol = 0;}
+//        if(entityRightCol >= gp.maxScreenCol) {entityRightCol = gp.maxScreenCol-1;}
+//        if(entityTopRow < 0) {entityTopRow = 0;}
+//        if(entityTopRow >= gp.maxScreenRow) {entityTopRow = gp.maxScreenRow-1;}
+//        if(entityBottomRow < 0) {entityBottomRow = 0;}
+//        if(entityBottomRow >= gp.maxScreenRow) {entityBottomRow = gp.maxScreenRow-1;}
+//        System.out.println("entity.name:"+entity.name);
+//        System.out.println("entity.direction:"+entity.direction);
         
         switch(direction) {
             case "up":
-                entityTopRow = (entityTopWorldY - entity.speed)/gp.tileSize;
+                entityTopRow = (entityTopWorldY - entity.speed) / gp.tileSize;
+//                if(entityTopRow < 0) {entityTopRow = 0;}
+//                if(entityTopRow >= gp.maxScreenRow) {entityTopRow = gp.maxScreenRow-1;}
                 // TO-DO: fazer verificação de limite do mapa
                 tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
@@ -50,7 +62,12 @@ public class CollisionChecker {
                 }
                 break;
             case "down":
-                entityBottomRow = (entityBottomWorldY + entity.speed)/gp.tileSize;
+                entityBottomRow = (entityBottomWorldY + entity.speed) / gp.tileSize;
+//                if(entityBottomRow < 0) {entityBottomRow = 0;}
+//                if(entityBottomRow >= gp.maxScreenRow) {entityBottomRow = gp.maxScreenRow-1;}
+//        System.out.println("entityBottomRow:"+entityBottomRow);
+//        System.out.println("entityLeftCol:"+entityLeftCol);
+//        System.out.println("entityRightCol:"+entityRightCol);
                 // TO-DO: fazer verificação de limite do mapa
                 tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
                 tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
@@ -60,7 +77,12 @@ public class CollisionChecker {
                 }
                 break;
             case "left":
-                entityLeftCol = (entityLeftWorldX - entity.speed)/gp.tileSize;
+                entityLeftCol = (entityLeftWorldX - entity.speed) / gp.tileSize;
+//                if(entityLeftCol < 0) {entityLeftCol = 0;}
+//                if(entityLeftCol >= gp.maxScreenCol) {entityLeftCol = gp.maxScreenCol-1;}
+//        System.out.println("entityLeftCol:"+entityLeftCol);
+//        System.out.println("entityTopRow:"+entityTopRow);
+//        System.out.println("entityBottomRow:"+entityBottomRow);
                 // TO-DO: fazer verificação de limite do mapa
                 tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
@@ -70,7 +92,12 @@ public class CollisionChecker {
                 }
                 break;
             case "right":
-                entityRightCol = (entityRightWorldX + entity.speed)/gp.tileSize;
+                entityRightCol = (entityRightWorldX + entity.speed) / gp.tileSize;
+//                if(entityRightCol < 0) {entityRightCol = 0;}
+//                if(entityRightCol >= gp.maxScreenCol) {entityRightCol = gp.maxScreenCol-1;}
+//        System.out.println("entityRightCol:"+entityRightCol);
+//        System.out.println("entityTopRow:"+entityTopRow);
+//        System.out.println("entityBottomRow:"+entityBottomRow);
                 // TO-DO: fazer verificação de limite do mapa
                 tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
@@ -80,6 +107,11 @@ public class CollisionChecker {
                 }
                 break;
         }
+//        System.out.println("--------------------------");
+//        System.out.println("entityLeftCol:"+entityLeftCol);
+//        System.out.println("entityRightCol:"+entityRightCol);
+//        System.out.println("entityTopRow:"+entityTopRow);
+//        System.out.println("entityBottomRow:"+entityBottomRow);
     }
     
     // OBJECT COLLISION CHECK

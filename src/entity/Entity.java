@@ -8,6 +8,9 @@ package entity;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -155,6 +158,7 @@ public class Entity {
     public final int type_pickaxe = 10;
     public final int type_bow = 11;
     public final int type_npcTwitch = 12;
+    
     
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -442,8 +446,8 @@ public class Entity {
         Color c5 = Color.WHITE;
 
         for(int i=0; i < fireworksQuantity; i++) {
-            int fX = rX.nextInt(600, 1200);
-            int fY = rY.nextInt(1400, 1600);
+            int fX = gp.player.worldX - gp.player.screenX + rX.nextInt(gp.tileSize, gp.screenWidth - gp.tileSize);
+            int fY = gp.player.worldY - gp.player.screenY + rY.nextInt(gp.tileSize, gp.screenHeight / 4);
 
             switch(colorPatern.nextInt(0, 8)){
                 case 1 -> { 
@@ -540,18 +544,18 @@ public class Entity {
             if(knockBack == true) {
 
                 checkCollision();
-
-                if(collisionOn == true) {
-                    knockBackCounter = 0;
-                    knockBack = false;
-                    speed = defaultSpeed;
+                
+                if(this.collisionOn == true) {
+                    this.knockBackCounter = 0;
+                    this.knockBack = false;
+                    this.speed = this.defaultSpeed;
                 }
-                else if(collisionOn == false) {
-                    switch(knockBackDirection) {
-                        case "up": worldY -= speed; break;
-                        case "down": worldY += speed; break;
-                        case "left": worldX -= speed; break;
-                        case "right": worldX += speed; break;                    
+                else if(this.collisionOn == false) {
+                    switch(this.knockBackDirection) {
+                        case "up": this.worldY -= this.speed; break;
+                        case "down": this.worldY += this.speed; break;
+                        case "left": this.worldX -= this.speed; break;
+                        case "right": this.worldX += this.speed; break;                    
                     }
                 }
 
@@ -934,6 +938,18 @@ public class Entity {
         return inCamera;
     }
     
+    public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
+        // Get the FontMetrics
+        FontMetrics metrics = g.getFontMetrics(font);
+        // Determine the X coordinate for the text
+        int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
+        // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+        //int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
+        int y = rect.y + ((rect.height - metrics.getHeight())) + metrics.getAscent();
+        g.setFont(font);
+        g.drawString(text, x, y);
+    } 
+    
     public void draw(Graphics2D g2){
         
         BufferedImage image = null;
@@ -944,9 +960,28 @@ public class Entity {
             int tempScreenX = getScreenX();
             int tempScreenY = getScreenY();
 
+            // Stop moving the camera at the edge
+            if(tempScreenX > this.worldX) {
+                tempScreenX = this.worldX;
+            }
+            if(tempScreenY > this.worldY) {
+                tempScreenY = this.worldY;
+            }
+            int rightOffset = gp.screenWidth - gp.player.screenX;
+            if(rightOffset > gp.worldWidth - gp.player.worldX) {
+                tempScreenX = gp.screenWidth - (gp.worldWidth - worldX);
+            }
+            int bottonOffset = gp.screenHeight - gp.player.screenY;
+            if(bottonOffset > gp.worldHeight - gp.player.worldY) {
+                tempScreenY = gp.screenHeight - (gp.worldHeight - worldY);
+            }  
+            
             switch(direction) {
                 case "up": {
-                    if(attacking == false){
+                    if(this.attacking == false){
+                        if(this.worldY <= 0) {
+                            this.direction = "down";
+                        }
                         if(spriteNum == 1){ image = up1; break;}
                         if(spriteNum == 2){ image = up2; break;}
                         if(spriteNum == 3){ image = up3; break;}
@@ -959,7 +994,10 @@ public class Entity {
                     }
                 }
                 case "down": {
-                    if(attacking == false){
+                    if(this.attacking == false){
+                        if((this.worldY + gp.tileSize + 0) >= gp.worldHeight) {
+                            this.direction = "up";
+                        }
                         if(spriteNum == 1){ image = down1; break;}
                         if(spriteNum == 2){ image = down2; break;}
                         if(spriteNum == 3){ image = down3; break;}
@@ -971,7 +1009,10 @@ public class Entity {
                     }
                 }
                 case "left": {
-                    if(attacking == false){
+                    if(this.attacking == false){
+                        if(this.worldX <= 1) {
+                            this.direction = "right";
+                        }
                         if(spriteNum == 1){ image = left1; break;}
                         if(spriteNum == 2){ image = left2; break;}
                         if(spriteNum == 3){ image = left3; break;}
@@ -985,6 +1026,9 @@ public class Entity {
                 }
                 case "right": {
                     if(attacking == false){
+                        if((this.worldX + gp.tileSize + 1) >= gp.worldWidth) {
+                            this.direction = "left";
+                        }
                         if(spriteNum == 1){ image = right1; break;}
                         if(spriteNum == 2){ image = right2; break;}
                         if(spriteNum == 3){ image = right3; break;}
@@ -996,14 +1040,19 @@ public class Entity {
                     }
                 }
             }
-            
-            // DRAW NPC TWITCH NICK
+
+            // DRAW NPC TWITCH NICK / NAME
             if(this.npcTwitchNick != null) {
-                g2.setFont(g2.getFont().deriveFont(20f));
+                //Graphics g, String text, Rectangle rect, Font font
+//                g2.setFont(g2.getFont().deriveFont(20f));
+//                g2.setColor(Color.black);
+//                g2.drawString(this.npcTwitchNick, tempScreenX, tempScreenY);
+//                g2.setColor(Color.white);
+//                g2.drawString(this.npcTwitchNick, tempScreenX-2, tempScreenY-2);
                 g2.setColor(Color.black);
-                g2.drawString(this.npcTwitchNick, getScreenX()-25, getScreenY());
+                drawCenteredString(g2, this.npcTwitchNick, new Rectangle(tempScreenX+1, tempScreenY+1, 48, 70) {} , g2.getFont().deriveFont(20f));
                 g2.setColor(Color.white);
-                g2.drawString(this.npcTwitchNick, getScreenX()-27, getScreenY()-2);
+                drawCenteredString(g2, this.npcTwitchNick, new Rectangle(tempScreenX, tempScreenY, 48, 70) {} , g2.getFont().deriveFont(20f));
             }
             
             // DRAW NPC TWITCH MESSAGE ABOVE NPC IN GAME
@@ -1012,40 +1061,26 @@ public class Entity {
                 if(System.currentTimeMillis() > (this.messageTwitchTimeStamp + TWITCH_MESSAGE_MAXSCREEN_TIME * 1000)) {
                     this.npcTwitchMessage = null;
                 }
-                drawTwitcChatDialogue(g2, getScreenX(), getScreenY());
+                drawTwitcChatDialogue(g2, tempScreenX, tempScreenY);
             }
 
             // VISUAL EFFECT TO INVINCIBLE MODE
-            if(invincible == true){
-                hpBarOn = true;
-                hpBarCounter = 0;
+            if(this.invincible == true){
+                this.hpBarOn = true;
+                this.hpBarCounter = 0;
                 changeAlpha(g2, 0.4F);
             }
-            if(dying == true) {
+            if(this.dying == true) {
                 dyingAnimation(g2);
             }
-
-            if(tempScreenX > worldX) {
-                tempScreenX = worldX;
-            }
-            if(tempScreenY > worldY) {
-                tempScreenY = worldY;
-            }
-            int rightOffset = gp.screenWidth - gp.player.screenX;
-            if(rightOffset > gp.worldWidth - gp.player.worldX) {
-                tempScreenX = gp.screenWidth - (gp.worldWidth - worldX);
-            }
-            int bottonOffset = gp.screenHeight - gp.player.screenY;
-            if(bottonOffset > gp.worldHeight - gp.player.worldY) {
-                tempScreenY = gp.screenHeight - (gp.worldHeight - worldY);
-            }  
             
+            // DRAW ENTITY IMAGE
             g2.drawImage(image, tempScreenX, tempScreenY, null);
             changeAlpha(g2, 1F);
 
             // DEBUG RED SOLID AREA VIEW
 //            g2.setColor(new Color(255, 0, 0, 70));
-//            g2.fillRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+//            g2.fillRect(tempScreenX + this.solidArea.x, tempScreenY + this.solidArea.y, this.solidArea.width, this.solidArea.height);
             
         }           
     }
@@ -1100,10 +1135,11 @@ public class Entity {
         int startCol = (int) (floor(worldX + solidArea.x) / gp.tileSize);
         int startRow = (int) (floor(worldY + solidArea.y) / gp.tileSize);
         
+        
         gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow);
     
         if(gp.pFinder.search() == true) {
-            System.out.println("searchPath:["+startCol+"]["+startRow+"] -> ["+goalCol+"]["+goalRow+"]");
+            //System.out.println("searchPath:["+startCol+"]["+startRow+"] -> ["+goalCol+"]["+goalRow+"]");
             //System.out.println("Entrou searchPath:"+goalCol+"-"+goalRow);
 
             // Next worldX and worldY
@@ -1118,71 +1154,73 @@ public class Entity {
             
             // GO UP
             if(enTopY > nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize) {
-                direction = "up";
+                this.direction = "up";
             }
             // GO DOWN
             else if(enTopY < nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize) {
-                direction = "down";
+                this.direction = "down";
             }
             // GO left or right
-            else if(enTopY >= nextY && enBottonY < nextY + gp.tileSize) {
+            else if(enTopY >= nextY && enBottonY <= nextY + gp.tileSize) {
                 if(enLeftX > nextX) {
-                    direction = "left";
+                    this.direction = "left";
                 }
                 if(enLeftX < nextX) {
-                    direction = "right";
+                    this.direction = "right";
                 }
             }
             // GO up or left
             else if(enTopY < nextY && enLeftX > nextX + gp.tileSize) {
-                direction = "up";
-                checkCollision();
-                if(collisionOn == true) {
-                    direction = "left";
+                this.direction = "up";
+                this.checkCollision();
+                if(this.collisionOn == true) {
+                    this.direction = "left";
                 }
             }
             // GO up or right - NOT MORE HAVE A PROBLEM HERE, i´m think !
             else if(enTopY > nextY + gp.tileSize && enLeftX < nextX) { 
 //            else if(enTopY > nextY && enRightX > nextX) { // original line
-                direction = "up";
-                checkCollision();
-                if(collisionOn == true) {
-                    direction = "right";
+                this.direction = "up";
+                this.checkCollision();
+                if(this.collisionOn == true) {
+                    this.direction = "right";
                 }
             }
             // GO down or left
             else if(enTopY < nextY && enLeftX > nextX) {
-                direction = "down";
-                checkCollision();
-                if(collisionOn == true) {
-                    direction = "left";
+                this.direction = "down";
+                this.checkCollision();
+                if(this.collisionOn == true) {
+                    this.direction = "left";
                 }
             }
             // GO down or right
             else if(enTopY < nextY && enLeftX < nextX + gp.tileSize ) {
-                direction = "down";
-                checkCollision();
+                this.direction = "down";
+                this.checkCollision();
                 if(collisionOn == true) {
-                    direction = "right";
+                    this.direction = "right";
                 }
             }
             
             int nextCol = gp.pFinder.pathList.get(0).col;
             int nextRow = gp.pFinder.pathList.get(0).row;
 
+//            int ppX = this.worldX / gp.tileSize;
+//            int ppY = this.worldY / gp.tileSize;
             int ppX = this.worldX / gp.tileSize;
             int ppY = this.worldY / gp.tileSize;
             
             if(nextCol == goalCol && nextRow == goalRow && this.type != this.type_player) {
-                onPath = false;
+                this.onPath = false;
             }
             // FOR PLAYER PATH FINDER MOVEMENT
-            //else if(nextCol == goalCol && nextRow == goalRow && this.type == this.type_player) {
+//            else if(nextCol == goalCol && nextRow == goalRow && this.type == this.type_player) {
             else if(ppX == goalCol && ppY == goalRow && this.type == this.type_player) {
                 
-                canMove = false;
-                onPath = false;
-                collisionOn = false;
+                this.canMove = false;
+                this.onPath = false;
+                this.collisionOn = false;
             }
         }
     }
