@@ -59,12 +59,9 @@ public class GamePanel extends JPanel implements Runnable{
 //    public final int maxScreenRow = 14; // Height 1024 pixels
 
     // 1920x1080 resolution
-    public final int maxScreenCol = 30; // 40*48 Width 1920 pixels
+    public final int maxScreenCol = 24; // 40*48 Width 1920 pixels
     public final int maxScreenRow = 20; // 22*48 Height 1080 pixels
 
-//    public final int screenWidth = tileSize * maxScreenCol;  
-//    public final int screenHeight = tileSize * maxScreenRow; 
-    
     // WORLD SETTINGS
     public int maxWorldCol = 50;
     public int maxWorldRow = 50;
@@ -80,11 +77,11 @@ public class GamePanel extends JPanel implements Runnable{
     int monitorWidth = gd.getDisplayMode().getWidth();
     int monitorHeight = gd.getDisplayMode().getHeight();
 
-    public int screenWidth = tileSize * maxScreenCol; 
-    public int screenHeight = tileSize * maxScreenRow;
+//    public int screenWidth = tileSize * maxScreenCol; 
+//    public int screenHeight = tileSize * maxScreenRow;
 
-    //public int screenWidth = monitorWidth;
-    //public int screenHeight = monitorHeight;
+    public int screenWidth = monitorWidth;
+    public int screenHeight = monitorHeight;
     
     public boolean fullScreenOn;
     BufferedImage tempScreen;

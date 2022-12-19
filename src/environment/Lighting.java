@@ -11,13 +11,9 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RadialGradientPaint;
 import java.awt.image.BufferedImage;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import main.GamePanel;
-import main.Main;
-import twitch.TwitchBot;
 
-public class Lighting{
+public final class Lighting{
     
     GamePanel gp;
     BufferedImage darknessFilter;
@@ -31,9 +27,12 @@ public class Lighting{
     public final int dawn = 3;
     public int dayState = day;
     public int dayTimeMinutes = 5 * oneMinuteMills;
+    public Thread lUpdate;
+
     
     public Lighting(GamePanel gp) {
         this.gp = gp;
+            
         setLightSource();
     }
     
@@ -47,12 +46,17 @@ public class Lighting{
             g2.setColor(new Color(0,0,0.1f, 0.96f));
         }
         else {
+            
+            // update values of light source in screen
             int centerLightX = gp.player.screenX + (gp.tileSize) / 2;
             int centerLightY = gp.player.screenY + (gp.tileSize) / 2;
             int worldX = gp.player.worldX;
             int worldY = gp.player.worldY;
             if(gp.player.screenX > gp.player.worldX) {
                 centerLightX = worldX;
+                centerLightX = gp.player.screenX;
+                System.out.println("worldX:"+worldX);
+                System.out.println("gp.player.screenX:"+gp.player.screenX);
             }
             if(gp.player.screenY > gp.player.worldY) {
                 centerLightY = worldY;
@@ -66,7 +70,6 @@ public class Lighting{
                 centerLightY = gp.screenHeight - (gp.worldHeight - worldY);
             }
 
-            
             Color color[] = new Color[12];
             float fraction[] = new float[12];
             color[0] = new Color(0, 0, 0.1f, 0.1f);
@@ -99,9 +102,7 @@ public class Lighting{
 
             g2.setPaint(gPaint);
         }
-        
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
-
         g2.dispose();
     }
     
@@ -165,18 +166,6 @@ public class Lighting{
         }
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
-        if(gp.player.screenX > gp.player.worldX) {
-            setLightSource();
-//            new Thread(new Runnable(){
-//                public void run(){
-//                    try {
-//                        setLightSource();
-//                    } catch (Exception ex) {
-//                        System.exit(0);
-//                    }
-//                }
-//            }).start();
-        }        
         // DEBUG DAY CICLE
         String situation = "";
         switch(dayState){

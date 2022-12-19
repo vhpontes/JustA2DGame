@@ -66,6 +66,8 @@ public class TwitchChatListener extends ListenerAdapter {
                 
         if(!event.getUser().getNick().equals("nightbot")) {
 
+            NPC_Twitch npcT = gp.getNPCTwitch(userHashCode);
+
             System.out.println(event.getUser().getUserLevels(event.getChannel())+" "+
                     f.format(event.getTimestamp())+"> "+
                     event.getUser().getNick()+": "+
@@ -77,16 +79,17 @@ public class TwitchChatListener extends ListenerAdapter {
                 //gp.ui.addMessage(event.getUser().getNick()+": " + twitchMessage);
             }
 
-            if (twitchMessage.equals("!npc") || twitchMessage.equals("!new") && gp.getNPCTwitch(userHashCode) == null) {
+            if (twitchMessage.equals("!npc") && gp.getNPCTwitch(userHashCode) == null) {
 
                 gp.addNPCTwitch(mapNum, event, gp.player.worldX + gp.tileSize, gp.player.worldY, event.getUser().getNick());
-                gp.ui.addMessage(event.getUser().getNick()+" now have an NPC in game!");
-                gp.ui.addMessage(gp.getNPCTwitch(userHashCode).name+" now have an NPC in game!");
+                //gp.ui.addMessage(event.getUser().getNick()+" now have an NPC in game!");
+                npcT = gp.getNPCTwitch(userHashCode);
+                gp.ui.addMessage(npcT.name+" now have an NPC in game!");
                 //System.out.println("ID: " +event.getUser().getUserId());
             }
             else if(twitchMessage.equals("!fireball")) {
 
-                NPC_Twitch npcT = gp.getNPCTwitch(userHashCode);
+                npcT = gp.getNPCTwitch(userHashCode);
                 if(npcT != null){
                     
                     npcT.npcFireballLaunched = true;
@@ -95,7 +98,7 @@ public class TwitchChatListener extends ListenerAdapter {
             }
             else if(!twitchMessage.startsWith("!")) {
 
-                NPC_Twitch npcT = gp.getNPCTwitch(userHashCode);
+                npcT = gp.getNPCTwitch(userHashCode);
                 if(npcT!=null){
                     npcT.npcTwitchMessage = twitchMessage;
                     npcT.messageTwitchTimeStamp = System.currentTimeMillis();

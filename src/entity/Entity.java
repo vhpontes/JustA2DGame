@@ -292,14 +292,16 @@ public class Entity {
     public void drawTwitcChatDialogue(Graphics2D g2, int screenX, int screenY) {
         
         // DRAW Twitch Message
-        if(this.npcTwitchMessage != null && !this.npcTwitchMessage.equals("!new")) {
+        if(this.npcTwitchMessage != null && !this.npcTwitchMessage.equals("!npc")) {
+            
+            g2.setFont(new Font("Arial", Font.BOLD, 14));
             int width = this.npcTwitchMessage.length();
             int padding = 3;
             
             int x = screenX + gp.tileSize;
             int y = screenY-gp.tileSize;
             
-            g2.setFont(g2.getFont().deriveFont(24f));
+            g2.setFont(g2.getFont().deriveFont(14f));
             
             // draw a backgroud of npc twitch chat 
             Rectangle bounds = g2.getFontMetrics().getStringBounds(this.npcTwitchMessage, g2).getBounds();
@@ -1049,10 +1051,11 @@ public class Entity {
 //                g2.drawString(this.npcTwitchNick, tempScreenX, tempScreenY);
 //                g2.setColor(Color.white);
 //                g2.drawString(this.npcTwitchNick, tempScreenX-2, tempScreenY-2);
+                g2.setFont(new Font("Arial", Font.BOLD, 12));
                 g2.setColor(Color.black);
-                drawCenteredString(g2, this.npcTwitchNick, new Rectangle(tempScreenX+1, tempScreenY+1, 48, 70) {} , g2.getFont().deriveFont(20f));
+                drawCenteredString(g2, this.npcTwitchNick, new Rectangle(tempScreenX+1, tempScreenY+1, 48, 70) {} , g2.getFont().deriveFont(14f));
                 g2.setColor(Color.white);
-                drawCenteredString(g2, this.npcTwitchNick, new Rectangle(tempScreenX, tempScreenY, 48, 70) {} , g2.getFont().deriveFont(20f));
+                drawCenteredString(g2, this.npcTwitchNick, new Rectangle(tempScreenX, tempScreenY, 48, 70) {} , g2.getFont().deriveFont(14f));
             }
             
             // DRAW NPC TWITCH MESSAGE ABOVE NPC IN GAME
@@ -1155,27 +1158,32 @@ public class Entity {
             // GO UP
             if(enTopY > nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize) {
                 this.direction = "up";
+                System.out.println("GO up");
             }
             // GO DOWN
             else if(enTopY < nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize) {
                 this.direction = "down";
+                System.out.println("GO down");
             }
             // GO left or right
             else if(enTopY >= nextY && enBottonY <= nextY + gp.tileSize) {
                 if(enLeftX > nextX) {
                     this.direction = "left";
+                System.out.println("GO left");
                 }
                 if(enLeftX < nextX) {
                     this.direction = "right";
+                System.out.println("GO right");
                 }
             }
             // GO up or left
-            else if(enTopY < nextY && enLeftX > nextX + gp.tileSize) {
+            else if(enTopY < nextY - solidArea.y && enLeftX > nextX + gp.tileSize) {
                 this.direction = "up";
                 this.checkCollision();
                 if(this.collisionOn == true) {
                     this.direction = "left";
                 }
+                System.out.println("GO up or left");
             }
             // GO up or right - NOT MORE HAVE A PROBLEM HERE, i´m think !
             else if(enTopY > nextY + gp.tileSize && enLeftX < nextX) { 
@@ -1185,6 +1193,7 @@ public class Entity {
                 if(this.collisionOn == true) {
                     this.direction = "right";
                 }
+                System.out.println("GO up or right");
             }
             // GO down or left
             else if(enTopY < nextY && enLeftX > nextX) {
@@ -1193,6 +1202,7 @@ public class Entity {
                 if(this.collisionOn == true) {
                     this.direction = "left";
                 }
+                System.out.println("GO down or left");
             }
             // GO down or right
             else if(enTopY < nextY && enLeftX < nextX + gp.tileSize ) {
@@ -1201,6 +1211,7 @@ public class Entity {
                 if(collisionOn == true) {
                     this.direction = "right";
                 }
+                System.out.println("down or right");
             }
             
             int nextCol = gp.pFinder.pathList.get(0).col;

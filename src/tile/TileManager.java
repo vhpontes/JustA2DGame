@@ -15,8 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.UtilityTool;
@@ -25,6 +23,7 @@ public class TileManager {
 
     GamePanel gp;
     public Tile[] tile;
+//    public int mapTileNum[][][];
     public int mapTileNum[][][];
     boolean drawPath = true; // Draw a red path in tiles 
     ArrayList<String> fileNames = new ArrayList<>();
@@ -256,6 +255,13 @@ public class TileManager {
             g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
         }        
     }
+
+    public boolean searchTile(int x, int y) {
+        
+        Rectangle bounds = new Rectangle();
+        bounds.setBounds(screenX, screenY, gp.tileSize, gp.tileSize);
+        return bounds.intersects(x, y, 1, 1);
+    }
     
     public void draw(Graphics2D g2) {
         int worldCol = 0;
@@ -271,6 +277,9 @@ public class TileManager {
                 int worldY = worldRow * gp.tileSize;
                 int screenX = worldX - gp.player.worldX + gp.player.screenX;
                 int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+                tile[tileNum].tileX = worldX;
+                tile[tileNum].tileY = worldY;
 
                 // Stop moving the camera at the edge
                 if(gp.player.screenX > gp.player.worldX) {
@@ -310,7 +319,10 @@ public class TileManager {
                         // DRAW A COODS x y IN EACH TILE
                         g2.setColor(Color.white);
                         g2.setFont(g2.getFont().deriveFont(16F));
-                        g2.drawString(""+worldCol + ":" + worldRow +"", screenX+5, screenY + gp.tileSize / 2);
+                        g2.drawString("" + worldCol + ":" + worldRow +"", screenX+5, screenY + gp.tileSize / 2);
+                        g2.setColor(Color.black);
+                        g2.setFont(g2.getFont().deriveFont(10F));
+                        g2.drawString("" + tile[tileNum].tileX + ":" + tile[tileNum].tileY +"", screenX+5, screenY + gp.tileSize-2);
                     }
                 }
                 else if(gp.player.screenX > gp.player.worldX ||

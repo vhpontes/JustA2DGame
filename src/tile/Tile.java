@@ -11,4 +11,6 @@ public class Tile {
 
     public BufferedImage image;
     public boolean collision = false;
+    public int tileX = 0;
+    public int tileY = 0;
 }

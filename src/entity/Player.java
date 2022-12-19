@@ -52,7 +52,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 2;
+        gp.currentMap = 5;
         gp.gameState = gp.transitionState;
         
         switch(gp.currentMap){
@@ -295,6 +295,7 @@ public class Player extends Entity{
        
     @Override
     public void update() {
+        
 //        System.out.println("attacking? "+attacking);
 //        System.out.println("attackCanceled? "+attackCanceled);
 //        System.out.println("rangedweapow? "+rangedweapon);

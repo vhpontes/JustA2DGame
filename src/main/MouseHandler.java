@@ -35,6 +35,8 @@ public class MouseHandler implements MouseListener {
     public int clickedY = 0;
     int tileOffsetCol = 0;
     int tileOffsetRow = 0;
+    public int mouseOFFX;
+    public int mouseOFFY;
     
     public boolean mouseLeftPressed;
     private final Graphics2D g2;
@@ -44,6 +46,14 @@ public class MouseHandler implements MouseListener {
         this.gp = gp;
         this.pl = pl;
         this.g2 = g2;
+    }
+
+    public boolean IsMouseInsideTile(int x, int y)
+    {
+        return (mouseOFFX >= x
+                && mouseOFFX <= (x + 1)
+                && mouseOFFY >= y
+                && mouseOFFY <= (y + 1));
     }
     
     public void mouseClicked(MouseEvent e) { 
@@ -84,6 +94,8 @@ public class MouseHandler implements MouseListener {
 //        camOffSetY = worldY - screenY;
         camOffSetX = worldX - mouseX;
         camOffSetY = worldY - mouseY;
+        mouseOFFX = mouseX - worldX; // for test
+        mouseOFFY = mouseX - worldX; // for test
         System.out.println("camOffSet XY: " + camOffSetX + ", " + camOffSetY);
 
         camOffSetCol = worldCol - screenCol;
@@ -127,6 +139,7 @@ public class MouseHandler implements MouseListener {
 
         //mouseCol = (int) (mouseX + camOffSetX);
         //mouseRow = (int) (mouseY + camOffSetY);
+        System.out.println("-> IsMouseInsideTile: " + IsMouseInsideTile((int)mouseCol, (int)mouseRow));
 
         if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
             mouseLeftPressed = true;

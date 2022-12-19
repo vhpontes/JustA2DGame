@@ -5,9 +5,6 @@ https://www.youtube.com/c/RyiSnow
 
 package main;
 
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +19,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         
-        System.setProperty("sun.java2d.opengl","True");
+        System.setProperty("sun.java2d.opengl","true");
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(true);
