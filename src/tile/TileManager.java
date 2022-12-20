@@ -23,8 +23,10 @@ public class TileManager {
 
     GamePanel gp;
     public Tile[] tile;
+    public Tile[][] tileInfo;
 //    public int mapTileNum[][][];
     public int mapTileNum[][][];
+    public int mapTileInfo[][];
     boolean drawPath = true; // Draw a red path in tiles 
     ArrayList<String> fileNames = new ArrayList<>();
     ArrayList<String> collisionStatus = new ArrayList<>();
@@ -36,7 +38,6 @@ public class TileManager {
         this.gp = gp;
         
         loadTileData();
-
     }
 
     public void loadTileData() {
@@ -64,8 +65,13 @@ public class TileManager {
         }
         
         // INITIALIZE THE TITLE ARRAY BASED ON THE FileNames size
-        tile = new Tile[fileNames.size()];        
+//        int mapSize = gp.maxWorldCol * gp.maxWorldRow;
+        tile = new Tile[fileNames.size()]; // ORIGINAL LINE
+//        tile = new Tile[mapSize];        
         this.getTileImage();
+        
+        tileInfo = new Tile[gp.maxWorldCol][gp.maxWorldRow];
+        this.getTileInfo();
         
         // GET THE maxWorldCol & Row
         is = getClass().getResourceAsStream("/res/maps/worldV2.txt");
@@ -99,6 +105,33 @@ public class TileManager {
 //        loadMap("/res/maps/interior01.txt", 1);
 //        loadMap("/res/maps/dg_twitch01.txt", 2);
 //        loadMap("/res/maps/dungeon01.txt", 3);
+    }
+
+    public void getTileInfo() {
+
+        int tileIndex = 0;
+        int col = 0;
+        int row = 0;
+        int mapSize = gp.maxWorldCol * gp.maxWorldRow;
+        
+        while(col < gp.maxWorldCol && row < gp.maxWorldRow){
+
+            int tileX = col * gp.tileSize;
+            int tileY = row * gp.tileSize;
+
+            this.tileInfo[col][row] = new Tile();
+            this.tileInfo[col][row].tileX = tileX;
+            this.tileInfo[col][row].tileY = tileY;
+
+            tileIndex++;
+            col++;
+            if(col == gp.maxWorldCol) {
+                col = 0;
+                row++;
+            }
+        }
+        mapTileInfo = new int[gp.maxWorldCol][gp.maxWorldRow];
+//        System.out.println("-------------------------------------------------");
     }
     
     public void getTileImage() {
@@ -146,6 +179,8 @@ public class TileManager {
             tile[index] = new Tile();
             tile[index].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/"+areaName+"/"+imagePath));
             tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
+            tile[index].tileX = index;
+            tile[index].tileY = index;
             tile[index].collision = collision;
             
         }catch(IOException e) {
@@ -173,6 +208,7 @@ public class TileManager {
                     
                     mapTileNum[map][col][row] = num;
                     col++;
+                
                 }
                 if(col == gp.maxWorldCol) {
                     col = 0;
@@ -259,7 +295,7 @@ public class TileManager {
     public boolean searchTile(int x, int y) {
         
         Rectangle bounds = new Rectangle();
-        bounds.setBounds(screenX, screenY, gp.tileSize, gp.tileSize);
+//        bounds.setBounds(screenX, screenY, gp.tileSize, gp.tileSize);
         return bounds.intersects(x, y, 1, 1);
     }
     
@@ -272,7 +308,7 @@ public class TileManager {
             while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
 
                 int tileNum = mapTileNum[gp.currentMap][worldCol][worldRow];
-
+                
                 int worldX = worldCol * gp.tileSize;
                 int worldY = worldRow * gp.tileSize;
                 int screenX = worldX - gp.player.worldX + gp.player.screenX;

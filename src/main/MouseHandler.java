@@ -9,6 +9,7 @@ package main;
 
 import entity.Player;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import static java.lang.Math.floor;
@@ -121,6 +122,48 @@ public class MouseHandler implements MouseListener {
         System.out.println("\b") ;
         System.out.println("-> Mouse Tile: [" + mouseTileCol + " " + mouseTileRow + "]");
         
+//****************************************************************
+        Rectangle bounds = new Rectangle();
+        int tileNum = 0;
+        int tempTileX = 0;
+        int tempTileY = 0;
+        int tempMouseCol = 0;
+        int tempMouseRow = 0;
+        int mouseClickX = mouseX;dsadsadsa
+        int mouseClickY = mouseY;
+        
+        
+        System.out.println("mouseXY ("+mouseClickX+","+mouseClickY+")");
+        for(int col = -1; col < 2; col++){
+            for(int row = -1; row < 2; row++){
+                tempMouseCol = mouseTileCol + col; 
+                tempMouseRow = mouseTileRow + row;
+                
+//                System.out.println("tempMouse: ("+tempMouseCol+","+tempMouseRow+")");
+
+                // PEGA x, y iniciais dos tiles
+                //tileNum = gp.tileM.mapTileNum[gp.currentMap][tempMouseCol][tempMouseRow];
+                tileNum = gp.tileM.mapTileInfo[tempMouseCol][tempMouseRow];
+                tempTileX = gp.tileM.tileInfo[tempMouseCol][tempMouseRow].tileX;
+                tempTileY = gp.tileM.tileInfo[tempMouseCol][tempMouseRow].tileY;
+
+                System.out.println("tempTile["+tileNum+"]: ("+tempMouseCol+","+tempMouseRow+") ("+tempTileX+","+tempTileY+")");
+                System.out.println("setBounds ("+tempTileX+","+tempTileY+")");
+
+                bounds.setBounds(tempTileX, tempTileY, gp.tileSize, gp.tileSize);
+                
+                if(bounds.intersects(camOffSetX, camOffSetY, 1, 1)){
+                    System.out.println("** INTERSECT ("+tempMouseCol+","+tempMouseRow+")");
+                    //break;
+                }
+                System.out.println("---------------------------------");
+            }
+        }
+        
+//****************************************************************
+
+
+
 //        int tileOffsetX = screenX - (mouseTileCol * gp.tileSize) + 8;
 //        int tileOffsetY = screenY - (mouseTileRow * gp.tileSize) - 8;
         int tileOffsetX = mouseX - screenX - 8;
