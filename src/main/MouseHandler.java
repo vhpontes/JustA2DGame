@@ -36,8 +36,8 @@ public class MouseHandler implements MouseListener {
     public int clickedY = 0;
     int tileOffsetCol = 0;
     int tileOffsetRow = 0;
-    public int mouseOFFX;
-    public int mouseOFFY;
+    public int searchMouseCol = 0;
+    public int searchMouseRow = 0;
     
     public boolean mouseLeftPressed;
     private final Graphics2D g2;
@@ -49,63 +49,50 @@ public class MouseHandler implements MouseListener {
         this.g2 = g2;
     }
 
-    public boolean IsMouseInsideTile(int x, int y)
-    {
-        return (mouseOFFX >= x
-                && mouseOFFX <= (x + 1)
-                && mouseOFFY >= y
-                && mouseOFFY <= (y + 1));
-    }
-    
     public void mouseClicked(MouseEvent e) { 
+        
         gp.player.onPath = false;
 
-        // "Clear" output console
+        // "CLEAR" output console
         for(int clear = 0; clear < 1000; clear++) {
             System.out.println("\b") ;
         } 
         
-        System.out.println(" -- mouseClicked(MouseEvent e) --");
-        
         int screenX = pl.screenX;
         int screenY = pl.screenY;
-        System.out.println("Screen XY: " + screenX + ", " + screenY);
+
+        int rightOffset = gp.screenWidth - pl.screenX;
+        if(rightOffset > gp.worldWidth - pl.worldX) {
+            screenX = gp.screenWidth - (gp.worldWidth - pl.worldX);
+        }
+        int bottonOffset = gp.screenHeight - pl.screenY;
+        if(bottonOffset > gp.worldHeight - pl.worldY) {
+            screenY = gp.screenHeight - (gp.worldHeight - pl.worldY);
+        }        
         
         int worldX = pl.worldX;
         int worldY = pl.worldY;
-        System.out.println("World XY: " + worldX + ", " + worldY);
         
         screenCol = (double)floor(screenX / gp.tileSize);
         screenRow = (double)floor(screenY / gp.tileSize);
-        System.out.println("Screen Tile: [" + (int)screenCol + " " + (int)screenRow + "]");
 
         worldCol = (double)floor(worldX / gp.tileSize);
         worldRow = (double)floor(worldY / gp.tileSize);
-        System.out.println("World Tile: [" + (int)worldCol + " " + (int)worldRow + "]");
         
         int mouseX = e.getPoint().x;
         int mouseY = e.getPoint().y;
-        System.out.println("Mouse XY: " + mouseX + ", " + mouseY);
             
         mouseCol = (double)floor(mouseX / gp.tileSize);
         mouseRow = (double)floor(mouseY / gp.tileSize);
-        System.out.println("Mouse Tile: [" + (int)mouseCol + " " + (int)mouseRow + "]");
 
-//        camOffSetX = worldX - screenX;
-//        camOffSetY = worldY - screenY;
         camOffSetX = worldX - mouseX;
         camOffSetY = worldY - mouseY;
-        mouseOFFX = mouseX - worldX; // for test
-        mouseOFFY = mouseX - worldX; // for test
-        System.out.println("camOffSet XY: " + camOffSetX + ", " + camOffSetY);
 
         camOffSetCol = worldCol - screenCol;
         camOffSetRow = worldRow - screenRow;
-        System.out.println("camOffSet Tile: [" + (int)camOffSetCol + " " + (int)camOffSetRow + "]");
         
         mouseOffCol = (int)(mouseCol + camOffSetCol);
         mouseOffRow = (int)(mouseRow + camOffSetRow);
-        System.out.println("Mouse Off Tile: [" + mouseOffCol + " " + mouseOffRow + "]");
         
         if(worldX > screenX) { 
             mouseTileCol = (int)mouseOffCol; 
@@ -119,97 +106,72 @@ public class MouseHandler implements MouseListener {
         else { 
             mouseTileRow = (int)mouseRow; 
         }
-        System.out.println("\b") ;
-        System.out.println("-> Mouse Tile: [" + mouseTileCol + " " + mouseTileRow + "]");
         
-//****************************************************************
+        // Check Tiles arround to get correct mouse clicked tile
         Rectangle bounds = new Rectangle();
-        int tileNum = 0;
         int tempTileX = 0;
         int tempTileY = 0;
-        int tempMouseCol = 0;
-        int tempMouseRow = 0;
-        int mouseClickX = mouseX;dsadsadsa
-        int mouseClickY = mouseY;
+        int mouseWorldX = (gp.player.worldX - gp.player.screenX) + mouseX;
+        int mouseWorldY = (gp.player.worldY - gp.player.screenY) + mouseY;
         
+        // IF Camera at the edge
+        if(gp.player.screenX > gp.player.worldX) {
+            mouseWorldX = mouseX;
+        }
+        if(gp.player.screenY > gp.player.worldY) {
+            mouseWorldY = mouseY;
+        }
+        rightOffset = gp.screenWidth - gp.player.screenX;
+        if(rightOffset > gp.worldWidth - gp.player.worldX) {
+            mouseWorldX = (gp.worldWidth - (gp.player.screenX * 2)) + mouseX - gp.tileSize;
+        }        
+        bottonOffset = gp.screenHeight - gp.player.screenY;
+        if(bottonOffset > gp.worldHeight - gp.player.worldY) {
+            mouseWorldY = (gp.worldHeight - (gp.player.screenY * 2)) + mouseY - gp.tileSize;
+        }        
         
-        System.out.println("mouseXY ("+mouseClickX+","+mouseClickY+")");
         for(int col = -1; col < 2; col++){
             for(int row = -1; row < 2; row++){
-                tempMouseCol = mouseTileCol + col; 
-                tempMouseRow = mouseTileRow + row;
-                
-//                System.out.println("tempMouse: ("+tempMouseCol+","+tempMouseRow+")");
+                int tempMouseCol = mouseTileCol + col; 
+                int tempMouseRow = mouseTileRow + row;
 
                 // PEGA x, y iniciais dos tiles
-                //tileNum = gp.tileM.mapTileNum[gp.currentMap][tempMouseCol][tempMouseRow];
-                tileNum = gp.tileM.mapTileInfo[tempMouseCol][tempMouseRow];
                 tempTileX = gp.tileM.tileInfo[tempMouseCol][tempMouseRow].tileX;
                 tempTileY = gp.tileM.tileInfo[tempMouseCol][tempMouseRow].tileY;
 
-                System.out.println("tempTile["+tileNum+"]: ("+tempMouseCol+","+tempMouseRow+") ("+tempTileX+","+tempTileY+")");
-                System.out.println("setBounds ("+tempTileX+","+tempTileY+")");
-
                 bounds.setBounds(tempTileX, tempTileY, gp.tileSize, gp.tileSize);
                 
-                if(bounds.intersects(camOffSetX, camOffSetY, 1, 1)){
-                    System.out.println("** INTERSECT ("+tempMouseCol+","+tempMouseRow+")");
-                    //break;
+                if(bounds.intersects(mouseWorldX, mouseWorldY, 1, 1)){
+                    searchMouseCol = tempMouseCol;
+                    searchMouseRow = tempMouseRow;
                 }
-                System.out.println("---------------------------------");
             }
         }
-        
-//****************************************************************
-
-
-
-//        int tileOffsetX = screenX - (mouseTileCol * gp.tileSize) + 8;
-//        int tileOffsetY = screenY - (mouseTileRow * gp.tileSize) - 8;
-        int tileOffsetX = mouseX - screenX - 8;
-        int tileOffsetY = mouseY - screenY + 8;
-        System.out.println("-> Tile Off: " + tileOffsetX + "," + tileOffsetY);
 
         tileOffsetCol = (int) (floor(screenX - (mouseTileCol * gp.tileSize)) / gp.tileSize);
         tileOffsetRow = (int) (floor(screenY - (mouseTileRow * gp.tileSize)) / gp.tileSize);
-        System.out.println("-> Tile Off Tile: [" + tileOffsetCol + " " + tileOffsetRow + "]");
         
-
         clickedX = e.getX();
         clickedY = e.getY();
-//        clickedX = e.getPoint().x + (pl.worldX - pl.screenX);
-//        clickedY = e.getPoint().y + (pl.worldY - pl.screenY);
 
-        //mouseCol = (int) (mouseX + camOffSetX);
-        //mouseRow = (int) (mouseY + camOffSetY);
-        System.out.println("-> IsMouseInsideTile: " + IsMouseInsideTile((int)mouseCol, (int)mouseRow));
-
+        // Search Path to mouse click position
         if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
             mouseLeftPressed = true;
             pl.collisionOn = false;
             pl.onPath = true;
             pl.canMove = true;
-            
-//            System.out.println(e.getPoint().x + "   " + e.getPoint().y);
-//            System.out.println(pl.worldX + "   " + pl.worldY);
-//            System.out.println(mouseCol + "   " + mouseRow);
-//            System.out.println("---------------");
-//            System.out.println("mouseLeftPressed:"+mouseLeftPressed + "   onPath:" + pl.onPath);
-//            System.out.println("collisionOn:"+pl.collisionOn);
-//            System.out.println("---------------");
         }
+        // Show DEBUG Window
         if (e.getButton() == MouseEvent.BUTTON2) {
-            // Show DEBUG Window
+            
             if(showDebugText == false){
                 showDebugText = true;
             }
-//            else if(showDebugText == true){
-//                showDebugText = false;
-//            }
-
-            //gp.gameState = gp.characterState;
-            //System.out.println("------BUTTON2-------");
+            else if(showDebugText == true){
+                showDebugText = false;
+            }
         }
+        // Show Character State
         if (e.getButton() == MouseEvent.BUTTON3) {
             if(gp.gameState == gp.playState) {
                 gp.gameState = gp.characterState;
@@ -218,14 +180,6 @@ public class MouseHandler implements MouseListener {
                 gp.gameState = gp.playState;
             }
         }
-        
-//        if(gp.tileM.inBounds(e.getPoint().x, e.getPoint().y, g2)){
-//            System.out.println("INTERSECT");
-//        }
-//        else {
-//            System.out.println("NO INTERSECT");
-//        }
-        
     }
     
     @Override
@@ -242,9 +196,9 @@ public class MouseHandler implements MouseListener {
     
     public void setAction() {
         if(pl.onPath == true){
-            
             //pl.searchPath((int)mouseCol, (int)mouseRow, pl.worldX, pl.worldY);
-            pl.searchPath((int)mouseTileCol, (int)mouseTileRow, pl.worldX, pl.worldY);
+//            pl.searchPath((int)mouseTileCol, (int)mouseTileRow, pl.worldX, pl.worldY);
+            pl.searchPath(searchMouseCol, searchMouseRow, pl.worldX, pl.worldY);
         }
     }
     

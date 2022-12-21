@@ -8,8 +8,11 @@ package environment;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RadialGradientPaint;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import main.GamePanel;
 
@@ -111,6 +114,15 @@ public final class Lighting{
         dayState = day;
         filterAlpha = 0f;
     }
+
+    public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
+
+        FontMetrics metrics = g.getFontMetrics(font);
+        int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
+        int y = rect.y + ((rect.height - metrics.getHeight())) + metrics.getAscent();
+        g.setFont(font);
+        g.drawString(text, x, y);
+    }     
     
     public void update() {
         
@@ -175,12 +187,10 @@ public final class Lighting{
             case dawn -> situation = "Dawn";
         }
         
-        g2.setFont(new Font("Arial", Font.PLAIN, 40));
+        g2.setFont(new Font("Arial", Font.PLAIN, 35));
         g2.setColor(Color.black);
-        //g2.setFont(g2.getFont().deriveFont(40f));
-        g2.drawString(situation, (gp.screenWidth/2)+2, (gp.tileSize/2 * 3)+2);
+        drawCenteredString(g2, situation, new Rectangle((gp.screenWidth / 2) + 2, (gp.tileSize / 2 * 3) + 2, 0, 0) {} , g2.getFont().deriveFont(40f));
         g2.setColor(Color.yellow);
-        //g2.setFont(g2.getFont().deriveFont(40f));
-        g2.drawString(situation, gp.screenWidth/2, (gp.tileSize/2) * 3);
+        drawCenteredString(g2, situation, new Rectangle(gp.screenWidth / 2, gp.tileSize / 2 * 3, 0, 0) {} , g2.getFont().deriveFont(40f));
     }        
 }

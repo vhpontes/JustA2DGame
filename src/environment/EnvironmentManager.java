@@ -7,6 +7,8 @@ package environment;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
@@ -51,6 +53,15 @@ public class EnvironmentManager {
 //            new Rectangle(0, 0, 50, 225),
 //            new Rectangle(0, 175, 350, 50)
     };    
+
+    public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
+
+        FontMetrics metrics = g.getFontMetrics(font);
+        int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
+        int y = rect.y + ((rect.height - metrics.getHeight())) + metrics.getAscent();
+        g.setFont(font);
+        g.drawString(text, x, y);
+    }     
     
     public void draw(Graphics2D g2) throws IOException {
         
@@ -92,22 +103,19 @@ public class EnvironmentManager {
 //            lighting.draw(g2);
             
             // Screen DEBUG
-            String debugTXT1 = Integer.toString(environmentRandomNumber);
+            String debugTXT1 = Integer.toString(environmentRandomNumber)+ "% sun probability";
             g2.setColor(Color.white);
-            //g2.setFont(g2.getFont().deriveFont(30f));
             g2.setFont(new Font("Arial", Font.PLAIN, 20));
 
-            int length = (int)g2.getFontMetrics().getStringBounds(debugTXT1, g2).getWidth();
-            int x = gp.screenWidth/2 - length/2;
-            g2.drawString(debugTXT1 + "% sun probability" , x - gp.tileSize, gp.tileSize/2);              
-
             g2.setColor(Color.black);
-            g2.setFont(g2.getFont().deriveFont(30f));
-            g2.drawString(environmentState, (gp.screenWidth / 2) + 2, (gp.tileSize * 2) + 2);  
-
+            drawCenteredString(g2, debugTXT1, new Rectangle((gp.screenWidth / 2) + 1, (gp.tileSize / 2) + 1, 0, 0) {} , g2.getFont().deriveFont(20f));
             g2.setColor(Color.white);
-            g2.setFont(g2.getFont().deriveFont(30f));
-            g2.drawString(environmentState, gp.screenWidth / 2, gp.tileSize * 2);  
+            drawCenteredString(g2, debugTXT1, new Rectangle(gp.screenWidth / 2, gp.tileSize / 2, 0, 0) {} , g2.getFont().deriveFont(20f));
+            
+            g2.setColor(Color.black);
+            drawCenteredString(g2, environmentState, new Rectangle((gp.screenWidth / 2) + 2, (gp.tileSize * 2 + 2) + gp.tileSize / 4, 0, 0) {} , g2.getFont().deriveFont(30f));
+            g2.setColor(Color.white);
+            drawCenteredString(g2, environmentState, new Rectangle(gp.screenWidth / 2, (gp.tileSize * 2) + gp.tileSize / 4, 0, 0) {} , g2.getFont().deriveFont(30f));
         }
         
         lighting.draw(g2);

@@ -86,7 +86,8 @@ public class CollisionChecker {
                 // TO-DO: fazer verificação de limite do mapa
                 tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityLeftCol][entityBottomRow];
-                if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
+//                if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
+                if(gp.tileM.tile[tileNum1].collision == true) {
                     entity.collisionOn = true;
                     entity.canMove = false;
                 }
@@ -101,7 +102,8 @@ public class CollisionChecker {
                 // TO-DO: fazer verificação de limite do mapa
                 tileNum1 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[gp.currentMap][entityRightCol][entityBottomRow];
-                if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
+//                if(gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
+                if(gp.tileM.tile[tileNum1].collision == true) {
                     entity.collisionOn = true;
                     entity.canMove = false;
                 }

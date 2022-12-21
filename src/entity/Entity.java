@@ -1138,7 +1138,6 @@ public class Entity {
         int startCol = (int) (floor(worldX + solidArea.x) / gp.tileSize);
         int startRow = (int) (floor(worldY + solidArea.y) / gp.tileSize);
         
-        
         gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow);
     
         if(gp.pFinder.search() == true) {
@@ -1167,7 +1166,7 @@ public class Entity {
             }
             // GO left or right
             else if(enTopY >= nextY && enBottonY <= nextY + gp.tileSize) {
-                if(enLeftX > nextX) {
+                if(enLeftX > nextX  ) {
                     this.direction = "left";
                 System.out.println("GO left");
                 }
@@ -1222,12 +1221,13 @@ public class Entity {
             int ppX = this.worldX / gp.tileSize;
             int ppY = this.worldY / gp.tileSize;
             
+//            if(nextCol == goalCol && nextRow == goalRow && this.type != this.type_player) {
             if(nextCol == goalCol && nextRow == goalRow && this.type != this.type_player) {
                 this.onPath = false;
             }
             // FOR PLAYER PATH FINDER MOVEMENT
-//            else if(nextCol == goalCol && nextRow == goalRow && this.type == this.type_player) {
-            else if(ppX == goalCol && ppY == goalRow && this.type == this.type_player) {
+            else if(nextCol == goalCol && nextRow == goalRow && this.type == this.type_player) {
+//            else if(ppX == goalCol && ppY == goalRow && this.type == this.type_player) {
                 
                 this.canMove = false;
                 this.onPath = false;

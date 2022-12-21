@@ -52,7 +52,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 5;
+        gp.currentMap = 4;
         gp.gameState = gp.transitionState;
         
         switch(gp.currentMap){
@@ -89,8 +89,8 @@ public class Player extends Entity{
                 gp.currentArea = gp.nextArea;
             break;
             case 5: // HIGHLAND
-                this.worldX = gp.tileSize * 14;
-                this.worldY = gp.tileSize * 9;
+                this.worldX = gp.tileSize * 40;
+                this.worldY = gp.tileSize * 42;
                 gp.nextArea = gp.outside;
                 gp.currentArea = gp.nextArea;
             break;
