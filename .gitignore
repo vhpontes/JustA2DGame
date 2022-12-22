@@ -1,8 +1,9 @@
 /dist/
 /twitch.properties
-/src/res/tiles/48/
-/src/res/tiles/new/
-/src/res/tiles/new-Copy/
+/src/res/tiles/dungeon/
+/src/res/tiles/indoor/
+/src/res/tiles/outside/
 /src/res/tiles/files/
+/src/res/tiles/new-Copy/
 
 *.log

@@ -1,6 +1,12 @@
 /*
 Code based in RyiSnow youtube channel:
 https://www.youtube.com/c/RyiSnow
+
+Class Code modifications and addons:
+Victor Hugo Manata Pontes
+https://www.twitch.tv/lechuck311
+https://www.youtube.com/@victorhugomanatapontes
+https://www.youtube.com/@dtudoumporco
 */
  
 package main;
@@ -8,6 +14,7 @@ package main;
 import entity.Entity;
 import objects.OBJ_Arrow;
 import objects.OBJ_Axe;
+import objects.OBJ_Barrel;
 import objects.OBJ_Boots;
 import objects.OBJ_Bow_Normal;
 import objects.OBJ_Chest;
@@ -60,6 +67,7 @@ public class EntityGenerator {
             case OBJ_Shield_Wood.objName: obj = new OBJ_Shield_Wood(gp); break; 
             case OBJ_Sword_Normal.objName: obj = new OBJ_Sword_Normal(gp); break; 
             case OBJ_Tent.objName: obj = new OBJ_Tent(gp); break;
+            case OBJ_Barrel.objName: obj = new OBJ_Barrel(gp); break;
         }
         
         return obj;

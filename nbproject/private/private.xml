@@ -3,13 +3,33 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/entity/Entity.java</file>
-            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/entity/Player.java</file>
-            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/tile/TileManager.java</file>
-            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/GamePanel.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/data/SaveLoad.java</file>
             <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/MouseHandler.java</file>
-            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/ai/PathFinder.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/entity/Projectile.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/CutsceneManager.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/entity/Particle.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/entity/NPC_Twitch.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/AssetSettler.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/CollisionChecker.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/entity/Entity.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/EventHandler.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/EventRect.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/entity/PlayerDummy.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/tile/TileManager.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/data/Progress.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/EntityGenerator.java</file>
             <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/entity/Firework.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/entity/NPC_OldMan.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/environment/Lighting.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/entity/NPC_BigRock.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/data/DataStorage.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/GamePanel.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/entity/NPC_Merchant.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/Main.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/main/Config.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/ai/PathFinder.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/ai/Node.java</file>
+            <file>file:/C:/Users/VictorHugo/Documents/NetBeansProjects/JustA2Dgame/src/environment/EnvironmentManager.java</file>
         </group>
     </open-files>
 </project-private>

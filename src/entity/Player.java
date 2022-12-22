@@ -1,6 +1,12 @@
 /*
 Code based in RyiSnow youtube channel:
 https://www.youtube.com/c/RyiSnow
+
+Class Code modifications and addons:
+Victor Hugo Manata Pontes
+https://www.twitch.tv/lechuck311
+https://www.youtube.com/@victorhugomanatapontes
+https://www.youtube.com/@dtudoumporco
 */
 
 package entity;
@@ -52,7 +58,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 4;
+        gp.currentMap = 0;
         gp.gameState = gp.transitionState;
         
         switch(gp.currentMap){
@@ -94,6 +100,12 @@ public class Player extends Entity{
                 gp.nextArea = gp.outside;
                 gp.currentArea = gp.nextArea;
             break;
+            case 6: // TWITCH 1RENA 01
+                this.worldX = gp.tileSize * 25;
+                this.worldY = gp.tileSize * 25;
+                gp.nextArea = gp.dungeon;
+                gp.currentArea = gp.nextArea;
+            break;
         } 
     }
     
@@ -122,7 +134,8 @@ public class Player extends Entity{
         this.currentShield    = new OBJ_Shield_Wood(gp);
         this.projectile       = new OBJ_Fireball(gp, "fireball");
         this.projectileWeapow = new OBJ_Arrow(gp);
-        this.currentLight = null;
+        this.currentLight     = new OBJ_Lantern(gp);
+        //this.currentLight = null;
         this.attack = getAttack();  // total attack value is decided by strength and weapon.
         this.defense = getDefense();// total defense value is decided by dexterty and shield.
         

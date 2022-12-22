@@ -1,0 +1,15 @@
+This directory have tree other inside (dungeon, indoor and outside).
+
+Inside the tiles in format (001.png , 002.png, ...) and a tiledata.txt with information of each tile (first line: filename, second line:false or true for colision purpose and repeat these lines with info of all files in the directory)
+Example: (tiledata.txt)
+000.png
+false
+001.png
+true
+002.png
+false
+003.png
+
+For git I´m ignore, then because these images are pay and have only commercial use.
+
+Each tile have 48x48 pixels.

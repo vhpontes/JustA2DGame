@@ -1,6 +1,12 @@
 /*
 Code based in RyiSnow youtube channel:
 https://www.youtube.com/c/RyiSnow
+
+Class Code modifications and addons:
+Victor Hugo Manata Pontes
+https://www.twitch.tv/lechuck311
+https://www.youtube.com/@victorhugomanatapontes
+https://www.youtube.com/@dtudoumporco
 */
  
 package tile;
@@ -10,10 +16,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import static java.lang.Math.floor;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import main.GamePanel;
@@ -31,6 +39,24 @@ public class TileManager {
     ArrayList<String> fileNames = new ArrayList<>();
     ArrayList<String> collisionStatus = new ArrayList<>();
     String areaName = "outside";
+
+    // POSITION VARS
+    double screenCol = 0;
+    double screenRow = 0;
+    double worldCol = 0;
+    double worldRow = 0;
+    double mouseCol = 0;
+    double mouseRow = 0;
+    int camOffSetX = 0;
+    int camOffSetY = 0;
+    double camOffSetCol = 0;
+    double camOffSetRow = 0;
+    int mouseOffCol = 0;
+    int mouseOffRow = 0;
+    int mouseTileCol = 0;
+    int mouseTileRow = 0;
+    public int searchMouseCol = 0;
+    public int searchMouseRow = 0;
 
     
     public TileManager(GamePanel gp) {
@@ -97,6 +123,7 @@ public class TileManager {
         loadMap("/res/maps/dungeon02.txt", 3);
         loadMap("/res/maps/islands.txt", 4);
         loadMap("/res/maps/highlands01.txt", 5);
+        loadMap("/res/maps/twitch_arena01.txt", 6);
 //        tile = new Tile[70];
 //        mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
@@ -134,6 +161,101 @@ public class TileManager {
 //        System.out.println("-------------------------------------------------");
     }
     
+    public int[] getTileXY(MouseEvent e, int x, int y) {
+        
+        int screenX = gp.player.screenX;
+        int screenY = gp.player.screenY;
+
+        int rightOffset = gp.screenWidth - gp.player.screenX;
+        if(rightOffset > gp.worldWidth - gp.player.worldX) {
+            screenX = gp.screenWidth - (gp.worldWidth - gp.player.worldX);
+        }
+        int bottonOffset = gp.screenHeight - gp.player.screenY;
+        if(bottonOffset > gp.worldHeight - gp.player.worldY) {
+            screenY = gp.screenHeight - (gp.worldHeight - gp.player.worldY);
+        }        
+        
+        int worldX = gp.player.worldX;
+        int worldY = gp.player.worldY;
+        
+        screenCol = (double)floor(screenX / gp.tileSize);
+        screenRow = (double)floor(screenY / gp.tileSize);
+
+        worldCol = (double)floor(worldX / gp.tileSize);
+        worldRow = (double)floor(worldY / gp.tileSize);
+        
+        int mouseX = e.getPoint().x;
+        int mouseY = e.getPoint().y;
+            
+        mouseCol = (double)floor(mouseX / gp.tileSize);
+        mouseRow = (double)floor(mouseY / gp.tileSize);
+
+        camOffSetX = worldX - mouseX;
+        camOffSetY = worldY - mouseY;
+
+        camOffSetCol = worldCol - screenCol;
+        camOffSetRow = worldRow - screenRow;
+        
+        mouseOffCol = (int)(mouseCol + camOffSetCol);
+        mouseOffRow = (int)(mouseRow + camOffSetRow);
+        
+        if(worldX > screenX) { 
+            mouseTileCol = (int)mouseOffCol; 
+        }
+        else { 
+            mouseTileCol = (int)mouseCol; 
+        }
+        if(worldY > screenY) { 
+            mouseTileRow = (int)mouseOffRow; 
+        }
+        else { 
+            mouseTileRow = (int)mouseRow; 
+        }
+        
+        // Check Tiles arround to get correct mouse clicked tile
+        Rectangle bounds = new Rectangle();
+        int tempTileX = 0;
+        int tempTileY = 0;
+        int mouseWorldX = (gp.player.worldX - gp.player.screenX) + mouseX;
+        int mouseWorldY = (gp.player.worldY - gp.player.screenY) + mouseY;
+        
+        // IF Camera at the edge
+        if(gp.player.screenX > gp.player.worldX) {
+            mouseWorldX = mouseX;
+        }
+        if(gp.player.screenY > gp.player.worldY) {
+            mouseWorldY = mouseY;
+        }
+        rightOffset = gp.screenWidth - gp.player.screenX;
+        if(rightOffset > gp.worldWidth - gp.player.worldX) {
+            mouseWorldX = (gp.worldWidth - (gp.player.screenX * 2)) + mouseX - gp.tileSize;
+        }        
+        bottonOffset = gp.screenHeight - gp.player.screenY;
+        if(bottonOffset > gp.worldHeight - gp.player.worldY) {
+            mouseWorldY = (gp.worldHeight - (gp.player.screenY * 2)) + mouseY - gp.tileSize;
+        }        
+        
+        for(int col = -1; col < 2; col++){
+            for(int row = -1; row < 2; row++){
+                int tempMouseCol = mouseTileCol + col; 
+                int tempMouseRow = mouseTileRow + row;
+
+                // PEGA x, y iniciais dos tiles
+                tempTileX = gp.tileM.tileInfo[tempMouseCol][tempMouseRow].tileX;
+                tempTileY = gp.tileM.tileInfo[tempMouseCol][tempMouseRow].tileY;
+
+                bounds.setBounds(tempTileX, tempTileY, gp.tileSize, gp.tileSize);
+                
+                if(bounds.intersects(mouseWorldX, mouseWorldY, 1, 1)){
+                    searchMouseCol = tempMouseCol;
+                    searchMouseRow = tempMouseRow;
+                    break;
+                }
+            }
+        }
+        return new int[] {searchMouseCol, searchMouseRow};
+    }
+
     public void getTileImage() {
 //System.out.println("getTileImage areaName: " + getCurrentArea());
 //System.out.println("fileNames.size(): " + fileNames.size());
@@ -292,13 +414,6 @@ public class TileManager {
         }        
     }
 
-    public boolean searchTile(int x, int y) {
-        
-        Rectangle bounds = new Rectangle();
-//        bounds.setBounds(screenX, screenY, gp.tileSize, gp.tileSize);
-        return bounds.intersects(x, y, 1, 1);
-    }
-    
     public void draw(Graphics2D g2) {
         int worldCol = 0;
         int worldRow = 0;

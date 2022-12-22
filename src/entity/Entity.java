@@ -1,6 +1,12 @@
 /*
 Code based in RyiSnow youtube channel:
 https://www.youtube.com/c/RyiSnow
+
+Class Code modifications and addons:
+Victor Hugo Manata Pontes
+https://www.twitch.tv/lechuck311
+https://www.youtube.com/@victorhugomanatapontes
+https://www.youtube.com/@dtudoumporco
 */
  
 package entity;
@@ -101,6 +107,8 @@ public class Entity {
     // VARs CHARACTER ATTRIBUTES
     public String name;
     public String direction = "down";
+    public int width;
+    public int height;
     public int defaultSpeed;
     public int speed;
     public int maxLife;
@@ -1045,12 +1053,6 @@ public class Entity {
 
             // DRAW NPC TWITCH NICK / NAME
             if(this.npcTwitchNick != null) {
-                //Graphics g, String text, Rectangle rect, Font font
-//                g2.setFont(g2.getFont().deriveFont(20f));
-//                g2.setColor(Color.black);
-//                g2.drawString(this.npcTwitchNick, tempScreenX, tempScreenY);
-//                g2.setColor(Color.white);
-//                g2.drawString(this.npcTwitchNick, tempScreenX-2, tempScreenY-2);
                 g2.setFont(new Font("Arial", Font.BOLD, 12));
                 g2.setColor(Color.black);
                 drawCenteredString(g2, this.npcTwitchNick, new Rectangle(tempScreenX+1, tempScreenY+1, 48, 70) {} , g2.getFont().deriveFont(14f));

@@ -1,6 +1,12 @@
 /*
 Code based in RyiSnow youtube channel:
 https://www.youtube.com/c/RyiSnow
+
+Class Code modifications and addons:
+Victor Hugo Manata Pontes
+https://www.twitch.tv/lechuck311
+https://www.youtube.com/@victorhugomanatapontes
+https://www.youtube.com/@dtudoumporco
 */
  
 package main;
@@ -14,6 +20,7 @@ import monster.MON_RedSlime;
 import monster.MON_SkeletonLord;
 import objects.OBJ_Arrow;
 import objects.OBJ_Axe;
+import objects.OBJ_Barrel;
 import objects.OBJ_Boots;
 import objects.OBJ_Bow_Normal;
 import objects.OBJ_Chest;
@@ -46,10 +53,10 @@ public class AssetSettler {
         gp.obj[mapNum][i].worldX = gp.tileSize*32;
         gp.obj[mapNum][i].worldY = gp.tileSize*21;
         i++;
-//        gp.obj[mapNum][i] = new OBJ_Shield_Blue(gp);
-//        gp.obj[mapNum][i].worldX = gp.tileSize*18;
-//        gp.obj[mapNum][i].worldY = gp.tileSize*21;
-//        i++;
+        gp.obj[mapNum][i] = new OBJ_Barrel(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize*21;
+        gp.obj[mapNum][i].worldY = gp.tileSize*18;
+        i++;
         gp.obj[mapNum][i] = new OBJ_Potion_Red(gp);
         gp.obj[mapNum][i].worldX = gp.tileSize*22;
         gp.obj[mapNum][i].worldY = gp.tileSize*26;
@@ -77,7 +84,7 @@ public class AssetSettler {
         gp.obj[mapNum][i].setLootItem(new OBJ_Lantern(gp));
         gp.obj[mapNum][i].setLootItem(new OBJ_Tent(gp));
         gp.obj[mapNum][i].setLootItem(new OBJ_Arrow(gp), 10);
-        gp.obj[mapNum][i].worldX = gp.tileSize*17;
+        gp.obj[mapNum][i].worldX = gp.tileSize*18;
         gp.obj[mapNum][i].worldY = gp.tileSize*20;
         
         // MAP DUNGEON LVL 1
@@ -194,26 +201,26 @@ public class AssetSettler {
         // MAP 2
         mapNum = 2;
         i = 0;
-//        gp.monster[mapNum][i] = new MON_Bat(gp);
-//        gp.monster[mapNum][i].worldX = gp.tileSize*34;
-//        gp.monster[mapNum][i].worldY = gp.tileSize*39;
-//        i++;
-//        gp.monster[mapNum][i] = new MON_Bat(gp);
-//        gp.monster[mapNum][i].worldX = gp.tileSize*36;
-//        gp.monster[mapNum][i].worldY = gp.tileSize*25;
-//        i++;
-//        gp.monster[mapNum][i] = new MON_Bat(gp);
-//        gp.monster[mapNum][i].worldX = gp.tileSize*39;
-//        gp.monster[mapNum][i].worldY = gp.tileSize*26;
-//        i++;
-//        gp.monster[mapNum][i] = new MON_Bat(gp);
-//        gp.monster[mapNum][i].worldX = gp.tileSize*28;
-//        gp.monster[mapNum][i].worldY = gp.tileSize*11;
-//        i++;
-//        gp.monster[mapNum][i] = new MON_Bat(gp);
-//        gp.monster[mapNum][i].worldX = gp.tileSize*10;
-//        gp.monster[mapNum][i].worldY = gp.tileSize*19;
-//        i++;
+        gp.monster[mapNum][i] = new MON_Bat(gp);
+        gp.monster[mapNum][i].worldX = gp.tileSize*34;
+        gp.monster[mapNum][i].worldY = gp.tileSize*39;
+        i++;
+        gp.monster[mapNum][i] = new MON_Bat(gp);
+        gp.monster[mapNum][i].worldX = gp.tileSize*36;
+        gp.monster[mapNum][i].worldY = gp.tileSize*25;
+        i++;
+        gp.monster[mapNum][i] = new MON_Bat(gp);
+        gp.monster[mapNum][i].worldX = gp.tileSize*39;
+        gp.monster[mapNum][i].worldY = gp.tileSize*26;
+        i++;
+        gp.monster[mapNum][i] = new MON_Bat(gp);
+        gp.monster[mapNum][i].worldX = gp.tileSize*28;
+        gp.monster[mapNum][i].worldY = gp.tileSize*11;
+        i++;
+        gp.monster[mapNum][i] = new MON_Bat(gp);
+        gp.monster[mapNum][i].worldX = gp.tileSize*10;
+        gp.monster[mapNum][i].worldY = gp.tileSize*19;
+        i++;
 
         // MAP 3
         mapNum = 3;

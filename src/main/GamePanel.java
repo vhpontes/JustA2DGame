@@ -1,6 +1,12 @@
 /*
 Code based in RyiSnow youtube channel:
 https://www.youtube.com/c/RyiSnow
+
+Class Code modifications and addons:
+Victor Hugo Manata Pontes
+https://www.twitch.tv/lechuck311
+https://www.youtube.com/@victorhugomanatapontes
+https://www.youtube.com/@dtudoumporco
 */
  
 package main;
@@ -162,7 +168,7 @@ public class GamePanel extends JPanel implements Runnable{
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2 = (Graphics2D)tempScreen.getGraphics();
 
-        this.mouseH = new MouseHandler(this, player, g2);
+        this.mouseH = new MouseHandler(this, player);
         
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -522,18 +528,12 @@ public class GamePanel extends JPanel implements Runnable{
         
         g2.drawString("Mouse Col: ", x, y);
         g2.setColor(Color.green);
-        g2.drawString(""+ mouseH.mouseTileCol, x+120, y); y += lineHeight;
+        g2.drawString(""+ tileM.searchMouseCol, x+120, y); y += lineHeight;
         g2.setColor(Color.white);
         g2.drawString("Mouse Row: ", x, y);
         g2.setColor(Color.green);
-        g2.drawString(""+ mouseH.mouseTileRow, x+120, y); y += lineHeight;
+        g2.drawString(""+ tileM.searchMouseCol, x+120, y); y += lineHeight;
         g2.setColor(Color.white);
-        g2.drawString("World Col    : "+ mouseH.worldCol, x, y); y += lineHeight;
-        g2.drawString("World Row    : "+ mouseH.worldRow, x, y); y += lineHeight;
-        g2.drawString("CAM Off Col  : "+ mouseH.camOffSetCol, x, y); y += lineHeight;
-        g2.drawString("CAM Off Row  : "+ mouseH.camOffSetRow, x, y); y += lineHeight;
-        g2.drawString("Mouse Off Col: "+ mouseH.tileOffsetCol, x, y); y += lineHeight;
-        g2.drawString("Mouse Off Row: "+ mouseH.tileOffsetRow, x, y); y += lineHeight;
         g2.drawString(" ", x, y); y += lineHeight;
 
         g2.setFont(new Font("Arial", Font.PLAIN, 20));
