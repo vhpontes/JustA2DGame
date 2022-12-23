@@ -23,6 +23,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import static java.lang.Math.floor;
 import java.util.ArrayList;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
 import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.UtilityTool;
@@ -39,6 +41,7 @@ public class TileManager {
     ArrayList<String> fileNames = new ArrayList<>();
     ArrayList<String> collisionStatus = new ArrayList<>();
     String areaName = "outside";
+    String fileName = null;
 
     // POSITION VARS
     double screenCol = 0;
@@ -57,6 +60,7 @@ public class TileManager {
     int mouseTileRow = 0;
     public int searchMouseCol = 0;
     public int searchMouseRow = 0;
+    public boolean tempTileXYCollision = false;
 
     
     public TileManager(GamePanel gp) {
@@ -91,10 +95,10 @@ public class TileManager {
         }
         
         // INITIALIZE THE TITLE ARRAY BASED ON THE FileNames size
-//        int mapSize = gp.maxWorldCol * gp.maxWorldRow;
         tile = new Tile[fileNames.size()]; // ORIGINAL LINE
-//        tile = new Tile[mapSize];        
-        this.getTileImage();
+        for(int i = 0; i < fileNames.size(); i++) {
+            this.getTileImage(i);
+        }
         
         tileInfo = new Tile[gp.maxWorldCol][gp.maxWorldRow];
         this.getTileInfo();
@@ -136,21 +140,23 @@ public class TileManager {
 
     public void getTileInfo() {
 
-        int tileIndex = 0;
         int col = 0;
         int row = 0;
-        int mapSize = gp.maxWorldCol * gp.maxWorldRow;
         
         while(col < gp.maxWorldCol && row < gp.maxWorldRow){
-
+            
             int tileX = col * gp.tileSize;
             int tileY = row * gp.tileSize;
 
             this.tileInfo[col][row] = new Tile();
             this.tileInfo[col][row].tileX = tileX;
             this.tileInfo[col][row].tileY = tileY;
+            this.tileInfo[col][row].collision = getTileCollision(fileName);
 
-            tileIndex++;
+            OptionalInt indexOpt = IntStream.range(0, fileNames.size())
+                .filter(i -> fileNames.equals(fileName))
+                .findFirst();
+            
             col++;
             if(col == gp.maxWorldCol) {
                 col = 0;
@@ -158,7 +164,6 @@ public class TileManager {
             }
         }
         mapTileInfo = new int[gp.maxWorldCol][gp.maxWorldRow];
-//        System.out.println("-------------------------------------------------");
     }
     
     public int[] getTileXY(MouseEvent e, int x, int y) {
@@ -243,6 +248,7 @@ public class TileManager {
                 // PEGA x, y iniciais dos tiles
                 tempTileX = gp.tileM.tileInfo[tempMouseCol][tempMouseRow].tileX;
                 tempTileY = gp.tileM.tileInfo[tempMouseCol][tempMouseRow].tileY;
+                tempTileXYCollision = gp.tileM.tileInfo[tempMouseCol][tempMouseRow].collision;
 
                 bounds.setBounds(tempTileX, tempTileY, gp.tileSize, gp.tileSize);
                 
@@ -256,29 +262,27 @@ public class TileManager {
         return new int[] {searchMouseCol, searchMouseRow};
     }
 
-    public void getTileImage() {
-//System.out.println("getTileImage areaName: " + getCurrentArea());
-//System.out.println("fileNames.size(): " + fileNames.size());
+    public boolean getTileCollision(String fileName) {
+
+        boolean collision = false;
 
         for(int i = 0; i < fileNames.size(); i++) {
-            
-            String fileName;
-            boolean collision;
-            
-            // Get a file name
-            fileName = fileNames.get(i);
-            
             // Get a collision status
-            if(collisionStatus.get(i).equals("true")) {
+            if(fileNames.get(i).equals(fileName) && collisionStatus.get(i).equals("true")) {
                 collision = true;
             }
-            else {
-                collision = false;
-            }
-            
-            this.setup(i,  fileName, this.getCurrentArea(), collision);
-        }
-//        System.out.println("-------------------------------------------------");
+        } 
+        return collision;
+    }
+    
+    public void getTileImage(int i) {
+  
+//        for(int i = 0; i < fileNames.size(); i++) {
+//            fileName = fileNames.get(i);
+//            this.setup(i,  fileName, this.getCurrentArea(), getTileCollision(fileName));
+//        }
+            fileName = fileNames.get(i);
+            this.setup(i,  fileName, this.getCurrentArea(), getTileCollision(fileName));
     }
     
     public String getCurrentArea() {
@@ -297,12 +301,12 @@ public class TileManager {
         UtilityTool uTool = new UtilityTool();
         
         try {
-            //System.out.println("setup: " + "/res/tiles/"+areaName+"/"+imagePath+" "+index+":"+collision);
             tile[index] = new Tile();
             tile[index].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/"+areaName+"/"+imagePath));
             tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
             tile[index].tileX = index;
             tile[index].tileY = index;
+            tile[index].filename = imagePath;
             tile[index].collision = collision;
             
         }catch(IOException e) {

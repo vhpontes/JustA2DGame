@@ -1159,22 +1159,22 @@ public class Entity {
             // GO UP
             if(enTopY > nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize) {
                 this.direction = "up";
-                System.out.println("GO up");
+                System.out.println("searchPath: "+this.name+" GO up");
             }
             // GO DOWN
             else if(enTopY < nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize) {
                 this.direction = "down";
-                System.out.println("GO down");
+                System.out.println("searchPath: "+this.name+" GO down");
             }
             // GO left or right
             else if(enTopY >= nextY && enBottonY <= nextY + gp.tileSize) {
                 if(enLeftX > nextX  ) {
                     this.direction = "left";
-                System.out.println("GO left");
+                System.out.println("searchPath: "+this.name+" GO left");
                 }
                 if(enLeftX < nextX) {
                     this.direction = "right";
-                System.out.println("GO right");
+                System.out.println("searchPath: "+this.name+" GO right");
                 }
             }
             // GO up or left
@@ -1184,7 +1184,7 @@ public class Entity {
                 if(this.collisionOn == true) {
                     this.direction = "left";
                 }
-                System.out.println("GO up or left");
+                System.out.println("searchPath: "+this.name+" GO up or left");
             }
             // GO up or right - NOT MORE HAVE A PROBLEM HERE, i´m think !
             else if(enTopY > nextY + gp.tileSize && enLeftX < nextX) { 
@@ -1194,7 +1194,7 @@ public class Entity {
                 if(this.collisionOn == true) {
                     this.direction = "right";
                 }
-                System.out.println("GO up or right");
+                System.out.println("searchPath: "+this.name+" GO up or right");
             }
             // GO down or left
             else if(enTopY < nextY && enLeftX > nextX) {
@@ -1203,7 +1203,7 @@ public class Entity {
                 if(this.collisionOn == true) {
                     this.direction = "left";
                 }
-                System.out.println("GO down or left");
+                System.out.println("searchPath: "+this.name+" GO down or left");
             }
             // GO down or right
             else if(enTopY < nextY && enLeftX < nextX + gp.tileSize ) {
@@ -1212,7 +1212,7 @@ public class Entity {
                 if(collisionOn == true) {
                     this.direction = "right";
                 }
-                System.out.println("down or right");
+                System.out.println("searchPath: "+this.name+" down or right");
             }
             
             int nextCol = gp.pFinder.pathList.get(0).col;

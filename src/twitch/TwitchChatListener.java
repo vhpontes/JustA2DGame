@@ -84,6 +84,7 @@ public class TwitchChatListener extends ListenerAdapter {
                 gp.addNPCTwitch(mapNum, event, gp.player.worldX + gp.tileSize, gp.player.worldY, event.getUser().getNick());
                 //gp.ui.addMessage(event.getUser().getNick()+" now have an NPC in game!");
                 npcT = gp.getNPCTwitch(userHashCode);
+                npcT.name = event.getUser().getNick();
                 gp.ui.addMessage(npcT.name+" now have an NPC in game!");
                 //System.out.println("ID: " +event.getUser().getUserId());
             }

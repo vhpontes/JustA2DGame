@@ -58,7 +58,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 0;
+        gp.currentMap = 6;
         gp.gameState = gp.transitionState;
         
         switch(gp.currentMap){
@@ -109,9 +109,10 @@ public class Player extends Entity{
         } 
     }
     
-    public void setDefaultValues() {
+    public final void setDefaultValues() {
 
         setInitialPosition();
+        this.name = "Player";
         this.defaultSpeed = 4 * 1; 
         this.speed = defaultSpeed;
         this.direction = "down";

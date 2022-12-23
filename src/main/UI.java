@@ -108,6 +108,7 @@ public class UI {
 
         message.add(text);
         messageCounter.add(0);
+        System.out.println(text);
     }
 
     public void draw(Graphics2D g2) throws IOException {

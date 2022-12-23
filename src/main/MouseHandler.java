@@ -45,8 +45,7 @@ public class MouseHandler implements MouseListener {
         int resultTilesColRow[] = gp.tileM.getTileXY(e, clickedX, clickedY);
         searchMouseCol = resultTilesColRow[0];
         searchMouseRow = resultTilesColRow[1];
-
-
+        
         // Search Path to mouse click position
         if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
             mouseLeftPressed = true;
@@ -89,6 +88,7 @@ public class MouseHandler implements MouseListener {
     
     public void setAction() {
 
+//        if(pl.onPath == true && gp.tileM.tempTileXYCollision == false){
         if(pl.onPath == true){
 
             pl.searchPath(searchMouseCol, searchMouseRow, pl.worldX, pl.worldY);
