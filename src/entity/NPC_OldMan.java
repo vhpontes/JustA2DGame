@@ -25,6 +25,7 @@ public class NPC_OldMan extends Entity{
         name = npcName;
         direction = "down";
         speed = 1;
+        this.animation = false;
 
         solidArea = new Rectangle();
         solidArea.x = 8;

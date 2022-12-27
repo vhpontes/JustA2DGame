@@ -72,6 +72,7 @@ public class Entity {
     public int spriteNum = 1;
     public String knockBackDirection;
     public boolean hpBarOn = false;
+    public boolean manaBarOn = false;
     public boolean collision = false;
     public boolean collisionOn = false;
     public boolean invincible = false;
@@ -91,6 +92,7 @@ public class Entity {
     public boolean boss = false;
     public boolean sleep = false;
     public boolean drawing = true;
+    public boolean animation = false;
 
     // VARs COUNTER
     public int spriteCounter = 0;
@@ -166,6 +168,7 @@ public class Entity {
     public final int type_pickaxe = 10;
     public final int type_bow = 11;
     public final int type_npcTwitch = 12;
+    public final int type_amblight = 13;
     
     
     public Entity(GamePanel gp) {
@@ -173,12 +176,34 @@ public class Entity {
     }
     
     public int getScreenX() {
+        
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
+
+        // Stop moving the camera at the edge
+        if(gp.player.screenX > gp.player.worldX) {
+            screenX = worldX;
+        }        
+        int rightOffset = gp.screenWidth - gp.player.screenX;
+        if(rightOffset > gp.worldWidth - gp.player.worldX) {
+            screenX = gp.screenWidth - (gp.worldWidth - worldX);
+        }        
+
         return screenX;
     }
 
     public int getScreenY() {
+        
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+        // Stop moving the camera at the edge
+        if(gp.player.screenY > gp.player.worldY) {
+            screenY = worldY;
+        }        
+        int bottonOffset = gp.screenHeight - gp.player.screenY;
+        if(bottonOffset > gp.worldHeight - gp.player.worldY) {
+            screenY = gp.screenHeight - (gp.worldHeight - worldY);
+        }
+
         return screenY;
     }
     
@@ -963,7 +988,7 @@ public class Entity {
     public void draw(Graphics2D g2){
         
         BufferedImage image = null;
-
+        
         // CHECK CAMERA IN
         if(inCamera() == true) {
             
@@ -1080,8 +1105,14 @@ public class Entity {
             }
             
             // DRAW ENTITY IMAGE
-            g2.drawImage(image, tempScreenX, tempScreenY, null);
-            changeAlpha(g2, 1F);
+            if(this.animation == false) {
+                g2.drawImage(image, tempScreenX, tempScreenY, null);
+            }
+            else {
+                g2.drawImage(this.anim.getImage(), tempScreenX, tempScreenY, null);
+            }
+            
+            this.changeAlpha(g2, 1F);
 
             // DEBUG RED SOLID AREA VIEW
 //            g2.setColor(new Color(255, 0, 0, 70));

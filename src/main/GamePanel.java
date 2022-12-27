@@ -116,6 +116,7 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread;
 
     // ENTITY AND OBJECT
+    
     public Player player = new Player(this, keyH, mouseH);
     public NPC_Twitch npcTW = new NPC_Twitch(this);
     public Entity obj[][] = new Entity[maxMap][40]; 

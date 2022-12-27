@@ -31,6 +31,7 @@ public final class NPC_Twitch extends Entity{
         this.alive = true;
         this.canMove = true;
         this.npcFireballLaunched = false;
+        this.animation = false;
 
         this.projectile = new OBJ_Fireball(gp, "twitch_fireball");
         

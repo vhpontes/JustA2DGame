@@ -31,7 +31,7 @@ public class OBJ_Arrow extends Projectile{
         name = objName;
         description = "[" + name + "]\nA simple wood \narrow.";
         value = 1;
-        speed = 8;
+        speed = 20;
         maxLife = 100;
         life = maxLife;
         attack = 3;

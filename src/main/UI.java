@@ -18,17 +18,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import objects.OBJ_Heart;
 import entity.Entity;
-import java.awt.Image;
 import java.awt.Rectangle;
-import java.net.URL;
 import java.util.ArrayList;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import static main.Main.gamePanel;
-import static main.Main.window;
 import objects.OBJ_Coin_Bronze;
 import objects.OBJ_ManaCrystal;
 
@@ -125,8 +117,8 @@ public class UI {
         }
         // PLAY STATE
         if(gp.gameState == gp.playState) {
-            //drawPlayerLife();
-            //drawPlayerMana();
+            drawPlayerLife();
+            drawPlayerMana();
             drawMonsterLife();
             drawMessage();
         }
@@ -178,38 +170,78 @@ public class UI {
 
     public void drawPlayerLife() {
 
-        int x = gp.tileSize/2;
-        int y = gp.tileSize/2;
+        // HEALTH BAR
+        if(gp.player.hpBarOn == true) {
+            
+            double maxLifeScale = (double)gp.tileSize / gp.player.maxLife;
+            double hpBarValue = maxLifeScale * gp.player.life;
+
+            g2.setColor(new Color(35, 35, 35));
+            g2.fillRect(gp.player.getScreenX()-1, gp.player.getScreenY() - 31, gp.tileSize + 2, 12);
+            if(gp.player.life >= gp.player.maxLife / 2){
+                g2.setColor(new Color(0, 255, 30));
+            }
+            else {
+                g2.setColor(new Color(255, 0, 30));
+            }
+            g2.fillRect(gp.player.getScreenX(), gp.player.getScreenY() - 30, (int)hpBarValue, 10);
+        }
+
+        int x = gp.tileSize / 2;
+        int y = gp.tileSize / 2;
         int i = 0;
 
         // DRAW BLANK HEART
-        while(i < gp.player.maxLife/2) {
-            g2.drawImage(heart_blank, x, y, null);
+        while(i < gp.player.maxLife / 2) {
+            g2.drawImage(heart_blank, x, y, gp.tileSize / 2, gp.tileSize / 2, null);
             i++;
-            x += gp.tileSize;
+            x += gp.tileSize / 2;
         }
         
         // RESET
-        x = gp.tileSize/2;
-        y = gp.tileSize/2;
+        x = gp.tileSize / 2;
+        y = gp.tileSize / 2;
         i = 0;
         
         // DRAW CURRENT LIFE
         while(i < gp.player.life) {
-            g2.drawImage(heart_half, x, y, null);
+            g2.drawImage(heart_half, x, y, gp.tileSize / 2, gp.tileSize / 2, null);
             i++;
             if(i < gp.player.life) {
-                g2.drawImage(heart_full, x, y, null);
+                //g2.drawImage(heart_full, x, y, null);
+                g2.drawImage(heart_full, x, y, gp.tileSize / 2, gp.tileSize / 2, null);
             }
             i++;
-            x += gp.tileSize;
+            x += gp.tileSize / 2;
         }
+        
+        if(gp.player.life <=0) {
+            gp.player.hpBarOn = false;
+        }
+        
     }
     
     public void drawPlayerMana() {
 
-        int x = (gp.tileSize/2);
-        int y = (int)(gp.tileSize*1.5) + 5;
+        // MANA BAR
+         if(gp.player.manaBarOn == true) {
+
+            double maxManaScale = (double)gp.tileSize / gp.player.maxMana;
+            double manaBarValue = maxManaScale * gp.player.mana;
+
+            g2.setColor(new Color(35, 35, 35));
+            g2.fillRect(gp.player.getScreenX()-1, gp.player.getScreenY() - 16, gp.tileSize + 2, 12);
+            if(gp.player.mana >= gp.player.maxMana / 2){
+                g2.setColor(new Color(0, 150, 255));
+            }
+            else {
+                g2.setColor(new Color(0, 50, 200));
+            }
+            g2.fillRect(gp.player.getScreenX(), gp.player.getScreenY() - 15, (int)manaBarValue, 10);
+        }
+        
+        int x = (gp.tileSize / 2);
+        int y = (int)(gp.tileSize * 1.5) + 5;
         int i = 0;
 
         // DRAW BLANK CRYSTAL
@@ -220,8 +252,8 @@ public class UI {
         }
         
         // RESET
-        x = (gp.tileSize/2);
-        y = (int)(gp.tileSize*1.5) + 5;
+        x = (gp.tileSize / 2);
+        y = (int)(gp.tileSize * 1.5) + 5;
         i = 0;
         
         // DRAW CURRENT MANA
@@ -229,6 +261,10 @@ public class UI {
             g2.drawImage(crystal_full, x, y, null);
             i++;
             x += 35;
+        }
+
+        if(gp.player.mana <=0) {
+            gp.player.manaBarOn = false;
         }
     }
     

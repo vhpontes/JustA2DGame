@@ -23,11 +23,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import static java.lang.Math.floor;
 import java.util.ArrayList;
-import java.util.OptionalInt;
-import java.util.stream.IntStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.UtilityTool;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class TileManager {
 
@@ -70,8 +75,56 @@ public class TileManager {
         loadTileData();
     }
 
-    public void loadTileData() {
+    public void loadJSONTiledMap(String mapfile) throws IOException {
         
+        String newLine = System.getProperty("line.separator");
+        InputStream is = getClass().getResourceAsStream("/res/maps/"+mapfile);
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        StringBuilder result = new StringBuilder();
+        for (String line; (line = br.readLine()) != null; ) {
+             if (result.length() > 0) {
+                 result.append(newLine);
+             }
+             result.append(line);
+        } 
+        
+        //String jsonMap = "{"name":"user","id":1234,"marks":[{"english":85,"physics":80,"chemistry":75}]}";
+        String jsonMap = result.toString();
+        String s="[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
+        Object obj = JSONValue.parse(s); 
+        JSONArray array=(JSONArray)obj; 
+        System.out.println("======the 2nd element of array======"); 
+        System.out.println(array.get(1)); 
+        System.out.println();
+
+        JSONObject obj2=(JSONObject)array.get(1); 
+        System.out.println("======field \"1\"=========="); 
+        System.out.println(obj2.get("1"));
+        
+        
+        
+//        String jsonMap = result.toString();
+//        
+//        JSONObject jsonOBJmap = new JSONObject(jsonMap);
+//        
+//        JSONArray marks = jsonOBJmap.
+//        
+//        JSONObject data = marks.getJSONObject(0);
+//        
+//        
+//        System.out.println(String.format("Name %s", data.getValue("physics")));
+//        System.out.println(String.format("Data %s", data.getValue("data")));
+//        System.out.println(String.format("Height %s", data.getValue("height")));
+    }
+    
+    public void loadTileData() {
+        try {
+            loadJSONTiledMap("untitled.tmj");
+            //loadJSONTiledMap("novo1.txt");
+        } catch (IOException ex) {
+            System.out.println(ex);
+            System.exit(0);
+        }
         //System.out.println("loadTileData getResourceAsStream: " + "/res/tiles/"+getCurrentArea()+"/tiledata.txt");
         // READ TILE DATA FILE
         InputStream is = getClass().getResourceAsStream("/res/tiles/"+getCurrentArea()+"/tiledata.txt");
@@ -96,9 +149,7 @@ public class TileManager {
         
         // INITIALIZE THE TITLE ARRAY BASED ON THE FileNames size
         tile = new Tile[fileNames.size()]; // ORIGINAL LINE
-        for(int i = 0; i < fileNames.size(); i++) {
-            this.getTileImage(i);
-        }
+        this.getTileImage();
         
         tileInfo = new Tile[gp.maxWorldCol][gp.maxWorldRow];
         this.getTileInfo();
@@ -128,6 +179,7 @@ public class TileManager {
         loadMap("/res/maps/islands.txt", 4);
         loadMap("/res/maps/highlands01.txt", 5);
         loadMap("/res/maps/twitch_arena01.txt", 6);
+        loadMap("/res/maps/twitch_arena01.txt", 6);
 //        tile = new Tile[70];
 //        mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
@@ -136,6 +188,14 @@ public class TileManager {
 //        loadMap("/res/maps/interior01.txt", 1);
 //        loadMap("/res/maps/dg_twitch01.txt", 2);
 //        loadMap("/res/maps/dungeon01.txt", 3);
+    }
+
+    public void getTileImage() {
+  
+        for(int i = 0; i < fileNames.size(); i++) {
+            fileName = fileNames.get(i);
+            this.setup(i,  fileName, this.getCurrentArea(), getTileCollision(fileName));
+        }
     }
 
     public void getTileInfo() {
@@ -151,11 +211,6 @@ public class TileManager {
             this.tileInfo[col][row] = new Tile();
             this.tileInfo[col][row].tileX = tileX;
             this.tileInfo[col][row].tileY = tileY;
-            this.tileInfo[col][row].collision = getTileCollision(fileName);
-
-            OptionalInt indexOpt = IntStream.range(0, fileNames.size())
-                .filter(i -> fileNames.equals(fileName))
-                .findFirst();
             
             col++;
             if(col == gp.maxWorldCol) {
@@ -248,13 +303,13 @@ public class TileManager {
                 // PEGA x, y iniciais dos tiles
                 tempTileX = gp.tileM.tileInfo[tempMouseCol][tempMouseRow].tileX;
                 tempTileY = gp.tileM.tileInfo[tempMouseCol][tempMouseRow].tileY;
-                tempTileXYCollision = gp.tileM.tileInfo[tempMouseCol][tempMouseRow].collision;
 
                 bounds.setBounds(tempTileX, tempTileY, gp.tileSize, gp.tileSize);
                 
                 if(bounds.intersects(mouseWorldX, mouseWorldY, 1, 1)){
                     searchMouseCol = tempMouseCol;
                     searchMouseRow = tempMouseRow;
+                    tempTileXYCollision = gp.tileM.tileInfo[searchMouseCol][searchMouseRow].collision;
                     break;
                 }
             }
@@ -273,16 +328,6 @@ public class TileManager {
             }
         } 
         return collision;
-    }
-    
-    public void getTileImage(int i) {
-  
-//        for(int i = 0; i < fileNames.size(); i++) {
-//            fileName = fileNames.get(i);
-//            this.setup(i,  fileName, this.getCurrentArea(), getTileCollision(fileName));
-//        }
-            fileName = fileNames.get(i);
-            this.setup(i,  fileName, this.getCurrentArea(), getTileCollision(fileName));
     }
     
     public String getCurrentArea() {
@@ -435,6 +480,8 @@ public class TileManager {
 
                 tile[tileNum].tileX = worldX;
                 tile[tileNum].tileY = worldY;
+                //tileInfo[worldCol][worldRow].filename = tile[tileNum].filename;
+                tileInfo[worldCol][worldRow].collision = tile[tileNum].collision;
 
                 // Stop moving the camera at the edge
                 if(gp.player.screenX > gp.player.worldX) {

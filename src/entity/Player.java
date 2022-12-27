@@ -58,7 +58,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 6;
+        gp.currentMap = 2;
         gp.gameState = gp.transitionState;
         
         switch(gp.currentMap){
@@ -139,6 +139,9 @@ public class Player extends Entity{
         //this.currentLight = null;
         this.attack = getAttack();  // total attack value is decided by strength and weapon.
         this.defense = getDefense();// total defense value is decided by dexterty and shield.
+        
+        this.hpBarOn = true;
+        this.manaBarOn = true;
         
         getGuardImage();
         getImage();

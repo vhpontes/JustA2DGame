@@ -1,0 +1,11 @@
+{
+	"name":"user",
+	"id":1234,
+	"marks":[
+		{
+			"english":85,
+			"physics":80,
+			"chemistry":75
+		}
+	]
+}

@@ -30,9 +30,12 @@ import objects.OBJ_Heart;
 import objects.OBJ_Key_Silver;
 import objects.OBJ_Lantern;
 import objects.OBJ_Pickaxe;
+import objects.OBJ_Pot;
 import objects.OBJ_Potion_Red;
 import objects.OBJ_Shield_Blue;
 import objects.OBJ_Tent;
+import objects.OBJ_Torch;
+import objects.OBJ_WallTorch;
 import tile_interactive.IT_DestructableWall;
 import tile_interactive.IT_DryTree;
 import tile_interactive.IT_MetalPlate;
@@ -54,7 +57,7 @@ public class AssetSettler {
         gp.obj[mapNum][i].worldY = gp.tileSize*21;
         i++;
         gp.obj[mapNum][i] = new OBJ_Barrel(gp);
-        gp.obj[mapNum][i].worldX = gp.tileSize*21;
+        gp.obj[mapNum][i].worldX = (gp.tileSize * 21)  + (gp.tileSize - gp.obj[mapNum][i].width) / 2;
         gp.obj[mapNum][i].worldY = gp.tileSize*18;
         i++;
         gp.obj[mapNum][i] = new OBJ_Potion_Red(gp);
@@ -90,6 +93,41 @@ public class AssetSettler {
         // MAP DUNGEON LVL 1
         mapNum = 2;
         i = 0;
+        // Objects Torch
+        gp.obj[mapNum][i] = new OBJ_WallTorch(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize * 12;
+        gp.obj[mapNum][i].worldY = (gp.tileSize * 35) + 15;      
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Torch(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize * 16;
+        gp.obj[mapNum][i].worldY = (gp.tileSize * 33) + 20;      
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Torch(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize * 19;
+        gp.obj[mapNum][i].worldY = (gp.tileSize * 33) + 20;      
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Torch(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize * 22;
+        gp.obj[mapNum][i].worldY = (gp.tileSize * 38) + 20;      
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Torch(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize * 29;
+        gp.obj[mapNum][i].worldY = (gp.tileSize * 38) + 20;      
+        i++;
+        
+        // Objects Pot
+        gp.obj[mapNum][i] = new OBJ_Pot(gp);
+        gp.obj[mapNum][i].down1 = gp.obj[mapNum][i].image;
+        gp.obj[mapNum][i].worldX = (gp.tileSize * 20) + (gp.tileSize - gp.obj[mapNum][i].width) / 2;
+        gp.obj[mapNum][i].worldY = gp.tileSize * 35;      
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Pot(gp);
+        gp.obj[mapNum][i].down1 = gp.obj[mapNum][i].image2;
+        gp.obj[mapNum][i].worldX = (gp.tileSize * 15) + (gp.tileSize - gp.obj[mapNum][i].width) / 2;
+        gp.obj[mapNum][i].worldY = gp.tileSize * 35;      
+        i++;
+        
+        // Objects Chest
         gp.obj[mapNum][i] = new OBJ_Chest(gp);
         gp.obj[mapNum][i].setLootItem(new OBJ_Pickaxe(gp));
         gp.obj[mapNum][i].worldX = gp.tileSize*40;
@@ -110,6 +148,8 @@ public class AssetSettler {
         gp.obj[mapNum][i].worldX = gp.tileSize*27;
         gp.obj[mapNum][i].worldY = gp.tileSize*15;      
         i++;
+        
+        // Objects Iron Door
         gp.obj[mapNum][i] = new OBJ_Door_Iron(gp);
         gp.obj[mapNum][i].worldX = gp.tileSize*18;
         gp.obj[mapNum][i].worldY = gp.tileSize*23;      

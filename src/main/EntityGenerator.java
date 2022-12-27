@@ -27,12 +27,15 @@ import objects.OBJ_Key_Silver;
 import objects.OBJ_Lantern;
 import objects.OBJ_ManaCrystal;
 import objects.OBJ_Pickaxe;
+import objects.OBJ_Pot;
 import objects.OBJ_Potion_Red;
 import objects.OBJ_Rock;
 import objects.OBJ_Shield_Blue;
 import objects.OBJ_Shield_Wood;
 import objects.OBJ_Sword_Normal;
 import objects.OBJ_Tent;
+import objects.OBJ_Torch;
+import objects.OBJ_WallTorch;
 
 public class EntityGenerator {
     
@@ -68,6 +71,9 @@ public class EntityGenerator {
             case OBJ_Sword_Normal.objName: obj = new OBJ_Sword_Normal(gp); break; 
             case OBJ_Tent.objName: obj = new OBJ_Tent(gp); break;
             case OBJ_Barrel.objName: obj = new OBJ_Barrel(gp); break;
+            case OBJ_Pot.objName: obj = new OBJ_Pot(gp); break;
+            case OBJ_Torch.objName: obj = new OBJ_Torch(gp); break;
+            case OBJ_WallTorch.objName: obj = new OBJ_WallTorch(gp); break;
         }
         
         return obj;
