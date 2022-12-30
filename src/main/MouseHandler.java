@@ -91,7 +91,7 @@ public class MouseHandler implements MouseListener {
     public void setAction() {
         
         if(pl.onPath == true){
-
+            pl.playerRandomMove = false;
             pl.searchPath(searchMouseCol, searchMouseRow, pl.worldX, pl.worldY);
         }
     }

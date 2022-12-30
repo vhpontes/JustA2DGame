@@ -135,6 +135,7 @@ public class GamePanel extends JPanel implements Runnable{
     public TileManager tileM = new TileManager(this);
     
     // GAME STATE
+    public String language = "en";
     public int gameState;
     public final int titleState = 0;
     public final int playState = 1;
@@ -199,6 +200,7 @@ public class GamePanel extends JPanel implements Runnable{
     
     public void resetGame(boolean restart) {
         
+        stopMusic();
         //currentArea = outside;
         gameState = transitionState;
         nextArea = currentArea;

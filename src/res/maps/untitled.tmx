@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="15">
+ <editorsettings>
+  <export target="untitled..tmj" format="json"/>
+ </editorsettings>
  <tileset firstgid="1" source="../../../../../../teste.tsx"/>
  <tileset firstgid="85" source="../../../../../../obj.tsx"/>
  <layer id="1" name="Tile Layer 1" width="50" height="50">

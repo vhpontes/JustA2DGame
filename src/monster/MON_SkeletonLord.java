@@ -39,6 +39,7 @@ public class MON_SkeletonLord extends Entity {
         knockBackPower = 5;
         numDrop = 10;
         sleep = true;
+        hpBarOn = true;
         
         int size = gp.tileSize * bossMultiplier;
         solidArea.x = 48;

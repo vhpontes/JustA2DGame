@@ -193,23 +193,19 @@ public class KeyHandler implements KeyListener{
         if(code == KeyEvent.VK_SHIFT) {
             shiftPressed = true;
         }
+        if(code == KeyEvent.VK_J) {
+            gp.player.playerRandomMove ^= true;
+        }
+        if(code == KeyEvent.VK_O) {
+            gp.tileM.drawPath ^= true;
+        }
 
         //DEBUG
         if(code == KeyEvent.VK_F10) {
-            if(showRedRectangleTile == false){
-                showRedRectangleTile = true;
-            }
-            else if(showRedRectangleTile == true){
-                showRedRectangleTile = false;
-            }
+            showRedRectangleTile ^= true;
         }
         if(code == KeyEvent.VK_T) {
-            if(showDebugText == false){
-                showDebugText = true;
-            }
-            else if(showDebugText == true){
-                showDebugText = false;
-            }
+            showDebugText ^= true;
         }
         if(code == KeyEvent.VK_R) {
             //gp.currentMap = 1;

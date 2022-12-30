@@ -20,6 +20,7 @@ import objects.OBJ_Heart;
 import entity.Entity;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import objects.OBJ_Coin_Bronze;
 import objects.OBJ_ManaCrystal;
@@ -95,7 +96,7 @@ public class UI {
         Entity coin = new OBJ_Coin_Bronze(gp);
         coin_img = coin.down1;
     }
-    
+
     public void addMessage(String text) {
 
         message.add(text);
@@ -177,7 +178,7 @@ public class UI {
             double hpBarValue = maxLifeScale * gp.player.life;
 
             g2.setColor(new Color(35, 35, 35));
-            g2.fillRect(gp.player.getScreenX()-1, gp.player.getScreenY() - 31, gp.tileSize + 2, 12);
+            g2.fillRect(gp.player.getScreenX() - 1, gp.player.getScreenY() - 31, gp.tileSize + 2, 12);
             if(gp.player.life >= gp.player.maxLife / 2){
                 g2.setColor(new Color(0, 255, 30));
             }
@@ -295,26 +296,27 @@ public class UI {
                         mob.hpBarOn = false;
                     }
                 }
+                // BOSS HP BAR
                 else if(mob.hpBarOn == true && mob.boss == true) {
                     // references of tile 48
                     double oneScale = (double)gp.tileSize * 8 / mob.maxLife;
                     double hpBarValue = oneScale * mob.life;
                     
                     int x = gp.screenWidth / 2 - gp.tileSize * 4;
-                    int y = gp.screenHeight - gp.tileSize;
+                    int y = gp.screenHeight - gp.tileSize * 2;
 
                     g2.setColor(new Color(35, 35, 35));
                     g2.fillRect(x - 1, y - 1, gp.tileSize * 8 + 2, 22);
 
                     g2.setColor(new Color(255, 0, 30));
-                    g2.fillRect(mob.getScreenX(), y, (int)hpBarValue, 20);
+                    g2.fillRect(x, y, (int)hpBarValue, 20);
 
                     g2.setFont(maruMonica);
                     g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24f));
                     g2.setColor(Color.black);
                     g2.drawString(mob.name, x + 5, y - 11);
                     g2.setColor(Color.white);
-                    g2.drawString(mob.name, x + 4, y - 10);                    
+                    g2.drawString(mob.name, x + 4, y - 10); 
                 }
             }
         }
@@ -380,29 +382,36 @@ public class UI {
         }        
     }
     
-    public void drawTitleScreen() {
+    public void drawTitleScreen() throws IOException {
+        
+        int x = 0;
+        int y = gp.screenHeight / 2;
+        String text;
         
         if(titleScreenState == 0) {
         
+            //BACKGROUND IMAGE
+            BufferedImage bgImage = ImageIO.read(getClass().getResourceAsStream("/res/images/JustA2DGame.png"));
+            g2.drawImage(bgImage, 0, 0, gp.screenWidth, gp.screenHeight, null);
+
             //g2.setFont(Britannian);
             g2.setFont(Anglorunic);
-            g2.setColor(new Color(50, 50, 50));
-            g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+//            g2.setColor(new Color(50, 50, 50));
+//            g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
             //TITLE NAME
-            g2.setFont(g2.getFont().deriveFont(Font.BOLD,96F));
-            String text = "Just a 2D Game";
-            int x = getXforCenteredText(text);
-            int y = gp.tileSize*3;
+//            g2.setFont(g2.getFont().deriveFont(Font.BOLD,96F));
+//            String text = "Just a 2D Game";
+//            x = getXforCenteredText(text);
+//            y = gp.tileSize*3;
             
-
             // SHADOW
-            g2.setColor(Color.BLACK);
-            g2.drawString(text, x+5, y+5);
+//            g2.setColor(Color.BLACK);
+//            g2.drawString(text, x+5, y+5);
 
             // MAIN COLOR
-            g2.setColor(Color.white);
-            g2.drawString(text, x, y);
+//            g2.setColor(Color.white);
+//            g2.drawString(text, x, y);
 
             // TITLE IMAGE
             x = gp.screenWidth/2 - (gp.tileSize*2)/2;

@@ -23,16 +23,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import static java.lang.Math.floor;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.UtilityTool;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class TileManager {
 
@@ -42,7 +35,7 @@ public class TileManager {
 //    public int mapTileNum[][][];
     public int mapTileNum[][][];
     public int mapTileInfo[][];
-    boolean drawPath = true; // Draw a red path in tiles 
+    public boolean drawPath = false; // Draw a red path in tiles 
     ArrayList<String> fileNames = new ArrayList<>();
     ArrayList<String> collisionStatus = new ArrayList<>();
     String areaName = "outside";
@@ -68,64 +61,17 @@ public class TileManager {
     public boolean tempTileXYCollision = false;
 
     
-    public TileManager(GamePanel gp) {
+    public TileManager(GamePanel gp){
         
         this.gp = gp;
-        
+            
         loadTileData();
     }
 
-    public void loadJSONTiledMap(String mapfile) throws IOException {
-        
-        String newLine = System.getProperty("line.separator");
-        InputStream is = getClass().getResourceAsStream("/res/maps/"+mapfile);
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        StringBuilder result = new StringBuilder();
-        for (String line; (line = br.readLine()) != null; ) {
-             if (result.length() > 0) {
-                 result.append(newLine);
-             }
-             result.append(line);
-        } 
-        
-        //String jsonMap = "{"name":"user","id":1234,"marks":[{"english":85,"physics":80,"chemistry":75}]}";
-        String jsonMap = result.toString();
-        String s="[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
-        Object obj = JSONValue.parse(s); 
-        JSONArray array=(JSONArray)obj; 
-        System.out.println("======the 2nd element of array======"); 
-        System.out.println(array.get(1)); 
-        System.out.println();
 
-        JSONObject obj2=(JSONObject)array.get(1); 
-        System.out.println("======field \"1\"=========="); 
-        System.out.println(obj2.get("1"));
+
+    public void loadTileData(){
         
-        
-        
-//        String jsonMap = result.toString();
-//        
-//        JSONObject jsonOBJmap = new JSONObject(jsonMap);
-//        
-//        JSONArray marks = jsonOBJmap.
-//        
-//        JSONObject data = marks.getJSONObject(0);
-//        
-//        
-//        System.out.println(String.format("Name %s", data.getValue("physics")));
-//        System.out.println(String.format("Data %s", data.getValue("data")));
-//        System.out.println(String.format("Height %s", data.getValue("height")));
-    }
-    
-    public void loadTileData() {
-        try {
-            loadJSONTiledMap("untitled.tmj");
-            //loadJSONTiledMap("novo1.txt");
-        } catch (IOException ex) {
-            System.out.println(ex);
-            System.exit(0);
-        }
-        //System.out.println("loadTileData getResourceAsStream: " + "/res/tiles/"+getCurrentArea()+"/tiledata.txt");
         // READ TILE DATA FILE
         InputStream is = getClass().getResourceAsStream("/res/tiles/"+getCurrentArea()+"/tiledata.txt");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -541,13 +487,11 @@ public class TileManager {
                 if(worldCol == gp.maxWorldCol) {
                     worldCol = 0;
                     worldRow++;
-                    //System.exit(0);
                 }
             }
 
             if(drawPath == true) {
                 drawRectPath(g2);
-                //inBounds(0,0,g2);
             }
         }
     }

@@ -81,7 +81,7 @@ public class TwitchChatListener extends ListenerAdapter {
 
             if (twitchMessage.equals("!npc") && gp.getNPCTwitch(userHashCode) == null) {
 
-                gp.addNPCTwitch(mapNum, event, gp.player.worldX + gp.tileSize, gp.player.worldY, event.getUser().getNick());
+                gp.addNPCTwitch(mapNum, event, gp.player.worldX, gp.player.worldY, event.getUser().getNick());
                 //gp.ui.addMessage(event.getUser().getNick()+" now have an NPC in game!");
                 npcT = gp.getNPCTwitch(userHashCode);
                 npcT.name = event.getUser().getNick();

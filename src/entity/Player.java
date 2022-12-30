@@ -15,6 +15,7 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 import main.GamePanel;
 import main.KeyHandler;
 import main.MouseHandler;
@@ -35,6 +36,7 @@ public class Player extends Entity{
     public boolean attackCanceled = false;
     public boolean lightUpdated = false;
     public String imageHeroPlayer = "hero001";
+    public boolean playerRandomMove = false;
 
     public Player(GamePanel gp, KeyHandler keyH, MouseHandler mouseH) {
 
@@ -58,7 +60,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 2;
+        gp.currentMap = 0;
         gp.gameState = gp.transitionState;
         
         switch(gp.currentMap){
@@ -85,6 +87,8 @@ public class Player extends Entity{
             case 3: // DUNGEON 2
                 this.worldX = gp.tileSize * 26;
                 this.worldY = gp.tileSize * 40;
+                this.worldX = gp.tileSize * 25;
+                this.worldY = gp.tileSize * 9;
                 gp.nextArea = gp.dungeon;
                 gp.currentArea = gp.nextArea;
             break;
@@ -309,7 +313,31 @@ public class Player extends Entity{
             guardLeft  = setup("player/"+imageHeroPlayer+"_guard_left",  gp.tileSize, gp.tileSize);
             guardRight = setup("player/"+imageHeroPlayer+"_guard_right", gp.tileSize, gp.tileSize);
     }
-       
+    
+    public void setAction() {
+        if(this.playerRandomMove == true){
+            actionLockCounter ++;
+
+            if(actionLockCounter == 60) {
+                System.out.println("playerRandomMove:"+playerRandomMove);
+
+                Random random = new Random();
+                int i = random.nextInt(100) + 1;
+
+                if(i <= 25){this.direction = "up";}
+                if(i > 25 && i <=50){this.direction = "down";}
+                if(i > 50 && i <=75){this.direction = "left";}
+                if(i > 75 && i <=100){this.direction = "right";}
+                
+                collisionOn = false;
+                gp.keyH.enterPressed = false;
+
+                actionLockCounter = 0;
+                System.out.println("this.direction:"+this.direction);
+            }
+        }
+    }
+    
     @Override
     public void update() {
         
@@ -321,6 +349,8 @@ public class Player extends Entity{
 //        System.out.println("keyH.shiftPressed? "+keyH.shiftPressed);
 //        System.out.println("guarding? "+guarding);
 //        System.out.println("-------------------");
+        setAction();
+
         if(this.knockBack == true) {
 
             // CHECK TILE COLLISION
@@ -391,7 +421,7 @@ public class Player extends Entity{
         // ANOTHER ACTIONS MADE WITH ENTER PRESSED
         else if(keyH.upPressed == true || keyH.downPressed == true || 
                 keyH.leftPressed == true || keyH.rightPressed == true 
-                || keyH.enterPressed == true) {
+                || keyH.enterPressed == true || this.playerRandomMove == true) {
 
             if(keyH.upPressed == true) {this.direction = "up";}
             else if(keyH.downPressed == true) {this.direction = "down";}
@@ -554,7 +584,7 @@ public class Player extends Entity{
             pickUpObject(objIndex);
             
             // CHECK EVENT
-            gp.eHandler.checkEvent();            
+            gp.eHandler.checkEvent();
             
             switch(this.direction) {
                 case "up": this.worldY -= this.speed; break;

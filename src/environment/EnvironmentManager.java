@@ -80,7 +80,7 @@ public class EnvironmentManager {
                 timeToCheckEnvironment = System.currentTimeMillis();
             }
 
-            if (environmentRandomNumber < 5 
+            if (environmentRandomNumber < 15 
                     || snow.onState == true 
                     && rainDrops[1].onState == false) {
 
@@ -88,8 +88,8 @@ public class EnvironmentManager {
 
                     snow.draw(g2);
             }
-            if(environmentRandomNumber >= 5 
-                    && environmentRandomNumber < 30 
+            if(environmentRandomNumber >= 15 
+                    && environmentRandomNumber < 40 
                     || rainDrops[1].onState == true 
                     && snow.onState == false) {
 
@@ -101,7 +101,7 @@ public class EnvironmentManager {
                     rainDrops[i].update();
                 }            
             }
-            if(environmentRandomNumber >= 30 
+            if(environmentRandomNumber >= 40 
                     && environmentRandomNumber < 100 ) {
                 environmentState = "Clean";
             }

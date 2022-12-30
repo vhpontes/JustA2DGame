@@ -8,6 +8,7 @@ package main;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import twitch.TwitchBot;
 
@@ -25,6 +26,7 @@ public class Main {
         window.setResizable(true);
         window.setAlwaysOnTop(false);
         window.setTitle("Just a 2D Game");
+        new Main().setIcon();
         
         window.add(gamePanel);
 
@@ -52,5 +54,10 @@ public class Main {
                 }
             }
         }).start();
+    }
+    
+    public void setIcon() {
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("res/images/JustA2DGameICON.png"));
+        window.setIconImage(icon.getImage());
     }
 }

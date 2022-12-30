@@ -11,6 +11,7 @@ https://www.youtube.com/@dtudoumporco
  
 package main;
 
+import data.Progress;
 import entity.NPC_BigRock;
 import entity.NPC_Merchant;
 import monster.MON_Bat;
@@ -21,6 +22,7 @@ import monster.MON_SkeletonLord;
 import objects.OBJ_Arrow;
 import objects.OBJ_Axe;
 import objects.OBJ_Barrel;
+import objects.OBJ_BlueHeart;
 import objects.OBJ_Boots;
 import objects.OBJ_Bow_Normal;
 import objects.OBJ_Chest;
@@ -162,6 +164,12 @@ public class AssetSettler {
         gp.obj[mapNum][i].worldX = gp.tileSize*25;
         gp.obj[mapNum][i].worldY = gp.tileSize*15;      
         i++;
+        
+        gp.obj[mapNum][i] = new OBJ_BlueHeart(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize * 25;
+        gp.obj[mapNum][i].worldY = gp.tileSize * 8;      
+        i++;
+        
     }
     
     public void setNPC(){
@@ -265,10 +273,12 @@ public class AssetSettler {
         // MAP 3
         mapNum = 3;
         i = 0;
-        gp.monster[mapNum][i] = new MON_SkeletonLord(gp);
-        gp.monster[mapNum][i].worldX = gp.tileSize*23;
-        gp.monster[mapNum][i].worldY = gp.tileSize*16;
-        i++;
+        if(Progress.skeletonLordDefeated == false) {
+            gp.monster[mapNum][i] = new MON_SkeletonLord(gp);
+            gp.monster[mapNum][i].worldX = gp.tileSize*23;
+            gp.monster[mapNum][i].worldY = gp.tileSize*16;
+            i++;
+        }
     }
     
     public void setInteractiveTile() {

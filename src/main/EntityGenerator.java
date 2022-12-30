@@ -15,6 +15,7 @@ import entity.Entity;
 import objects.OBJ_Arrow;
 import objects.OBJ_Axe;
 import objects.OBJ_Barrel;
+import objects.OBJ_BlueHeart;
 import objects.OBJ_Boots;
 import objects.OBJ_Bow_Normal;
 import objects.OBJ_Chest;
@@ -74,6 +75,7 @@ public class EntityGenerator {
             case OBJ_Pot.objName: obj = new OBJ_Pot(gp); break;
             case OBJ_Torch.objName: obj = new OBJ_Torch(gp); break;
             case OBJ_WallTorch.objName: obj = new OBJ_WallTorch(gp); break;
+            case OBJ_BlueHeart.objName: obj = new OBJ_BlueHeart(gp); break;
         }
         
         return obj;

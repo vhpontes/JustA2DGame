@@ -233,7 +233,7 @@ public class Entity {
     
     public int getCenterX() {
         
-        int centerX = worldX + left1.getWidth()/2;
+        int centerX = worldX + left1.getWidth() / 2;
         return centerX;
     }
 

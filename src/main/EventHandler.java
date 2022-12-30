@@ -87,8 +87,8 @@ public class EventHandler{
         
         if(canTouchEvent == true) {
             
-            if(hit(0, 25, 19, "any")        == true) {damagePit(0, 25, 19, "buraco", 1 ,gp.dialogueState);}
-            else if(hit(0, 23, 12, "up")    == true) {healingPool(23, 12, gp.dialogueState);}
+            if(hit(0, 23, 12, "up")    == true) {healingPool(23, 12, gp.dialogueState);}
+            //else if(hit(0, 25, 19, "any")        == true) {damagePit(0, 25, 19, "buraco", 1 ,gp.dialogueState);}
             else if(hit(0, 30, 37, "up")    == true) {teleport(2, 8, 47, gp.dungeon);} // teleport DG
             else if(hit(2, 8, 48, "down")   == true) {teleport(0, 30, 37, gp.outside);} // teleport out DG to world
             //else if(hit(2,20,26,"any") == true) {damagePit(2,20,26, "poço de lava", 1 ,gp.dialogueState);}
