@@ -1,4 +1,3 @@
-
 package twitch;
 
 import java.io.FileInputStream;

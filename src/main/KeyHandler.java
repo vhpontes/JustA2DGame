@@ -5,13 +5,19 @@ https://www.youtube.com/c/RyiSnow
 
 package main;
 
+import entity.NPC_Twitch;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.simple.parser.ParseException;
+import tile.TileManagerJSON;
 
 public class KeyHandler implements KeyListener{
 
@@ -203,6 +209,13 @@ public class KeyHandler implements KeyListener{
         //DEBUG
         if(code == KeyEvent.VK_F10) {
             showRedRectangleTile ^= true;
+        }
+        if(code == KeyEvent.VK_F11) {
+            try {
+                gp.tileMJSON.loadJSONTiledMap("untitled.tmj");
+            } catch (IOException | ParseException ex) {
+                Logger.getLogger(TileManagerJSON.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if(code == KeyEvent.VK_T) {
             showDebugText ^= true;

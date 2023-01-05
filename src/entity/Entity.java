@@ -19,6 +19,8 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import static java.lang.Math.floor;
@@ -86,7 +88,8 @@ public class Entity {
     public boolean transparent = false;
     public boolean offBalance = false;
     public Entity loot;
-    public boolean opened = false;
+    public boolean opened = false; // for chest
+    public boolean empty = true; // for chest
     public boolean inRage = false;
     public boolean canMove = true;
     public boolean boss = false;
@@ -321,38 +324,112 @@ public class Entity {
         gp.ui.npc = entity;
         dialogueSet = setNum;
     }
+    
+    public void drawSpeechBubbles(Graphics2D g2, int screenX, int screenY, int width, int height, Color bgColor) {
+        
+        RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2.setRenderingHints(qualityHints);
+        //g2.setPaint(new Color(80, 150, 180));
+        g2.setPaint(bgColor);
+        
+        GeneralPath path = new GeneralPath();
+        path.moveTo(
+                screenX + 5, 
+                screenY + 10);
+        path.curveTo(
+                screenX + 5, 
+                screenY + 10, 
+                screenX + 7, 
+                screenY + 5, 
+                screenX + 0, 
+                screenY + 0);
+        path.curveTo(
+                screenX + 0, 
+                screenY + 0, 
+                screenX + 12, 
+                screenY + 0, 
+                screenX + 12, 
+                screenY + 5);
+        path.curveTo(
+                screenX + 12, 
+                screenY + 5, 
+                screenX + 12, 
+                screenY + 0, 
+                screenX + 20, 
+                screenY + 0);
+        path.lineTo(
+                screenX + width - 10, 
+                screenY + 0);
+        path.curveTo(
+                screenX + width - 10, 
+                screenY + 0, 
+                screenX + width, 
+                screenY + 0, 
+                screenX + width, 
+                screenY + 10);
+        path.lineTo(
+                screenX + width, 
+                screenY + height - 10);
+        path.curveTo(
+                screenX + width, 
+                screenY + height - 10, 
+                screenX + width, 
+                screenY + height, 
+                screenX + width - 10, 
+                screenY + height);
+        path.lineTo(
+                screenX + 15, 
+                screenY + height);
+        path.curveTo(
+                screenX + 15, 
+                screenY + height, 
+                screenX + 5, 
+                screenY + height, 
+                screenX + 5, 
+                screenY + height - 10);
+        path.lineTo(
+                screenX + 5, 
+                screenY + 15);
+        path.closePath();
 
-    public void drawTwitcChatDialogue(Graphics2D g2, int screenX, int screenY) {
+        g2.fill(path);        
+    }
+
+    public void drawChatDialogue(Graphics2D g2, int screenX, int screenY) {
         
         // DRAW Twitch Message
         if(this.npcTwitchMessage != null && !this.npcTwitchMessage.equals("!npc")) {
             
             g2.setFont(new Font("Arial", Font.BOLD, 14));
             int width = this.npcTwitchMessage.length();
-            int padding = 3;
+            int padding = 9;
             
-            int x = screenX + gp.tileSize;
-            int y = screenY-gp.tileSize;
+            int x = screenX + (gp.tileSize / 2) + 10;
+            int y = screenY + (gp.tileSize / 3);
+            
             
             g2.setFont(g2.getFont().deriveFont(14f));
             
-            // draw a backgroud of npc twitch chat 
+            // DRAW A BACKGROUD OF NPC TWITCH CHAT 
             Rectangle bounds = g2.getFontMetrics().getStringBounds(this.npcTwitchMessage, g2).getBounds();
             Color c = new Color(0,0,0,170);
-            g2.setColor(c);
+/*            g2.setColor(c);
             g2.fillRoundRect(x - padding, y - padding, bounds.width + padding, bounds.height + padding, 5, 5);
             
-            // draw a border of backgroud
+            // DRAW A BORDER OF BACKGROUD
             c = new Color(255,255,255); //white
             g2.setColor(c);
             g2.setStroke(new BasicStroke(1));
             g2.drawRoundRect(x - padding, y - padding, bounds.width + padding, bounds.height + padding, 5, 5);            
+*/
+            drawSpeechBubbles(g2, x, y, bounds.width + (padding * 2), bounds.height + padding, c);
             
-            // draw a string line (message) with shadow
+            // DRAW A STRING LINE (MESSAGE) WITH SHADOW
             g2.setColor(Color.black);
-            g2.drawString(this.npcTwitchMessage, x + 2, y + 23);
+            g2.drawString(this.npcTwitchMessage, x + padding + 2, y + 22);
             g2.setColor(Color.green);
-            g2.drawString(this.npcTwitchMessage, x, y + 21);
+            g2.drawString(this.npcTwitchMessage, x + padding, y + 20);
         }
     }    
     
@@ -1091,7 +1168,7 @@ public class Entity {
                 if(System.currentTimeMillis() > (this.messageTwitchTimeStamp + TWITCH_MESSAGE_MAXSCREEN_TIME * 1000)) {
                     this.npcTwitchMessage = null;
                 }
-                drawTwitcChatDialogue(g2, tempScreenX, tempScreenY);
+                drawChatDialogue(g2, tempScreenX, tempScreenY);
             }
 
             // VISUAL EFFECT TO INVINCIBLE MODE

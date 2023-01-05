@@ -20,10 +20,10 @@ public class OBJ_ManaCrystal extends Entity{
         type = type_pickupOnly;
         name = objName;
         value = 1;
-        down1 = setup("objects/manacrystal_full", gp.tileSize, gp.tileSize);
+        down1 = setup("objects/manacrystal_full", gp.tileSize/2, gp.tileSize/2);
         
-        image = setup("objects/manacrystal_full", gp.tileSize, gp.tileSize);
-        image2 = setup("objects/manacrystal_blank", gp.tileSize, gp.tileSize);
+        image = setup("objects/manacrystal_full", gp.tileSize/2, gp.tileSize/2);
+        image2 = setup("objects/manacrystal_blank", gp.tileSize/2, gp.tileSize/2);
     }
     
     public boolean use(Entity entity) {

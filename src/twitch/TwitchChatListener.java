@@ -13,8 +13,10 @@ import java.text.SimpleDateFormat;
 import main.GamePanel;
 import main.KeyHandler;
 import org.pircbotx.hooks.ListenerAdapter;
+import org.pircbotx.hooks.events.JoinEvent;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.events.NoticeEvent;
+import org.pircbotx.hooks.types.GenericMessageEvent;
 
 
 public class TwitchChatListener extends ListenerAdapter {
@@ -26,8 +28,8 @@ public class TwitchChatListener extends ListenerAdapter {
     }
     
     public TwitchChatListener(GamePanel gp, KeyHandler keyH) {
+
         this.gp = gp;
-        
     }
     
     @Override
@@ -78,7 +80,8 @@ public class TwitchChatListener extends ListenerAdapter {
 
                 //gp.ui.addMessage(event.getUser().getNick()+": " + twitchMessage);
             }
-
+            
+            // ADD Twitch User NPC in GAME
             if (twitchMessage.equals("!npc") && gp.getNPCTwitch(userHashCode) == null) {
 
                 gp.addNPCTwitch(mapNum, event, gp.player.worldX, gp.player.worldY, event.getUser().getNick());
@@ -88,6 +91,7 @@ public class TwitchChatListener extends ListenerAdapter {
                 gp.ui.addMessage(npcT.name+" now have an NPC in game!");
                 //System.out.println("ID: " +event.getUser().getUserId());
             }
+            // LAUNCH A FIREBALL
             else if(twitchMessage.equals("!fireball")) {
 
                 npcT = gp.getNPCTwitch(userHashCode);
@@ -97,6 +101,7 @@ public class TwitchChatListener extends ListenerAdapter {
                     npcT.attacking = true;
                 }
             }
+            // TWITCH NPC MESSAGE ON SCREEN
             else if(!twitchMessage.startsWith("!")) {
 
                 npcT = gp.getNPCTwitch(userHashCode);
@@ -105,7 +110,7 @@ public class TwitchChatListener extends ListenerAdapter {
                     npcT.messageTwitchTimeStamp = System.currentTimeMillis();
                 }
             }
-
+            // FIREWORKs WHEN A EVENT (follow, sub, etc..)
             if (event.getUser().getNick().equalsIgnoreCase("own3d")){
                 if (twitchMessage.contains(" is now following!") 
                         || twitchMessage.contains(" has gifted ") 
@@ -131,4 +136,27 @@ public class TwitchChatListener extends ListenerAdapter {
             }
         }
     }
+
+    @Override
+    public void onJoin(JoinEvent eventJ) throws Exception
+    {
+        int mapNum = 0;
+        int userHashCode = 0;
+        userHashCode = eventJ.getUser().hashCode();
+        
+        NPC_Twitch npcT = gp.getNPCTwitch(userHashCode);
+        
+        gp.addNPCTwitch(mapNum, null, gp.player.worldX, gp.player.worldY, eventJ.getUser().getNick());
+        npcT = gp.getNPCTwitch(userHashCode);
+        npcT.name = eventJ.getUser().getNick();
+        System.out.println(npcT.name + ", JOIN in Twitch and GAME!");
+                
+    }
+
+    
+    @Override
+    public void onGenericMessage(GenericMessageEvent event) throws Exception
+    {
+        System.out.println("Message received from onGenericMessage: " + event.getMessage());
+    }    
 }

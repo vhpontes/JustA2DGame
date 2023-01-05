@@ -60,7 +60,7 @@ public class Player extends Entity{
     
     public void setInitialPosition() {
 
-        gp.currentMap = 0;
+        gp.currentMap = 6;
         gp.gameState = gp.transitionState;
         
         switch(gp.currentMap){
@@ -315,11 +315,17 @@ public class Player extends Entity{
     }
     
     public void setAction() {
+        
+        int moveFrames = 60;
+        
         if(this.playerRandomMove == true){
-            actionLockCounter ++;
+            Random actionLockCounterRandom = new Random();
+            int actionLockCounterTotal = actionLockCounterRandom.nextInt(moveFrames) + 1;
+            
+            //actionLockCounter ++;
+            actionLockCounter = actionLockCounterTotal;
 
-            if(actionLockCounter == 60) {
-                System.out.println("playerRandomMove:"+playerRandomMove);
+            if(actionLockCounter == moveFrames) {
 
                 Random random = new Random();
                 int i = random.nextInt(100) + 1;
@@ -333,7 +339,6 @@ public class Player extends Entity{
                 gp.keyH.enterPressed = false;
 
                 actionLockCounter = 0;
-                System.out.println("this.direction:"+this.direction);
             }
         }
     }

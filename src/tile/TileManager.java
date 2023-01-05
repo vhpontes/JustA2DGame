@@ -32,7 +32,6 @@ public class TileManager {
     GamePanel gp;
     public Tile[] tile;
     public Tile[][] tileInfo;
-//    public int mapTileNum[][][];
     public int mapTileNum[][][];
     public int mapTileInfo[][];
     public boolean drawPath = false; // Draw a red path in tiles 
@@ -67,8 +66,6 @@ public class TileManager {
             
         loadTileData();
     }
-
-
 
     public void loadTileData(){
         

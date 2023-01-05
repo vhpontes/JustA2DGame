@@ -17,6 +17,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -39,13 +40,14 @@ public final class Lighting{
     public Thread lUpdate;
 
     
-    public Lighting(GamePanel gp) {
+    public Lighting(GamePanel gp, int posX, int posY, int lRadius) {
         this.gp = gp;
             
-        setLightSource();
+//        setLightSource(gp.player.screenX + (gp.tileSize) / 2, gp.player.screenY + (gp.tileSize) / 2);
+        setLightSource(posX, posY, lRadius);
     }
     
-    public void setLightSource() {
+    public void setLightSource(int centerLightX, int centerLightY, int lightRadius) {
         
         darknessFilter = new BufferedImage(gp.screenWidth, gp.screenHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = (Graphics2D)darknessFilter.getGraphics();
@@ -57,15 +59,13 @@ public final class Lighting{
         else {
             
             // update values of light source in screen
-            int centerLightX = gp.player.screenX + (gp.tileSize) / 2;
-            int centerLightY = gp.player.screenY + (gp.tileSize) / 2;
+            //int centerLightX = gp.player.screenX + (gp.tileSize) / 2;
+            //int centerLightY = gp.player.screenY + (gp.tileSize) / 2;
             int worldX = gp.player.worldX;
             int worldY = gp.player.worldY;
             if(gp.player.screenX > gp.player.worldX) {
                 centerLightX = worldX;
                 centerLightX = gp.player.screenX;
-                System.out.println("worldX:"+worldX);
-                System.out.println("gp.player.screenX:"+gp.player.screenX);
             }
             if(gp.player.screenY > gp.player.worldY) {
                 centerLightY = worldY;
@@ -107,7 +107,75 @@ public final class Lighting{
             fraction[10] = 0.95f;
             fraction[11] = 1f;
 
-            RadialGradientPaint gPaint = new RadialGradientPaint(centerLightX, centerLightY, gp.player.currentLight.lightRadius, fraction, color);
+            RadialGradientPaint gPaint = new RadialGradientPaint(centerLightX, centerLightY, lightRadius, fraction, color);
+
+            g2.setPaint(gPaint);
+        }
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+        g2.dispose();
+    }
+
+    public void paintlight(Graphics2D g2, Point center) {
+        
+        darknessFilter = new BufferedImage(gp.screenWidth, gp.screenHeight, BufferedImage.TYPE_INT_ARGB);
+        g2 = (Graphics2D)darknessFilter.getGraphics();
+        
+        if(gp.player.currentLight == null) {
+            
+            g2.setColor(new Color(0,0,0.1f, 0.96f));
+        }
+        else {
+            
+            // update values of light source in screen
+            //int centerLightX = gp.player.screenX + (gp.tileSize) / 2;
+            //int centerLightY = gp.player.screenY + (gp.tileSize) / 2;
+            int worldX = gp.player.worldX;
+            int worldY = gp.player.worldY;
+            if(gp.player.screenX > gp.player.worldX) {
+                center.x = worldX;
+                center.y = gp.player.screenX;
+            }
+            if(gp.player.screenY > gp.player.worldY) {
+                center.y = worldY;
+            }
+            int rightOffset = gp.screenWidth - gp.player.screenX;
+            if(rightOffset > gp.worldWidth - gp.player.worldX) {
+                center.x = gp.screenWidth - (gp.worldWidth - worldX);
+            }
+            int bottonOffset = gp.screenHeight - gp.player.screenY;
+            if(bottonOffset > gp.worldHeight - gp.player.worldY) {
+                center.y = gp.screenHeight - (gp.worldHeight - worldY);
+            }
+
+            Color color[] = new Color[12];
+            float fraction[] = new float[12];
+            color[0] = new Color(0, 0, 0.1f, 0.1f);
+            color[1] = new Color(0, 0, 0.1f, 0.42f);
+            color[2] = new Color(0, 0, 0.1f, 0.52f);
+            color[3] = new Color(0, 0, 0.1f, 0.61f);
+            color[4] = new Color(0, 0, 0.1f, 0.69f);
+            color[5] = new Color(0, 0, 0.1f, 0.76f);
+            color[6] = new Color(0, 0, 0.1f, 0.82f);
+            color[7] = new Color(0, 0, 0.1f, 0.87f);
+            color[8] = new Color(0, 0, 0.1f, 0.91f);
+            color[9] = new Color(0, 0, 0.1f, 0.92f);
+            color[10] = new Color(0, 0, 0.1f, 0.93f);
+            color[11] = new Color(0, 0, 0.1f, 0.94f);
+
+            fraction[0] = 0f;
+            fraction[1] = 0.40f;
+            fraction[2] = 0.50f;
+            fraction[3] = 0.60f;
+            fraction[4] = 0.65f;
+            fraction[5] = 0.7f;
+            fraction[6] = 0.75f;
+            fraction[7] = 0.80f;
+            fraction[8] = 0.85f;
+            fraction[9] = 0.90f;
+            fraction[10] = 0.95f;
+            fraction[11] = 1f;
+
+            RadialGradientPaint gPaint = new RadialGradientPaint(center, 200, fraction, color);
 
             g2.setPaint(gPaint);
         }
@@ -130,10 +198,21 @@ public final class Lighting{
         g.drawString(text, x, y);
     }     
     
-    public void update() {
+    public void update(Graphics2D g) {
+
+//         Point[] lights = { 
+//             new Point(200 / 2, 400 / 2), 
+//             new Point(10,10)
+//         };
+//         for (Point center : lights) {
+//             paintlight(g, center);
+//         }
+
+
+
         
         if(gp.player.lightUpdated == true) {
-            setLightSource();
+            setLightSource(gp.player.screenX + (gp.tileSize) / 2, gp.player.screenY + (gp.tileSize) / 2, gp.player.currentLight.lightRadius);
             gp.player.lightUpdated = false;
         }
         

@@ -28,6 +28,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -37,6 +38,7 @@ import javax.swing.JPanel;
 import org.pircbotx.hooks.events.MessageEvent;
 import tile.Map;
 import tile.TileManager;
+import tile.TileManagerJSON;
 import tile_interactive.InteractiveTile;
 
 
@@ -133,6 +135,7 @@ public class GamePanel extends JPanel implements Runnable{
     public ArrayList<Entity> npcTwitchList = new ArrayList();
 
     public TileManager tileM = new TileManager(this);
+    public TileManagerJSON tileMJSON = new TileManagerJSON(this);
     
     // GAME STATE
     public String language = "en";
@@ -513,7 +516,7 @@ public class GamePanel extends JPanel implements Runnable{
         int y = this.screenHeight / 4;
         int lineHeight = 20;
 
-        ui.drawSubWindow(x-10, y-30, this.tileSize * 6, lineHeight * 27);
+        ui.drawSubWindow(x-10, y-30, this.tileSize * 6, lineHeight * 27, 5);
         
         g2.setFont(new Font("Arial", Font.PLAIN, 20));
         g2.setColor(Color.green);
@@ -649,5 +652,5 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
     }
-    
+
 }

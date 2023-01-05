@@ -14,6 +14,7 @@ package main;
 import data.Progress;
 import entity.NPC_BigRock;
 import entity.NPC_Merchant;
+import environment.Lighting;
 import monster.MON_Bat;
 import monster.MON_GreenSlime;
 import monster.MON_Orc;
@@ -21,6 +22,7 @@ import monster.MON_RedSlime;
 import monster.MON_SkeletonLord;
 import objects.OBJ_Arrow;
 import objects.OBJ_Axe;
+import objects.OBJ_Banner;
 import objects.OBJ_Barrel;
 import objects.OBJ_BlueHeart;
 import objects.OBJ_Boots;
@@ -170,6 +172,43 @@ public class AssetSettler {
         gp.obj[mapNum][i].worldY = gp.tileSize * 8;      
         i++;
         
+        mapNum = 6;
+        i = 0;
+        gp.obj[mapNum][i] = new OBJ_Barrel(gp);
+        gp.obj[mapNum][i].worldX = (gp.tileSize * 29)  + (gp.tileSize - gp.obj[mapNum][i].width) / 2;
+        gp.obj[mapNum][i].worldY = (gp.tileSize * 29) - 10;
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Pot(gp);
+        gp.obj[mapNum][i].down1 = gp.obj[mapNum][i].image;
+        gp.obj[mapNum][i].worldX = (gp.tileSize * 17) + (gp.tileSize - gp.obj[mapNum][i].width) / 2;
+        gp.obj[mapNum][i].worldY = (gp.tileSize * 21) - 20;      
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Pot(gp);
+        gp.obj[mapNum][i].down1 = gp.obj[mapNum][i].image2;
+        gp.obj[mapNum][i].worldX = (gp.tileSize * 23) + 15 + (gp.tileSize - gp.obj[mapNum][i].width) / 2;
+        gp.obj[mapNum][i].worldY = (gp.tileSize * 23) - 20;      
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Torch(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize * 18;
+        gp.obj[mapNum][i].worldY = (gp.tileSize * 19) + 20;
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Torch(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize * 25;
+        gp.obj[mapNum][i].worldY = (gp.tileSize * 19) + 20;      
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Torch(gp);
+        gp.obj[mapNum][i].worldX = gp.tileSize * 32;
+        gp.obj[mapNum][i].worldY = (gp.tileSize * 19) + 20;      
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Banner(gp, 1);
+        gp.obj[mapNum][i].worldX = (gp.tileSize * 24);
+        gp.obj[mapNum][i].worldY = (gp.tileSize * 19) + 20;      
+        i++;
+        gp.obj[mapNum][i] = new OBJ_Banner(gp, 2);
+        gp.obj[mapNum][i].worldX = (gp.tileSize * 26);
+        gp.obj[mapNum][i].worldY = (gp.tileSize * 19) + 20;      
+        i++;
+        
     }
     
     public void setNPC(){
@@ -214,7 +253,7 @@ public class AssetSettler {
 
         int mapNum = 0;
         int i = 0;
-        gp.monster[mapNum][i] = new MON_GreenSlime(gp);
+/*        gp.monster[mapNum][i] = new MON_GreenSlime(gp);
         gp.monster[mapNum][i].worldX = gp.tileSize*21;
         gp.monster[mapNum][i].worldY = gp.tileSize*38;
         i++;
@@ -230,10 +269,6 @@ public class AssetSettler {
         gp.monster[mapNum][i].worldX = gp.tileSize*38;
         gp.monster[mapNum][i].worldY = gp.tileSize*42;
         i++;
-//        gp.monster[mapNum][i] = new MON_RedSlime(gp);
-//        gp.monster[mapNum][i].worldX = gp.tileSize*22;
-//        gp.monster[mapNum][i].worldY = gp.tileSize*13;
-//        i++;
         gp.monster[mapNum][i] = new MON_RedSlime(gp);
         gp.monster[mapNum][i].worldX = gp.tileSize*26;
         gp.monster[mapNum][i].worldY = gp.tileSize*7;
@@ -269,7 +304,7 @@ public class AssetSettler {
         gp.monster[mapNum][i].worldX = gp.tileSize*10;
         gp.monster[mapNum][i].worldY = gp.tileSize*19;
         i++;
-
+*/
         // MAP 3
         mapNum = 3;
         i = 0;

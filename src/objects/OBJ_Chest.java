@@ -28,8 +28,9 @@ public class OBJ_Chest extends Entity{
         
         type = type_obstacle;
         name = objName;
-        image = setup("objects/chest01", gp.tileSize, gp.tileSize);        
-        image2 = setup("objects/chest01_opened", gp.tileSize, gp.tileSize);
+        image = setup("objects/chest01_01", gp.tileSize, gp.tileSize);        
+        image2 = setup("objects/chest01_02", gp.tileSize, gp.tileSize);
+        image3 = setup("objects/chest01_03", gp.tileSize, gp.tileSize);
         down1 = image;
         collision = true;
     
@@ -47,7 +48,7 @@ public class OBJ_Chest extends Entity{
         for(var i = 0; i < lootAmount; i++) {
             this.inventory.add(loot);
         }
-        
+        empty = false;
         setDialogue();
     }
     
@@ -106,10 +107,17 @@ public class OBJ_Chest extends Entity{
 
     public void interact() {
         
+        if(empty == false) {
+            down1 = image2;
+        }
+        else {
+            down1 = image3;
+        }
+
         if(opened == false) {
             
             gp.playSE(3);
-
+            
             for(int i = 0; i < this.inventory.size(); i++) {
                 if(gp.player.canObtainItem(gp.eGenerator.getObject(this.inventory.get(i).name)) == false) {
 
@@ -118,9 +126,8 @@ public class OBJ_Chest extends Entity{
                 else {
                     
                     startDialogue(this, 1);
-                    down1 = image2;
                     opened = true;
-
+                    empty = true;
                 }
             }
         }
@@ -129,5 +136,4 @@ public class OBJ_Chest extends Entity{
             startDialogue(this, 2);
         }
     }
-
 }

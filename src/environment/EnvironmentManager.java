@@ -26,7 +26,9 @@ import main.GamePanel;
 public class EnvironmentManager {
     
     GamePanel gp;
+    Graphics2D g2;
     public Lighting lighting;
+    public Light luz;
     public SnowFall snow;
     public Rain rain;
     Rain[] rainDrops = new Rain[1000];
@@ -41,7 +43,9 @@ public class EnvironmentManager {
     }
     
     public void setup() {
-        lighting = new Lighting(gp);
+        int x = gp.player.screenX + (gp.tileSize) / 2;
+        int y = gp.player.screenY + (gp.tileSize) / 2;
+        lighting = new Lighting(gp, x, y, gp.player.currentLight.lightRadius);
         snow = new SnowFall(gp);
         
         for(int i = 0; i < rainDrops.length; i++) {
@@ -51,7 +55,8 @@ public class EnvironmentManager {
     }
     
     public void update() {
-        lighting.update();
+        
+        lighting.update(g2);
     }
 
     public static Rectangle2D[] rectangles = new Rectangle[]{
@@ -70,7 +75,6 @@ public class EnvironmentManager {
     }     
     
     public void draw(Graphics2D g2) throws IOException {
-        
 //        if(gp.currentArea == gp.outside || gp.currentArea == gp.dungeon) {
         if(gp.currentArea == gp.outside) {
 
@@ -105,8 +109,6 @@ public class EnvironmentManager {
                     && environmentRandomNumber < 100 ) {
                 environmentState = "Clean";
             }
-            
-//            lighting.draw(g2);
             
             // Screen DEBUG
             String debugTXT1 = Integer.toString(environmentRandomNumber)+ "% sun probability";

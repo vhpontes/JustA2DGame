@@ -15,10 +15,15 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class TileManagerJSON {
+    
     GamePanel gp;  
     
     // referency:
     // loadJSONTiledMap("untitled.tmj");
+    public TileManagerJSON(GamePanel gp) {
+
+        this.gp = gp;
+    }
     
     public void loadJSONTiledMap(String mapfile) throws FileNotFoundException, IOException, ParseException  {
         
@@ -31,6 +36,21 @@ public class TileManagerJSON {
 
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
             
+            /*
+            layers
+                data
+                objects
+            tilesets
+            
+            JSONObject jsonObject 
+                JSONArray layers 
+                    JSONObject data get(0)
+                        JSONArray mapData .get("data")
+                    JSONObject data get(1)
+                        JSONArray mapObjData .get("objects")
+                        JSONObject dataObj .get(0)
+            */
+            
             // LAYERS
             JSONArray layers = (JSONArray) jsonObject.get("layers"); 
 
@@ -40,15 +60,16 @@ public class TileManagerJSON {
             for (int i = 0; i < mapData.size(); i++) {
                 mapTile[i] = ((Long)mapData.get(i)).intValue();
             }
-            System.out.println(Arrays.toString(mapTile));
-            
+
             String name =  data.get("name").toString();
             int widthMap = Integer.valueOf(data.get("width").toString());
             int heightMap = Integer.valueOf(data.get("height").toString());
             
-            System.out.println(name);
-            System.out.println(widthMap);
-            System.out.println(heightMap);
+            System.out.println("layers >>");
+            System.out.println("data:" + Arrays.toString(mapTile));
+            System.out.println("name:" + name);
+            System.out.println("widthMap:" + widthMap);
+            System.out.println("widthMap:" + heightMap);
             
             data = (JSONObject) layers.get(1);  
             name =  data.get("name").toString();
@@ -56,8 +77,10 @@ public class TileManagerJSON {
             JSONObject dataObj = (JSONObject) mapObjData.get(0);   
             int objX = Integer.valueOf(dataObj.get("x").toString());
             int objY = Integer.valueOf(dataObj.get("y").toString());
-            System.out.println(objX);
-            System.out.println(objY);
+            
+            System.out.println("objects >>");
+            System.out.println("x:" + objX);
+            System.out.println("y:" + objY);
 
             //System.exit(0);
             
