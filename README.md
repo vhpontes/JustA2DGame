@@ -48,7 +48,10 @@ java Main
 
 ## 👾 FIM DE FASE
 
-Este projeto é de código aberto. Sinta-se à vontade para explorar o código, fazer experimentos e contribuir. Seus comentários e contribuições são bem-vindos!
+This project is open source. Feel free to explore the code, experiment, and contribute. Your comments and contributions are welcome!
+
+### License
+This project is licensed under the MIT License - see the [LICENSE](/LICENSE) file for details.
 
 <div align="center">
   **[ FIM DE JOGO ]**
