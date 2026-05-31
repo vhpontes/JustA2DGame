@@ -9,7 +9,7 @@
 
 **JustA2DGame** is a lightweight, open-source 2D game built entirely in **Vanilla Java**. Its primary mission is educational: to serve as a practical, beginner-friendly learning project for aspiring game developers and programming students. 
 
-Dive into the fundamentals of game development and Object-Oriented Programming (OOP) without the overhead of complex game engines. Here, you will explore core mechanics such as custom **game loops**, **sprite animation**, **input handling**, and **collision detection**. Consider this your first quest in the world of retro-style game creation.
+Dive into the fundamentals of game development and **Object-Oriented Programming** (OOP) without the overhead of complex game engines. Here, you will explore core mechanics such as custom **game loops**, **sprite animation**, **input handling**, and **collision detection**. Consider this your first quest in the world of retro-style game creation.
 
 ---
 
