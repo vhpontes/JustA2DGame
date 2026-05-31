@@ -39,3 +39,31 @@ To run this program, you will need a Java Development Kit (JDK) installed on you
 ```bash
 git clone [https://github.com/vhpontes/JustA2DGame.git](https://github.com/vhpontes/JustA2DGame.git)
 cd JustA2DGame
+```
+
+**2. Compile and Execute:**
+
+Using an IDE: For a streamlined experience, open the project folder in your favorite IDE (like IntelliJ IDEA, Eclipse, or NetBeans). The IDE will handle the compilation automatically. Just locate the main class (e.g., Main.java) and click "Run".
+
+From the Command Line: If you prefer the old-school developer way, navigate to the project's root folder in your terminal and compile the code manually:
+# This command compiles all .java files in the 'src' folder
+javac -d . src/*.java
+
+# This command executes the game by running the Main class
+java Main
+
+
+## 🇧🇷 RESUMO EM PORTUGUÊS (Portuguese Version)
+O JustA2DGame é um pequeno jogo 2D de código aberto desenvolvido puramente em Java (Vanilla). Seu objetivo principal é educacional: servir como um projeto prático para iniciantes em programação, estudantes de Ciência da Computação e curiosos no desenvolvimento de jogos.
+
+Aqui você aprende na prática como funcionam os bastidores de um jogo sem depender de engines pesadas. O projeto aborda conceitos fundamentais como Game Loop (laço de repetição do jogo), renderização de sprites, física básica e detecção de colisão utilizando Orientação a Objetos (POO). O código é todo documentado para facilitar os estudos. Sinta-se livre para clonar, modificar, testar e contribuir!
+
+### 🤝 CONTRIBUTIONS & CREDITS
+This project is open source. Feel free to explore the code, experiment, fork the repository, and submit Pull Requests. Your comments and contributions are highly welcome to make this an even better learning resource!
+
+**Credits:**
+Developed and maintained by Victor Hugo Manata Pontes.
+Powered by M-Labs (Powered by **MANATA**) — Strategic Intelligence, Software Engineering & Technical Documentation.
+
+**License**
+This project is licensed under the **MIT License** - see the LICENSE file for details.
