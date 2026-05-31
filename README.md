@@ -56,7 +56,7 @@ This command executes the game by running the Main class
 java Main
 ```
 
-## 🇧🇷 RESUMO EM PORTUGUÊS (Portuguese Version)
+## 💬🇧🇷 RESUMO EM PORTUGUÊS (Portuguese Version)
 O JustA2DGame é um pequeno jogo 2D de código aberto desenvolvido puramente em Java (Vanilla). Seu objetivo principal é educacional: servir como um projeto prático para iniciantes em programação, estudantes de Ciência da Computação e curiosos no desenvolvimento de jogos.
 
 Aqui você aprende na prática como funcionam os bastidores de um jogo sem depender de engines pesadas. O projeto aborda conceitos fundamentais como Game Loop (laço de repetição do jogo), renderização de sprites, física básica e detecção de colisão utilizando Orientação a Objetos (POO). O código é todo documentado para facilitar os estudos. Sinta-se livre para clonar, modificar, testar e contribuir!
