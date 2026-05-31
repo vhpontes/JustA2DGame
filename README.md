@@ -65,8 +65,8 @@ Aqui você aprende na prática como funcionam os bastidores de um jogo sem depen
 This project is open source. Feel free to explore the code, experiment, fork the repository, and submit Pull Requests. Your comments and contributions are highly welcome to make this an even better learning resource!
 
 **Credits:**
-Developed and maintained by Victor Hugo Manata Pontes.
-Powered by M-Labs (Powered by **MANATA**) — Strategic Intelligence, Software Engineering & Technical Documentation.
+* Developed and maintained by Victor Hugo Manata Pontes.
+* Powered by M-Labs (Powered by **MANATA**) — Strategic Intelligence, Software Engineering & Technical Documentation.
 
 **License**
-This project is licensed under the **MIT License** - see the LICENSE file for details.
+* This project is licensed under the **MIT License** - see the LICENSE file for details.
