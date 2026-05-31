@@ -46,12 +46,14 @@ cd JustA2DGame
 Using an IDE: For a streamlined experience, open the project folder in your favorite IDE (like IntelliJ IDEA, Eclipse, or NetBeans). The IDE will handle the compilation automatically. Just locate the main class (e.g., Main.java) and click "Run".
 
 From the Command Line: If you prefer the old-school developer way, navigate to the project's root folder in your terminal and compile the code manually:
-# This command compiles all .java files in the 'src' folder
+### This command compiles all .java files in the 'src' folder
+```bash
 javac -d . src/*.java
-
-# This command executes the game by running the Main class
+```
+### This command executes the game by running the Main class
+```bash
 java Main
-
+```
 
 ## 🇧🇷 RESUMO EM PORTUGUÊS (Portuguese Version)
 O JustA2DGame é um pequeno jogo 2D de código aberto desenvolvido puramente em Java (Vanilla). Seu objetivo principal é educacional: servir como um projeto prático para iniciantes em programação, estudantes de Ciência da Computação e curiosos no desenvolvimento de jogos.
